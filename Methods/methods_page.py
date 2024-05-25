@@ -39,11 +39,12 @@ class MethodsPageUsers:
 
     def screenshot_full(self, dop=None):
         current_function_name = inspect.stack()[1].function
-        self.page.screenshot(path=f"screenshot_tests/{current_function_name}_{dop}.png", full_page=True)
+        self.page.screenshot(path=f"screenshot_tests/{current_function_name}/{current_function_name}_{dop}.png",
+                             full_page=True)
 
     def screenshot(self, dop=None):
         current_function_name = inspect.stack()[1].function
-        self.page.screenshot(path=f"screenshot_tests/{current_function_name}_{dop}.png")
+        self.page.screenshot(path=f"screenshot_tests/{current_function_name}/{current_function_name}_{dop}.png")
 
     def login_users(self, page_auth, mail, password):
         page_auth.fill_text(page_auth.INPUT_MAIL, mail)
