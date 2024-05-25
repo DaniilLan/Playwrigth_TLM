@@ -45,7 +45,7 @@ class MethodsPageUsers:
         current_function_name = inspect.stack()[1].function
         self.page.screenshot(path=f"screenshot_tests/{current_function_name}_{dop}.png")
 
-    def test_login_users(self, page_auth, mail, password):
+    def login_users(self, page_auth, mail, password):
         page_auth.fill_text(page_auth.INPUT_MAIL, mail)
         page_auth.fill_text(page_auth.INPUT_PASSWORD, password)
         page_auth.click(page_auth.BUTTON_LOG)
