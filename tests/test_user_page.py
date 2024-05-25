@@ -12,4 +12,4 @@ def test_auth_and_save_cookies(page_auth, mail, password, name):
     assert user == name, f"Имя пользователя не соответствует кредам"
     page_auth.wait_visible_all()
     page_auth.screenshot(dop=mail)
-
+    print("Чек пуш")
