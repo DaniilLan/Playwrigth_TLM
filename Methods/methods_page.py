@@ -1,9 +1,11 @@
+import re
 from playwright.sync_api import expect
 from playwright.sync_api import Page
 import inspect
 import json
 import pytest
 from tests.config import *
+from playwright.sync_api import Route
 
 
 class MethodsPageUsers:
@@ -28,14 +30,16 @@ class MethodsPageUsers:
     def get_text(self, locator):
         return self.page.text_content(locator)
 
-    def wait_visible_element(self, locator):
-        element = self.page.locator(locator)
-        expect(element).to_be_visible()
+    def wait_load_page(self):
+        self.page.wait_for_load_state("domcontentloaded")
 
     def wait_visible_all(self):
         all_elements = self.page.query_selector_all("*")
         for element in all_elements:
             element.is_visible()
+
+    def wait_visible_element(self, locator):
+        self.page.is_visible(locator)
 
     def screenshot_full(self, dop=None):
         current_function_name = inspect.stack()[1].function
