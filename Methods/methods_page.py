@@ -28,7 +28,7 @@ class MethodsPageUsers:
         self.page.fill(locator, value)
 
     def get_text(self, locator):
-        return self.page.text_content(locator)
+        return self.page.text_content(locator, strict=False)
 
     def wait_load_page(self):
         self.page.wait_for_load_state("domcontentloaded")
@@ -40,6 +40,10 @@ class MethodsPageUsers:
 
     def expect_visible_element(self, locator):
         expect(self.page.locator(locator)).to_be_visible()
+
+    def expect_visible_text(self, locator):
+        text = self.get_text(locator)
+        expect(self.page.get_by_text(text)).to_be_visible()
 
     def screenshot_full(self, dop=None):
         current_function_name = inspect.stack()[1].function

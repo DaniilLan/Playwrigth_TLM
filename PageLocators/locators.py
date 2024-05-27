@@ -2,6 +2,7 @@ from Methods.methods_page import *
 
 
 class LocatorsPage(MethodsPageUsers):
+
     NAME_PROFILE = '//*[@id="rootTelemedHub"]//div/div/div[2]/strong'
 
     INPUT_MAIL = '//*[@id="rootTelemedHub"]/div[2]/main/div/form/div[1]/div[1]/div/input'
@@ -27,4 +28,8 @@ class LocatorsPage(MethodsPageUsers):
     BUTTON_ADD_USERS = '//*[@id="rootTelemedHub"]/div[2]/main/div/div[1]/div[2]/button[3]'
 
     BUTTON_ADD_PATIENT = '//*[@id="rootTelemedHub"]/div[2]/main/div/div[1]/div[2]/button'
+
+    USERS_PATIENTS = "//*[@id='rootTelemedHub']/div[2]/main/div/div[1]/div[1]"
+
+
 
