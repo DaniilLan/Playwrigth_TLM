@@ -38,8 +38,8 @@ class MethodsPageUsers:
         for element in all_elements:
             element.is_visible()
 
-    def wait_visible_element(self, locator):
-        self.page.is_visible(locator)
+    def expect_visible_element(self, locator):
+        expect(self.page.locator(locator)).to_be_visible()
 
     def screenshot_full(self, dop=None):
         current_function_name = inspect.stack()[1].function
