@@ -4,6 +4,7 @@ import pytest
 import json
 from playwright.sync_api import Route
 from PageLocators.locators import LocatorsPage as Loc
+import re
 
 
 @pytest.mark.parametrize('mail, name', [(mail, name) for mail, name in cred.items()])
@@ -40,11 +41,31 @@ def test_button_role_adm(page_auth, mail, password, locator):
 
 @pytest.mark.parametrize('mail', [mail for mail in cred])
 @pytest.mark.parametrize('password', [password_all])
-def test_visible_text(page_auth, mail, password):
+def test_text_(page_auth, mail, password):
     page_auth.login_users(page_auth, mail, password)
     if mail in ["adm@adm.com", "spadm@adm.adm", "testadm@adm.adm"]:
         page_auth.wait_visible_all()
-        assert "Пользователи" in page_auth.get_text(page_auth.USERS_PATIENTS)
+        assert "Пользователи" in page_auth.get_text(page_auth.USERS_OR_PATIENTS)
     elif mail in ["testdoc@doc.doc", "doc@doc.com", "testdoc@doc.com", "d.s.ivanov1@samsmu.ru"]:
         page_auth.wait_visible_all()
-        assert "Пациенты" in page_auth.get_text(page_auth.USERS_PATIENTS)
+        assert "Пациенты" in page_auth.get_text(page_auth.USERS_OR_PATIENTS)
+
+
+@pytest.mark.parametrize('mail', [mail for mail in cred])
+@pytest.mark.parametrize('password', [password_all])
+def test_quantity_users(page_auth, mail, password):
+    page_auth.login_users(page_auth, mail, password)
+    head_quantity = page_auth.get_text(page_auth.QUANTITY_USERS_HEADER)
+    top = re.split("(,)", head_quantity)
+    pag_quantity = page_auth.get_text(page_auth.QUANTITY_USERS_PAGINATION)
+    bot = re.split("(из )", head_quantity)
+    assert top == bot
+
+
+@pytest.mark.parametrize('mail', [mail for mail in cred])
+@pytest.mark.parametrize('password', [password_all])
+def test_dropdown_filter(page_auth, mail, password):
+    page_auth.login_users(page_auth, mail, password)
+    page_auth.click(page_auth.DROPDOWN_FILTER)
+    assert page_auth.wait_visible_elements(page_auth.INPUT_BOXS_FILTER)
+    assert page_auth.wait_visible_elements(page_auth.DROPDOWN_BOXS_FILTER)
