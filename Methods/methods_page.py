@@ -21,6 +21,7 @@ class MethodsPageUsers:
 
     def click(self, locator):
         self.page.click(locator)
+        self.page.wait_for_load_state("networkidle")
 
     def fill_text(self, locator, value):
         element = self.page.locator(locator)
@@ -31,7 +32,7 @@ class MethodsPageUsers:
         return self.page.text_content(locator)
 
     def wait_load_page(self):
-        self.page.wait_for_load_state("domcontentloaded")
+        self.page.wait_for_load_state("load")
 
     def wait_visible_all(self):
         all_elements = self.page.query_selector_all("*")
