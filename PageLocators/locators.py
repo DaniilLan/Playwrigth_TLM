@@ -39,9 +39,9 @@ class LocatorsPage(MethodsPageUsers):
 
     BUTTON_APPLY_FILTER = 'button[data-locator="apply"]'
 
-    FORM_FILTER = 'div[class="filterForm__PexX"]'
+    FILTER_FORM = 'div[class="filterForm__PexX"]'
 
-    INPUT_BOXS_FILTER = 'div[class="InputBox productTheme__a5bf InputBox__fca7"]'
+    FILTER_INPUT_BOXS = 'div[class="InputBox productTheme__a5bf InputBox__fca7"]'
 
     # FILTER_INPUT_F =
     #
@@ -51,10 +51,14 @@ class LocatorsPage(MethodsPageUsers):
     #
     # FILTER_INPUT_DATA =
     #
-    # FILTER_INPUT_GENDER =
+    FILTER_DROPDOWN_GENDER = 'div[class="selectContainer selectContainer__e7c6"]'
     #
     # FILTER_INPUT_OLD_1 =
     #
     # FILTER_INPUT_OLD_2 =
 
-    DROPDOWN_BOXS_FILTER = 'div[class="SelectMulti SelectMulti__ff0e Dropdown productTheme Dropdown__d478"]'
+    FILTER_DROPDOWN_ROLE = '//div[2]/main/div/div[2]/div[1]/div/div/div/div[7]/div/div/div'
+
+    FILTER_DROPDOWN_ORGANIZATION = '//div[2]/main/div/div[2]/div[1]/div/div/div/div[6]/div/div/div'
+
+    SIDEBAR = 'main[class="Main__R_Er"] '

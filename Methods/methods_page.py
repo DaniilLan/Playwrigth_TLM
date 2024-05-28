@@ -22,6 +22,11 @@ class MethodsPageUsers:
     def click(self, locator):
         self.page.click(locator)
 
+    def click_on_elements(self, locator):
+        elements = self.page.locator(locator).all()
+        for element in elements:
+            element.click()
+
     def fill_text(self, locator, value):
         element = self.page.locator(locator)
         expect(element).to_be_visible()
@@ -59,10 +64,9 @@ class MethodsPageUsers:
         page_auth.fill_text(page_auth.INPUT_PASSWORD, password)
         page_auth.click(page_auth.BUTTON_LOG)
 
-    def wait_visible_elements(self, locator):
+    def expect_visible_elements(self, locator):
         elements = self.page.locator(locator).all()
         for element in elements:
-            return element.is_visible()
-
+            return expect(element).to_be_visible()
 
 
