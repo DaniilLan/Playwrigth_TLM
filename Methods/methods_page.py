@@ -20,12 +20,12 @@ class MethodsPageUsers:
         return self.page.url
 
     def click(self, locator):
-        self.page.click(locator)
+        self.page.click(locator, timeout=5000)
 
     def click_on_elements(self, locator):
         elements = self.page.locator(locator).all()
         for element in elements:
-            element.click()
+            element.click(timeout=5000)
 
     def fill_text(self, locator, value):
         element = self.page.locator(locator)
@@ -36,7 +36,7 @@ class MethodsPageUsers:
         return self.page.text_content(locator, strict=False)
 
     def wait_load_page(self):
-        self.page.wait_for_load_state("domcontentloaded")
+        self.page.wait_for_load_state()
 
     def wait_visible_all(self):
         all_elements = self.page.query_selector_all("*")
@@ -69,4 +69,10 @@ class MethodsPageUsers:
         for element in elements:
             return expect(element).to_be_visible()
 
+    def dropdown_filter(self):
+        element = self.page.locator('//*[@id="rootTelemedHub"]/div[2]/main/div/div[2]/div[1]/div/div')
+        element.evaluate('(element) => { element.style.maxHeight = "none"; }')
 
+    def get_quantity_elements(self, locator):
+        elements = self.page.locator(locator).all()
+        return len(elements)

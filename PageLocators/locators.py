@@ -41,7 +41,7 @@ class LocatorsPage(MethodsPageUsers):
 
     FILTER_FORM = 'div[class="filterForm__PexX"]'
 
-    FILTER_INPUT_BOXS = 'div[class="InputBox productTheme__a5bf InputBox__fca7"]'
+    FILTER_INPUT_BOXS = '//div/div/input'
 
     # FILTER_INPUT_F =
     #
@@ -50,15 +50,25 @@ class LocatorsPage(MethodsPageUsers):
     # FILTER_INPUT_O =
     #
     # FILTER_INPUT_DATA =
-    #
+
     FILTER_DROPDOWN_GENDER = 'div[class="selectContainer selectContainer__e7c6"]'
-    #
+
     # FILTER_INPUT_OLD_1 =
     #
     # FILTER_INPUT_OLD_2 =
 
     FILTER_DROPDOWN_ROLE = '//div[2]/main/div/div[2]/div[1]/div/div/div/div[7]/div/div/div'
 
-    FILTER_DROPDOWN_ORGANIZATION = '//div[2]/main/div/div[2]/div[1]/div/div/div/div[6]/div/div/div'
+    FILTER_DROPDOWN_ORGANIZATION = '//*[@id="rootTelemedHub"]/div[2]/main/div/div[2]/div[1]/div/div/div/div[6]/div/div'
 
-    SIDEBAR = 'main[class="Main__R_Er"] '
+    PAGINATION_20 = '//div[@class="limitsList__IzFN"]/span[1]'
+
+    PAGINATION_50 = '//div[@class="limitsList__IzFN"]/span[2]'
+
+    PAGINATION_100 = '//div[@class="limitsList__IzFN"]/span[3]'
+
+    PAGINATION_150 = '//div[@class="limitsList__IzFN"]/span[4]'
+
+    USERS_LIST = '//div[@class="UsersList__E2xs"]/div'
+
+    BELL = '//div[@class="NotificationDropdownHeader__sFmv"]'
