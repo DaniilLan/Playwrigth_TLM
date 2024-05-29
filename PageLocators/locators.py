@@ -2,12 +2,31 @@ from Methods.methods_page import *
 
 
 class Locators(MethodsPageUsers):
+
+    LOGO_SAMGMU = 'img[src="/conf/logo.png"]'
+
+    YEAR_BOT = 'div[class="copyRight__FpJl"]'
+
+    FORGOT_PASSWORD = 'span[data-locator="forgotPassword"]'
+
+    EYE = 'svg[xmlns="http://www.w3.org/2000/svg"]'
+
+    HELP_LINK = '//a[text()="Помощь"]'
+
+    SUPPORTS_LINK = '//a[text()="Поддержка"]'
+
     class PageAuth:
         INPUT_MAIL = '//*[@id="rootTelemedHub"]/div[2]/main/div/form/div[1]/div[1]/div/input'
 
         INPUT_PASSWORD = '//*[@id="rootTelemedHub"]/div[2]/main/div/form/div[1]/div[2]/div/input'
 
         BUTTON_LOG = '//*[@id="rootTelemedHub"]/div[2]/main/div/form/div[2]/button'
+
+        PLACEHOLDER_PASSWORD = '//label[text()="Пароль"]'
+
+        PLACEHOLDER_EMAIL = '//label[text()="E-mail"]'
+
+        FORGOT_PASSWORD = 'span[data-locator="forgotPassword"]'
 
     class PageUsers:
 
@@ -63,7 +82,7 @@ class Locators(MethodsPageUsers):
 
         FILTER_DROPDOWN_ROLE = '//div[2]/main/div/div[2]/div[1]/div/div/div/div[7]/div/div/div'
 
-        FILTER_DROPDOWN_ORGANIZATION = '//*[@id="rootTelemedHub"]/div[2]/main/div/div[2]/div[1]/div/div/div/div[6]/div/div'
+        FILTER_DROPDOWN_ORGANIZATION = '//div[@class="HeaderTitle HeaderTitle__a637"]/div[@data-locator="multiSelectInput"]'
 
         PAGINATION_20 = '//div[@class="limitsList__IzFN"]/span[1]'
 

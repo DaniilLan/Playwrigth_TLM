@@ -7,17 +7,45 @@ from PageLocators.locators import Locators as Loc
 import re
 
 
-def test(page):
-    page.login_users(page, 'doc@doc.com', '12345678')
-    page.click('//*[@id="rootTelemedHub"]/div[2]/header/div/div[3]/div/div[3]/div/div/div[1]/div')
-    page.click('//html/body/div[2]/div/div[2]')
-    page.click('//html/body/div[2]/div/div[2]/form/div[7]/button[2]')
-    page.wait_for_element_visible('//*[@id="rootTelemedHub"]/div[1]/div')
-    page.click('//html/body/div[2]/div/div[1]/div')
+class TestPageAuth:
+
+    @staticmethod
+    @pytest.mark.parametrize('elements', [Loc.LOGO_SAMGMU,
+                                          Loc.YEAR_BOT,
+                                          Loc.PageAuth.INPUT_MAIL,
+                                          Loc.PageAuth.INPUT_PASSWORD,
+                                          Loc.PageAuth.BUTTON_LOG,
+                                          Loc.FORGOT_PASSWORD,
+                                          Loc.EYE,
+                                          Loc.PageAuth.PLACEHOLDER_EMAIL,
+                                          Loc.PageAuth.PLACEHOLDER_PASSWORD,
+                                          Loc.HELP_LINK,
+                                          Loc.SUPPORTS_LINK])
+    def test_visible_elements(page, elements):
+        page.expect_visible_element(page.LOGO_SAMGMU)
+
+    @staticmethod
+    def test_focus_input(page):
+        page.focus_element(page.PageAuth.INPUT_MAIL)
+        page.focus_element(page.PageAuth.INPUT_PASSWORD)
+
+    @staticmethod
+    def test_visible_placeholder_before_click(page):
+        page.click(page.PageAuth.INPUT_MAIL)
+        page.focus_element(page.PageAuth.INPUT_MAIL)
+        page.click(page.PageAuth.INPUT_PASSWORD)
+        page.focus_element(page.PageAuth.INPUT_PASSWORD)
 
 
 
-# class TestPageLogin:
+
+
+
+
+
+
+# class TestPageUsers:
+#
 #     @staticmethod
 #     @pytest.mark.parametrize('mail, name', [(mail, name) for mail, name in cred.items()])
 #     @pytest.mark.parametrize('password', [password_all])
@@ -25,9 +53,7 @@ def test(page):
 #         page.login_users(page, mail, password)
 #         page.expect_visible_element(page.PageUsers.NAME_PROFILE)
 #         page.screenshot(dop=mail)
-#
-#
-# class TestPageUsers:
+
 #     @staticmethod
 #     @pytest.mark.parametrize('mail', mails_doc)
 #     @pytest.mark.parametrize('password', [password_all])

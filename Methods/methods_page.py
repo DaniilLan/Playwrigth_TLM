@@ -14,7 +14,6 @@ class MethodsPageUsers:
 
     def open(self, url):
         self.page.goto(url)
-        self.page.is_visible()
 
     def get_url(self):
         return self.page.url
@@ -31,6 +30,10 @@ class MethodsPageUsers:
         element = self.page.locator(locator)
         expect(element).to_be_visible()
         self.page.fill(locator, value)
+
+    def focus_element(self, locator):
+        locator = self.page.locator(locator)
+        locator.focus()
 
     def get_text(self, locator):
         return self.page.text_content(locator, strict=False)
