@@ -3,105 +3,125 @@ import time
 import pytest
 import json
 from playwright.sync_api import Route
-from PageLocators.locators import LocatorsPage as Loc
+from PageLocators.locators import Locators as Loc
 import re
 
 
-@pytest.mark.parametrize('mail, name', [(mail, name) for mail, name in cred.items()])
-@pytest.mark.parametrize('password', [password_all])
-def test_auth(page_auth, mail, password, name):
-    page_auth.login_users(page_auth, mail, password)
-    page_auth.expect_visible_element(page_auth.NAME_PROFILE)
-    page_auth.screenshot(dop=mail)
+def test(page):
+    page.login_users(page, 'doc@doc.com', '12345678')
+    page.click('//*[@id="rootTelemedHub"]/div[2]/header/div/div[3]/div/div[3]/div/div/div[1]/div')
+    page.click('//html/body/div[2]/div/div[2]')
+    page.click('//html/body/div[2]/div/div[2]/form/div[7]/button[2]')
+    page.wait_for_element_visible('//*[@id="rootTelemedHub"]/div[1]/div')
+    page.click('//html/body/div[2]/div/div[1]/div')
 
 
-@pytest.mark.parametrize('mail', ["testdoc@doc.doc", "doc@doc.com", "testdoc@doc.com", "d.s.ivanov1@samsmu.ru"])
-@pytest.mark.parametrize('password', [password_all])
-@pytest.mark.parametrize('locator', [Loc.BUTTON_HEADER_USERS,
-                                     Loc.BUTTON_HEADER_ALLMS,
-                                     Loc.BUTTON_HEADER_MEETING,
-                                     Loc.BUTTON_ADD_PATIENT,
-                                     Loc.BELL])
-def test_button_role_doc(page_auth, mail, password, locator):
-    page_auth.login_users(page_auth, mail, password)
-    page_auth.expect_visible_element(locator)
 
-
-@pytest.mark.parametrize('mail', ["adm@adm.com", "spadm@adm.adm", "testadm@adm.adm"])
-@pytest.mark.parametrize('password', [password_all])
-@pytest.mark.parametrize('locator', [Loc.BUTTON_HEADER_USERS,
-                                     Loc.BUTTON_HEADER_ORGANIZATION,
-                                     Loc.BUTTON_HEADER_SETTINGS,
-                                     Loc.BUTTON_LOGS_AUDIT,
-                                     Loc.BUTTON_LOAD_PATIENT,
-                                     Loc.BUTTON_ADD_USERS])
-def test_button_role_adm(page_auth, mail, password, locator):
-    page_auth.login_users(page_auth, mail, password)
-    page_auth.expect_visible_element(locator)
-
-
-@pytest.mark.parametrize('mail', [mail for mail in cred])
-@pytest.mark.parametrize('password', [password_all])
-def test_text_(page_auth, mail, password):
-    page_auth.login_users(page_auth, mail, password)
-    if mail in ["adm@adm.com", "spadm@adm.adm", "testadm@adm.adm"]:
-        page_auth.wait_visible_all()
-        assert "Пользователи" in page_auth.get_text(page_auth.USERS_OR_PATIENTS)
-    elif mail in ["testdoc@doc.doc", "doc@doc.com", "testdoc@doc.com", "d.s.ivanov1@samsmu.ru"]:
-        page_auth.wait_visible_all()
-        assert "Пациенты" in page_auth.get_text(page_auth.USERS_OR_PATIENTS)
-
-
-@pytest.mark.parametrize('mail', [mail for mail in cred])
-@pytest.mark.parametrize('password', [password_all])
-def test_quantity_users(page_auth, mail, password):
-    page_auth.login_users(page_auth, mail, password)
-    head_quantity = page_auth.get_text(page_auth.QUANTITY_USERS_HEADER)
-    top = re.split("(,)", head_quantity)
-    top = top[0].strip('()')
-    pag_quantity = page_auth.get_text(page_auth.QUANTITY_USERS_PAGINATION)
-    bot = re.split("из ", pag_quantity)
-    print(top, bot[1])
-    assert bot[1] in top
-
-
-@pytest.mark.parametrize('mail', [mail for mail in cred])
-@pytest.mark.parametrize('password', [password_all])
-def test_drop_filter(page_auth, mail, password):
-    page_auth.login_users(page_auth, mail, password)
-    page_auth.click(page_auth.DROPDOWN_FILTER)
-
-
-@pytest.mark.parametrize('mail', [mail for mail in cred])
-@pytest.mark.parametrize('password', [password_all])
-def test_boxs_input_filter(page_auth, mail, password):
-    page_auth.login_users(page_auth, mail, password)
-    page_auth.dropdown_filter()
-    page_auth.click_on_elements(page_auth.FILTER_INPUT_BOXS)#
-
-
-@pytest.mark.parametrize('mail', [mail for mail in cred])
-@pytest.mark.parametrize('password', [password_all])
-def test_boxs_dropdown_filter(page_auth, mail, password):
-    page_auth.login_users(page_auth, mail, password)
-    page_auth.dropdown_filter()
-    page_auth.click(page_auth.FILTER_DROPDOWN_GENDER)
-    page_auth.click(page_auth.FILTER_DROPDOWN_ORGANIZATION)
-    if mail in ["adm@adm.com", "spadm@adm.adm", "testadm@adm.adm"]:
-        page_auth.click(page_auth.FILTER_DROPDOWN_ROLE)
-
-
-@pytest.mark.parametrize('mail', [mail for mail in cred])
-@pytest.mark.parametrize('password', [password_all])
-class TestPadding:
-
-    @pytest.mark.parametrize('limit', [Loc.PAGINATION_20,
-                                       Loc.PAGINATION_50,
-                                       Loc.PAGINATION_100,
-                                       Loc.PAGINATION_150])
-    def test_quantity_user_limit(self, page_auth, mail, password, limit):
-        page_auth.login_users(page_auth, mail, password)
-        page_auth.click(limit)
-        quantity_pagination = page_auth.get_text(limit)
-        quantity_users = page_auth.get_quantity_elements(page_auth.USERS_LIST)
-        assert quantity_users == int(quantity_pagination)
+# class TestPageLogin:
+#     @staticmethod
+#     @pytest.mark.parametrize('mail, name', [(mail, name) for mail, name in cred.items()])
+#     @pytest.mark.parametrize('password', [password_all])
+#     def test_auth(page, mail, password, name):
+#         page.login_users(page, mail, password)
+#         page.expect_visible_element(page.PageUsers.NAME_PROFILE)
+#         page.screenshot(dop=mail)
+#
+#
+# class TestPageUsers:
+#     @staticmethod
+#     @pytest.mark.parametrize('mail', mails_doc)
+#     @pytest.mark.parametrize('password', [password_all])
+#     @pytest.mark.parametrize('locator', [Loc.PageUsers.BUTTON_HEADER_USERS,
+#                                          Loc.PageUsers.BUTTON_HEADER_ALLMS,
+#                                          Loc.PageUsers.BUTTON_HEADER_MEETING,
+#                                          Loc.PageUsers.BUTTON_ADD_PATIENT,
+#                                          Loc.PageUsers.BELL])
+#     def test_button_role_doc(page, mail, password, locator):
+#         page.login_users(page, mail, password)
+#         page.expect_visible_element(locator)
+#
+#     @staticmethod
+#     @pytest.mark.parametrize('mail', mails_adm)
+#     @pytest.mark.parametrize('password', [password_all])
+#     @pytest.mark.parametrize('locator', [PageUsers.BUTTON_HEADER_USERS,
+#                                          Loc.PageUsers.BUTTON_HEADER_ORGANIZATION,
+#                                          Loc.PageUsers.BUTTON_HEADER_SETTINGS,
+#                                          Loc.PageUsers.BUTTON_LOGS_AUDIT,
+#                                          Loc.PageUsers.BUTTON_LOAD_PATIENT,
+#                                          Loc.PageUsers.BUTTON_ADD_USERS])
+#     def test_button_role_adm(page, mail, password, locator):
+#         page.login_users(page, mail, password)
+#         page.expect_visible_element(locator)
+#
+#     @staticmethod
+#     @pytest.mark.parametrize('mail', [mail for mail in cred])
+#     @pytest.mark.parametrize('password', [password_all])
+#     def test_text_(page, mail, password):
+#         page.login_users(page, mail, password)
+#         if mail in mails_adm:
+#             page.wait_visible_all()
+#             assert "Пользователи" in page.get_text(page.PageUsers.USERS_OR_PATIENTS)
+#         elif mail in mails_doc:
+#             page.wait_visible_all()
+#             assert "Пациенты" in page.get_text(page.PageUsers.USERS_OR_PATIENTS)
+#
+#     @staticmethod
+#     @pytest.mark.parametrize('mail', [mail for mail in cred])
+#     @pytest.mark.parametrize('password', [password_all])
+#     def test_quantity_users(page, mail, password):
+#         page.login_users(page, mail, password)
+#         head_quantity = page.get_text(page.PageUsers.QUANTITY_USERS_HEADER)
+#         top = re.split("(,)", head_quantity)
+#         top = top[0].strip('()')
+#         pag_quantity = page.get_text(page.PageUsers.QUANTITY_USERS_PAGINATION)
+#         bot = re.split("из ", pag_quantity)
+#         print(top, bot[1])
+#         assert bot[1] in top
+#
+#     @staticmethod
+#     @pytest.mark.parametrize('mail', [mail for mail in cred])
+#     @pytest.mark.parametrize('password', [password_all])
+#     def test_drop_filter(page, mail, password):
+#         page.login_users(page, mail, password)
+#         page.click(page.DROPDOWN_FILTER)
+#
+#     @staticmethod
+#     @pytest.mark.parametrize('mail', [mail for mail in cred])
+#     @pytest.mark.parametrize('password', [password_all])
+#     def test_boxs_input_filter(page, mail, password):
+#         page.login_users(page, mail, password)
+#         page.dropdown_filter()
+#         page.click_on_elements(page.PageUsers.FILTER_INPUT_BOXS)
+#
+#     @staticmethod
+#     @pytest.mark.parametrize('mail', [mail for mail in cred])
+#     @pytest.mark.parametrize('password', [password_all])
+#     def test_boxs_dropdown_filter(page, mail, password):
+#         page.login_users(page, mail, password)
+#         page.dropdown_filter()
+#         page.click(page.PageUsers.FILTER_DROPDOWN_GENDER)
+#         page.click(page.PageUsers.FILTER_DROPDOWN_ORGANIZATION)
+#         if mail in mails_adm:
+#             page.click(page.PageUsers.FILTER_DROPDOWN_ROLE)
+#
+#
+# @pytest.mark.parametrize('mail', [mail for mail in mails_doc])
+# @pytest.mark.parametrize('password', [password_all])
+# class TestPagination:
+#
+#     @staticmethod
+#     @pytest.mark.parametrize('limit', [Loc.PageUsers.PAGINATION_20,
+#                                        Loc.PageUsers.PAGINATION_50,
+#                                        Loc.PageUsers.PAGINATION_100,
+#                                        Loc.PageUsers.PAGINATION_150])
+#     def test_quantity_user_limit(page, limit, mail, password):
+#         page.login_users(page, mail, password)
+#         page.click(limit)
+#         quantity_pagination = page.get_text(limit)
+#         quantity_users = page.get_quantity_elements(page.PageUsers.USERS_LIST)
+#         assert quantity_users == int(quantity_pagination)
+#         page.click(page.PageUsers.BUTTON_HEADER_ALLMS)
+#
+#
+#
+#

@@ -1,74 +1,83 @@
 from Methods.methods_page import *
 
 
-class LocatorsPage(MethodsPageUsers):
+class Locators(MethodsPageUsers):
+    class PageAuth:
+        INPUT_MAIL = '//*[@id="rootTelemedHub"]/div[2]/main/div/form/div[1]/div[1]/div/input'
 
-    NAME_PROFILE = '//*[@id="rootTelemedHub"]//div/div/div[2]/strong'
+        INPUT_PASSWORD = '//*[@id="rootTelemedHub"]/div[2]/main/div/form/div[1]/div[2]/div/input'
 
-    INPUT_MAIL = '//*[@id="rootTelemedHub"]/div[2]/main/div/form/div[1]/div[1]/div/input'
+        BUTTON_LOG = '//*[@id="rootTelemedHub"]/div[2]/main/div/form/div[2]/button'
 
-    INPUT_PASSWORD = '//*[@id="rootTelemedHub"]/div[2]/main/div/form/div[1]/div[2]/div/input'
+    class PageUsers:
 
-    BUTTON_LOG = '//*[@id="rootTelemedHub"]/div[2]/main/div/form/div[2]/button'
+        WINDOW = '/html/body/div[2]/div/div[2]/form/div[2]/button'
 
-    BUTTON_HEADER_USERS = "a[data-locator='/users']"
+        NAME_PROFILE = '//*[@id="rootTelemedHub"]//div/div/div[2]/strong'
 
-    BUTTON_HEADER_ALLMS = "a[data-locator='/all-measurements']"
+        BUTTON_HEADER_USERS = "a[data-locator='/users']"
 
-    BUTTON_HEADER_MEETING = "a[data-locator='/meetings']"
+        BUTTON_HEADER_ALLMS = "a[data-locator='/all-measurements']"
 
-    BUTTON_HEADER_ORGANIZATION = "a[data-locator='/organizations']"
+        BUTTON_HEADER_MEETING = "a[data-locator='/meetings']"
 
-    BUTTON_HEADER_SETTINGS = "a[data-locator='/settings']"
+        BUTTON_HEADER_ORGANIZATION = "a[data-locator='/organizations']"
 
-    BUTTON_LOGS_AUDIT = '//div[2]/main/div/div[1]/div[2]/button[1]'
+        BUTTON_HEADER_SETTINGS = "a[data-locator='/settings']"
 
-    BUTTON_LOAD_PATIENT = '//div[2]/main/div/div[1]/div[2]/button[2]'
+        BUTTON_LOGS_AUDIT = '//div[2]/main/div/div[1]/div[2]/button[1]'
 
-    BUTTON_ADD_USERS = '//div[2]/main/div/div[1]/div[2]/button[3]'
+        BUTTON_LOAD_PATIENT = '//div[2]/main/div/div[1]/div[2]/button[2]'
 
-    BUTTON_ADD_PATIENT = '//div[2]/main/div/div[1]/div[2]/button'
+        BUTTON_ADD_USERS = '//div[2]/main/div/div[1]/div[2]/button[3]'
 
-    USERS_OR_PATIENTS = "//div[2]/main/div/div[1]/div[1]"
+        BUTTON_ADD_PATIENT = '//div[2]/main/div/div[1]/div[2]/button'
 
-    QUANTITY_USERS_HEADER = "//div[2]/main/div/div[1]/div[1]/span"
+        USERS_OR_PATIENTS = "//div[2]/main/div/div[1]/div[1]"
 
-    QUANTITY_USERS_PAGINATION = "//div[2]/main/div/div[2]/div[2]/div[3]/div[3]"
+        QUANTITY_USERS_HEADER = "//div[2]/main/div/div[1]/div[1]/span"
 
-    DROPDOWN_FILTER = '//div[2]/main/div/div[2]/div[1]/label'
+        QUANTITY_USERS_PAGINATION = "//div[2]/main/div/div[2]/div[2]/div[3]/div[3]"
 
-    BUTTON_APPLY_FILTER = 'button[data-locator="apply"]'
+        DROPDOWN_FILTER = '//div[2]/main/div/div[2]/div[1]/label'
 
-    FILTER_FORM = 'div[class="filterForm__PexX"]'
+        BUTTON_APPLY_FILTER = 'button[data-locator="apply"]'
 
-    FILTER_INPUT_BOXS = '//div/div/input'
+        FILTER_FORM = 'div[class="filterForm__PexX"]'
 
-    # FILTER_INPUT_F =
-    #
-    # FILTER_INPUT_I =
-    #
-    # FILTER_INPUT_O =
-    #
-    # FILTER_INPUT_DATA =
+        FILTER_INPUT_BOXS = '//div/div/input'
 
-    FILTER_DROPDOWN_GENDER = 'div[class="selectContainer selectContainer__e7c6"]'
+        # FILTER_INPUT_F =
+        #
+        # FILTER_INPUT_I =
+        #
+        # FILTER_INPUT_O =
+        #
+        # FILTER_INPUT_DATA =
 
-    # FILTER_INPUT_OLD_1 =
-    #
-    # FILTER_INPUT_OLD_2 =
+        FILTER_DROPDOWN_GENDER = 'div[class="selectContainer selectContainer__e7c6"]'
 
-    FILTER_DROPDOWN_ROLE = '//div[2]/main/div/div[2]/div[1]/div/div/div/div[7]/div/div/div'
+        # FILTER_INPUT_OLD_1 =
+        #
+        # FILTER_INPUT_OLD_2 =
 
-    FILTER_DROPDOWN_ORGANIZATION = '//*[@id="rootTelemedHub"]/div[2]/main/div/div[2]/div[1]/div/div/div/div[6]/div/div'
+        FILTER_DROPDOWN_ROLE = '//div[2]/main/div/div[2]/div[1]/div/div/div/div[7]/div/div/div'
 
-    PAGINATION_20 = '//div[@class="limitsList__IzFN"]/span[1]'
+        FILTER_DROPDOWN_ORGANIZATION = '//*[@id="rootTelemedHub"]/div[2]/main/div/div[2]/div[1]/div/div/div/div[6]/div/div'
 
-    PAGINATION_50 = '//div[@class="limitsList__IzFN"]/span[2]'
+        PAGINATION_20 = '//div[@class="limitsList__IzFN"]/span[1]'
 
-    PAGINATION_100 = '//div[@class="limitsList__IzFN"]/span[3]'
+        PAGINATION_50 = '//div[@class="limitsList__IzFN"]/span[2]'
 
-    PAGINATION_150 = '//div[@class="limitsList__IzFN"]/span[4]'
+        PAGINATION_100 = '//div[@class="limitsList__IzFN"]/span[3]'
 
-    USERS_LIST = '//div[@class="UsersList__E2xs"]/div'
+        PAGINATION_150 = '//div[@class="limitsList__IzFN"]/span[4]'
 
-    BELL = '//div[@class="NotificationDropdownHeader__sFmv"]'
+        USERS_LIST = '//div[@class="UsersList__E2xs"]/div'
+
+        BELL = '//div[@class="NotificationDropdownHeader__sFmv"]'
+
+    class PageAllMeasurements:
+
+        REPORTS = '//*[@id="rootTelemedHub"]/div[2]/main/div/div/div[1]/div[2]/div/div/div/button'
+

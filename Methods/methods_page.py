@@ -1,11 +1,10 @@
 import re
-from playwright.sync_api import expect
-from playwright.sync_api import Page
+from playwright.sync_api import expect, Page
 import inspect
 import json
 import pytest
 from tests.config import *
-from playwright.sync_api import Route
+from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError
 
 
 class MethodsPageUsers:
@@ -15,17 +14,18 @@ class MethodsPageUsers:
 
     def open(self, url):
         self.page.goto(url)
+        self.page.is_visible()
 
     def get_url(self):
         return self.page.url
 
     def click(self, locator):
-        self.page.click(locator, timeout=5000)
+        self.page.click(locator)
 
     def click_on_elements(self, locator):
         elements = self.page.locator(locator).all()
         for element in elements:
-            element.click(timeout=5000)
+            element.click()
 
     def fill_text(self, locator, value):
         element = self.page.locator(locator)
@@ -43,6 +43,12 @@ class MethodsPageUsers:
         for element in all_elements:
             element.is_visible()
 
+    def wait_for_element_visible(self, selector):
+        try:
+            self.page.wait_for_selector(selector, state='hidden')
+        except PlaywrightTimeoutError:
+            print(2)
+
     def expect_visible_element(self, locator):
         expect(self.page.locator(locator)).to_be_visible()
 
@@ -59,10 +65,10 @@ class MethodsPageUsers:
         current_function_name = inspect.stack()[1].function
         self.page.screenshot(path=f"screenshot_tests/{current_function_name}/{current_function_name}_{dop}.png")
 
-    def login_users(self, page_auth, mail, password):
-        page_auth.fill_text(page_auth.INPUT_MAIL, mail)
-        page_auth.fill_text(page_auth.INPUT_PASSWORD, password)
-        page_auth.click(page_auth.BUTTON_LOG)
+    def login_users(self, page, mail, password):
+        page.fill_text(page.PageAuth.INPUT_MAIL, mail)
+        page.fill_text(page.PageAuth.INPUT_PASSWORD, password)
+        page.click(page.PageAuth.BUTTON_LOG)
 
     def expect_visible_elements(self, locator):
         elements = self.page.locator(locator).all()

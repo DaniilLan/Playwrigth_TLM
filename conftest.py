@@ -1,6 +1,6 @@
 import pytest
 from playwright.sync_api import Page
-from PageLocators.locators import LocatorsPage
+from PageLocators.locators import *
 from tests.config import *
 
 
@@ -12,9 +12,23 @@ def main_page(context):
 
 
 @pytest.fixture()
-def page_auth(main_page):
-    page = LocatorsPage(main_page)
-    page.open(url_auth_test)
+def page(main_page):
+    page = main_page
+    page.goto(url_auth_test)
+    page = Locators(main_page)
     yield page
+
+
+# @pytest.fixture()
+# def page_users(main_page):
+#     page = LocatorsPageUsers(main_page)
+#     yield page
+
+#
+# @pytest.fixture()
+# def page_all_measurements(page_auth):
+#     page = LocatorsPageAllMeasurements(page_auth)
+#     page.open(url_allm_test)
+#     yield page
 
 
