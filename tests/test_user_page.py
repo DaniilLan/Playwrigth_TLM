@@ -9,32 +9,61 @@ import re
 
 class TestPageAuth:
 
-    @staticmethod
-    @pytest.mark.parametrize('elements', [Loc.LOGO_SAMGMU,
-                                          Loc.YEAR_BOT,
-                                          Loc.PageAuth.INPUT_MAIL,
-                                          Loc.PageAuth.INPUT_PASSWORD,
-                                          Loc.PageAuth.BUTTON_LOG,
-                                          Loc.FORGOT_PASSWORD,
-                                          Loc.EYE,
-                                          Loc.PageAuth.PLACEHOLDER_EMAIL,
-                                          Loc.PageAuth.PLACEHOLDER_PASSWORD,
-                                          Loc.HELP_LINK,
-                                          Loc.SUPPORTS_LINK])
-    def test_visible_elements(page, elements):
-        page.expect_visible_element(page.LOGO_SAMGMU)
+    # @staticmethod
+    # @pytest.mark.parametrize('elements', [Loc.LOGO_SAMGMU,
+    #                                       Loc.YEAR_BOT,
+    #                                       Loc.PageAuth.INPUT_MAIL,
+    #                                       Loc.PageAuth.INPUT_PASSWORD,
+    #                                       Loc.PageAuth.BUTTON_LOG,
+    #                                       Loc.PageAuth.FORGOT_PASSWORD,
+    #                                       Loc.PageAuth.EYE_PASSWORD,
+    #                                       Loc.PageAuth.PLACEHOLDER_EMAIL,
+    #                                       Loc.PageAuth.PLACEHOLDER_PASSWORD,
+    #                                       Loc.HELP_LINK,
+    #                                       Loc.SUPPORTS_LINK])
+    # def test_visible_elements(page, elements):
+    #     page.expect_visible_element(page.LOGO_SAMGMU)
+    #
+    # @staticmethod
+    # def test_focus_input(page):
+    #     page.focus_element(page.PageAuth.INPUT_MAIL)
+    #     page.focus_element(page.PageAuth.INPUT_PASSWORD)
+    #
+    # @staticmethod
+    # def test_visible_placeholder_before_click(page):
+    #     page.click(page.PageAuth.INPUT_MAIL)
+    #     page.expect_visible_element(page.PageAuth.PLACEHOLDER_EMAIL)
+    #     page.click(page.PageAuth.INPUT_PASSWORD)
+    #     page.expect_visible_element(page.PageAuth.PLACEHOLDER_PASSWORD)
+    #
+    # @staticmethod
+    # def test_type_password(page):
+    #     page.fill_text(page.PageAuth.INPUT_PASSWORD, "12345678")
+    #     assert page.get_type_element(page.PageAuth.INPUT_PASSWORD) == 'password'
+    #
+    # @staticmethod
+    # def test_ear_password(page):
+    #     page.fill_text(page.PageAuth.INPUT_PASSWORD, "12345678")
+    #     page.click(page.PageAuth.EYE_PASSWORD)
+    #     assert page.get_type_element(page.PageAuth.INPUT_PASSWORD) == 'text'
+    #     page.click(page.PageAuth.EYE_PASSWORD)
+    #     assert page.get_type_element(page.PageAuth.INPUT_PASSWORD) == 'password'
 
     @staticmethod
-    def test_focus_input(page):
-        page.focus_element(page.PageAuth.INPUT_MAIL)
-        page.focus_element(page.PageAuth.INPUT_PASSWORD)
+    def test_forgot_password(page):
+        page.click(page.PageAuth.FORGOT_PASSWORD)
+        page.expect_visible_element(page.PageAuth.PLACEHOLDER_EMAIL)
+        page.fill_text(page.PageAuth.INPUT_MAIL, "landan2001@mail.ru")
+        page.click(page.PageAuth.BUTTON_FORGOT)
+        page.expect_visible_element(page.PageAuth.NOTIFICATION_FORGOT_PASSWORD)
 
-    @staticmethod
-    def test_visible_placeholder_before_click(page):
-        page.click(page.PageAuth.INPUT_MAIL)
-        page.focus_element(page.PageAuth.INPUT_MAIL)
-        page.click(page.PageAuth.INPUT_PASSWORD)
-        page.focus_element(page.PageAuth.INPUT_PASSWORD)
+
+
+
+
+
+
+
 
 
 

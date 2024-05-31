@@ -7,15 +7,12 @@ class Locators(MethodsPageUsers):
 
     YEAR_BOT = 'div[class="copyRight__FpJl"]'
 
-    FORGOT_PASSWORD = 'span[data-locator="forgotPassword"]'
-
-    EYE = 'svg[xmlns="http://www.w3.org/2000/svg"]'
-
     HELP_LINK = '//a[text()="Помощь"]'
 
     SUPPORTS_LINK = '//a[text()="Поддержка"]'
 
     class PageAuth:
+
         INPUT_MAIL = '//*[@id="rootTelemedHub"]/div[2]/main/div/form/div[1]/div[1]/div/input'
 
         INPUT_PASSWORD = '//*[@id="rootTelemedHub"]/div[2]/main/div/form/div[1]/div[2]/div/input'
@@ -27,6 +24,12 @@ class Locators(MethodsPageUsers):
         PLACEHOLDER_EMAIL = '//label[text()="E-mail"]'
 
         FORGOT_PASSWORD = 'span[data-locator="forgotPassword"]'
+
+        EYE_PASSWORD = 'svg[xmlns="http://www.w3.org/2000/svg"]'
+
+        BUTTON_FORGOT = '//button[span[text()="Сбросить"]]'
+
+        NOTIFICATION_FORGOT_PASSWORD = '//*[@id="rootTelemedHub"]/div[1]/div'
 
     class PageUsers:
 

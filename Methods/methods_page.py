@@ -85,3 +85,8 @@ class MethodsPageUsers:
     def get_quantity_elements(self, locator):
         elements = self.page.locator(locator).all()
         return len(elements)
+
+    def get_type_element(self, locator):
+        element = self.page.locator(locator)
+        return element.get_attribute("type")
+
