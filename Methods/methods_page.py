@@ -72,14 +72,18 @@ class MethodsPageUsers:
         self.page.screenshot(path=f"screenshot_tests/{current_function_name}/{current_function_name}_{dop}.png")
 
     def login_users(self, page, mail, password):
-        page.fill_text(page.PageAuth.INPUT_MAIL, mail)
-        page.fill_text(page.PageAuth.INPUT_PASSWORD, password)
-        page.click(page.PageAuth.BUTTON_LOG)
+        self.page.fill(page.PageAuth.INPUT_MAIL, mail)
+        self.page.fill(page.PageAuth.INPUT_PASSWORD, password)
+        self.page.click(page.PageAuth.BUTTON_LOG)
 
-    def expect_visible_elements(self, locator):
-        elements = self.page.locator(locator).all()
-        for element in elements:
-            return expect(element).to_be_visible()
+    def expect_visible_elements(self, locators):
+        if type(locators) is not list:
+            elements = self.page.locator(locators).all()
+            for element in elements:
+                return expect(element).to_be_visible()
+        else:
+            for locator in locators:
+                return self.expect_visible_element(locator)
 
     def dropdown_filter(self):
         element = self.page.locator('//*[@id="rootTelemedHub"]/div[2]/main/div/div[2]/div[1]/div/div')

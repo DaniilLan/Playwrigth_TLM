@@ -7,82 +7,112 @@ from PageLocators.locators import Locators as Loc
 import re
 
 
+@pytest.mark.parametrize('elements', [[Loc.LOGO_SAMGMU, Loc.YEAR_BOT, Loc.HELP_LINK, Loc.SUPPORTS_LINK]])
+class TestGeneralElements:
+
+    @staticmethod
+    def test_elements_auth(page_auth, elements):
+        page_auth.expect_visible_elements(elements)
+
+    @staticmethod
+    def test_elements_help(page_help, elements):
+        page_help.expect_visible_elements(elements)
+
+    @staticmethod
+    def test_elements_support(page_support, elements):
+        page_support.expect_visible_elements(elements)
+
+    @staticmethod
+    @pytest.mark.parametrize("mail", ["adm@adm.com", "doc@doc.com"])
+    @pytest.mark.parametrize("password", [password_all])
+    def test_elements_users(page_users, elements, mail, password):
+        page_users.login_users(page_users, mail, password)
+        page_users.expect_visible_elements(elements)
+
+
 class TestPageAuth:
 
-    # @staticmethod
-    # @pytest.mark.parametrize('elements', [Loc.LOGO_SAMGMU,
-    #                                       Loc.YEAR_BOT,
-    #                                       Loc.PageAuth.INPUT_MAIL,
-    #                                       Loc.PageAuth.INPUT_PASSWORD,
-    #                                       Loc.PageAuth.BUTTON_LOG,
-    #                                       Loc.PageAuth.FORGOT_PASSWORD,
-    #                                       Loc.PageAuth.EYE_PASSWORD,
-    #                                       Loc.PageAuth.PLACEHOLDER_EMAIL,
-    #                                       Loc.PageAuth.PLACEHOLDER_PASSWORD,
-    #                                       Loc.HELP_LINK,
-    #                                       Loc.SUPPORTS_LINK])
-    # def test_visible_elements(page, elements):
-    #     page.expect_visible_element(page.LOGO_SAMGMU)
+    @staticmethod
+    @pytest.mark.parametrize('elements', [Loc.LOGO_SAMGMU,
+                                          Loc.YEAR_BOT,
+                                          Loc.PageAuth.INPUT_MAIL,
+                                          Loc.PageAuth.INPUT_PASSWORD,
+                                          Loc.PageAuth.BUTTON_LOG,
+                                          Loc.PageAuth.FORGOT_PASSWORD,
+                                          Loc.PageAuth.EYE_PASSWORD,
+                                          Loc.PageAuth.PLACEHOLDER_EMAIL,
+                                          Loc.PageAuth.PLACEHOLDER_PASSWORD,
+                                          Loc.HELP_LINK,
+                                          Loc.SUPPORTS_LINK])
+    def test_visible_elements(page_auth, elements):
+        page_auth.expect_visible_element(elements)
 
-    # @staticmethod
-    # def test_focus_input(page):
-    #     page.focus_element(page.PageAuth.INPUT_MAIL)
-    #     page.focus_element(page.PageAuth.INPUT_PASSWORD)
+    @staticmethod
+    def test_focus_input(page_auth):
+        page_auth.focus_element(page_auth.PageAuth.INPUT_MAIL)
+        page_auth.focus_element(page_auth.PageAuth.INPUT_PASSWORD)
 
-    # @staticmethod
-    # def test_visible_placeholder_before_click(page):
-    #     page.click(page.PageAuth.INPUT_MAIL)
-    #     page.expect_visible_element(page.PageAuth.PLACEHOLDER_EMAIL)
-    #     page.click(page.PageAuth.INPUT_PASSWORD)
-    #     page.expect_visible_element(page.PageAuth.PLACEHOLDER_PASSWORD)
+    @staticmethod
+    def test_visible_placeholder_before_click(page_auth):
+        page_auth.click(page_auth.PageAuth.INPUT_MAIL)
+        page_auth.expect_visible_element(page_auth.PageAuth.PLACEHOLDER_EMAIL)
+        page_auth.click(page_auth.PageAuth.INPUT_PASSWORD)
+        page_auth.expect_visible_element(page_auth.PageAuth.PLACEHOLDER_PASSWORD)
 
-    # @staticmethod
-    # def test_type_password(page):
-    #     page.fill_text(page.PageAuth.INPUT_PASSWORD, "12345678")
-    #     assert page.get_type_element(page.PageAuth.INPUT_PASSWORD) == 'password'
+    @staticmethod
+    def test_type_password(page_auth):
+        page_auth.fill_text(page_auth.PageAuth.INPUT_PASSWORD, "12345678")
+        assert page_auth.get_type_element(page_auth.PageAuth.INPUT_PASSWORD) == 'password'
 
-    # @staticmethod
-    # def test_ear_password(page):
-    #     page.fill_text(page.PageAuth.INPUT_PASSWORD, "12345678")
-    #     page.click(page.PageAuth.EYE_PASSWORD)
-    #     assert page.get_type_element(page.PageAuth.INPUT_PASSWORD) == 'text'
-    #     page.click(page.PageAuth.EYE_PASSWORD)
-    #     assert page.get_type_element(page.PageAuth.INPUT_PASSWORD) == 'password'
+    @staticmethod
+    def test_ear_password(page_auth):
+        page_auth.fill_text(page_auth.PageAuth.INPUT_PASSWORD, "12345678")
+        page_auth.click(page_auth.PageAuth.EYE_PASSWORD)
+        assert page_auth.get_type_element(page_auth.PageAuth.INPUT_PASSWORD) == 'text'
+        page_auth.click(page_auth.PageAuth.EYE_PASSWORD)
+        assert page_auth.get_type_element(page_auth.PageAuth.INPUT_PASSWORD) == 'password'
 
-    # @staticmethod
-    # def test_forgot_password(page):
-    #     page.click(page.PageAuth.FORGOT_PASSWORD)
-    #     page.expect_visible_element(page.PageAuth.PLACEHOLDER_EMAIL)
-    #     page.fill_text(page.PageAuth.INPUT_MAIL, "landan2001@mail.ru")
-    #     page.click(page.PageAuth.BUTTON_FORGOT)
-    #     page.expect_visible_element(page.PageAuth.NOTIFICATION_FORGOT_PASSWORD)
+    @staticmethod
+    def test_forgot_password(page_auth):
+        page_auth.click(page_auth.PageAuth.FORGOT_PASSWORD)
+        page_auth.expect_visible_element(page_auth.PageAuth.PLACEHOLDER_EMAIL)
+        page_auth.fill_text(page_auth.PageAuth.INPUT_MAIL, "landan2001@mail.ru")
+        page_auth.click(page_auth.PageAuth.BUTTON_FORGOT)
+        page_auth.expect_visible_element(page_auth.PageAuth.NOTIFICATION_FORGOT_PASSWORD)
 
-    # @staticmethod
-    # def test_forgot_password(page):
-    #     page.click(page.PageAuth.FORGOT_PASSWORD)
-    #     page.click(page.PageAuth.BUTTON_CANCEL)
-    #     page.expect_visible_element(page.PageAuth.BUTTON_LOG)
+    @staticmethod
+    def test_cancel_forgot_password(page_auth):
+        page_auth.click(page_auth.PageAuth.FORGOT_PASSWORD)
+        page_auth.click(page_auth.PageAuth.BUTTON_CANCEL)
+        page_auth.expect_visible_element(page_auth.PageAuth.BUTTON_LOG)
 
-    # @staticmethod
-    # def test_bac_auth_from_help(page):
-    #     page.click(page.HELP_LINK)
-    #     page.click(page.PageAuth.BUTTON_BAC_AUTH)
-    #     page.expect_visible_element(page.PageAuth.BUTTON_LOG)
+    @staticmethod
+    def test_bac_auth_from_help(page_auth):
+        page_auth.click(page_auth.HELP_LINK)
+        page_auth.click(page_auth.PageAuth.BUTTON_BAC_AUTH)
+        page_auth.expect_visible_element(page_auth.PageAuth.BUTTON_LOG)
 
-    # @staticmethod
-    # def test_bac_auth_from_support(page):
-    #     page.click(page.SUPPORTS_LINK)
-    #     page.click(page.PageAuth.BUTTON_BAC_AUTH)
-    #     page.expect_visible_element(page.PageAuth.BUTTON_LOG)
+    @staticmethod
+    def test_bac_auth_from_support(page_auth):
+        page_auth.click(page_auth.SUPPORTS_LINK)
+        page_auth.click(page_auth.PageAuth.BUTTON_BAC_AUTH)
+        page_auth.expect_visible_element(page_auth.PageAuth.BUTTON_LOG)
 
     class TestPageHelp:
+
         @staticmethod
-        @pytest.mark.parametrize('')
-        def test_open_panels_help(page_help):
-            page_help.click(page_help.PageAuth.PANEL1_HELP)
-            page_help.expect_visible_element(page_help.PageAuth.OPEN_PANEL1_HELP)
-
-
+        @pytest.mark.parametrize('panel_help, open_panel_help', [(panel_help, open_panel_help)
+                                                                 for panel_help, open_panel_help
+                                                                 in {Loc.PageAuth.PANEL1_HELP: Loc.PageAuth.OPEN_PANEL1_HELP,
+                                                                     Loc.PageAuth.PANEL2_HELP: Loc.PageAuth.OPEN_PANEL2_HELP,
+                                                                     Loc.PageAuth.PANEL3_HELP: Loc.PageAuth.OPEN_PANEL3_HELP,
+                                                                     Loc.PageAuth.PANEL4_HELP: Loc.PageAuth.OPEN_PANEL4_HELP,
+                                                                     Loc.PageAuth.PANEL5_HELP: Loc.PageAuth.OPEN_PANEL5_HELP,
+                                                                     Loc.PageAuth.PANEL6_HELP: Loc.PageAuth.OPEN_PANEL6_HELP,
+                                                                     Loc.PageAuth.PANEL7_HELP: Loc.PageAuth.OPEN_PANEL7_HELP}.items()])
+        def test_open_panels_help(page_help, panel_help, open_panel_help):
+            page_help.click(panel_help)
+            page_help.expect_visible_element(open_panel_help)
 
 
 

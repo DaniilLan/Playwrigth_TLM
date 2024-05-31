@@ -12,9 +12,17 @@ def main_page(context):
 
 
 @pytest.fixture()
-def page(main_page):
+def page_auth(main_page):
     page = main_page
     page.goto(url_auth_test)
+    page = Locators(main_page)
+    yield page
+
+
+@pytest.fixture()
+def page_users(main_page):
+    page = main_page
+    page.goto(url_users_test)
     page = Locators(main_page)
     yield page
 
@@ -34,16 +42,5 @@ def page_support(main_page):
     page = Locators(main_page)
     yield page
 
-# @pytest.fixture()
-# def page_users(main_page):
-#     page = LocatorsPageUsers(main_page)
-#     yield page
-
-#
-# @pytest.fixture()
-# def page_all_measurements(page_auth):
-#     page = LocatorsPageAllMeasurements(page_auth)
-#     page.open(url_allm_test)
-#     yield page
 
 
