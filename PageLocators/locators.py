@@ -31,6 +31,29 @@ class Locators(MethodsPageUsers):
 
         NOTIFICATION_FORGOT_PASSWORD = '//*[@id="rootTelemedHub"]/div[1]/div'
 
+        BUTTON_CANCEL = '//span[text()="Отмена"]'
+
+        BUTTON_BAC_AUTH = '//span[text()="Авторизация"]'
+
+        PANELS_HELP = '//div[@class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-1oqimao"]'
+        OPEN_PANELS_HELP = '//div[@class="MuiAccordionDetails-root css-u7qq7e"]'
+
+        PANEL1_HELP = '//div[@id="panel1a-header"]'
+        PANEL2_HELP = '//div[@id="panel2a-header"]'
+        PANEL3_HELP = '//div[@id="panel3a-header"]'
+        PANEL4_HELP = '//div[@id="panel4a-header"]'
+        PANEL5_HELP = '//div[@id="panel5a-header"]'
+        PANEL6_HELP = '//div[@id="panel6a-header"]'
+        PANEL7_HELP = '//div[@id="panel7a-header"]'
+
+        OPEN_PANEL1_HELP = '//div[@id="panel1a-content"]'
+        OPEN_PANEL2_HELP = '//div[@id="panel2a-content"]'
+        OPEN_PANEL3_HELP = '//div[@id="panel3a-content"]'
+        OPEN_PANEL4_HELP = '//div[@id="panel4a-content"]'
+        OPEN_PANEL5_HELP = '//div[@id="panel5a-content"]'
+        OPEN_PANEL6_HELP = '//div[@id="panel6a-content"]'
+        OPEN_PANEL7_HELP = '//div[@id="panel7a-content"]'
+
     class PageUsers:
 
         WINDOW = '/html/body/div[2]/div/div[2]/form/div[2]/button'

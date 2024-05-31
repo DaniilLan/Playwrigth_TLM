@@ -1,4 +1,6 @@
 import re
+import time
+
 from playwright.sync_api import expect, Page
 import inspect
 import json
@@ -24,6 +26,7 @@ class MethodsPageUsers:
     def click_on_elements(self, locator):
         elements = self.page.locator(locator).all()
         for element in elements:
+            time.sleep(1)
             element.click()
 
     def fill_text(self, locator, value):
@@ -85,6 +88,9 @@ class MethodsPageUsers:
     def get_quantity_elements(self, locator):
         elements = self.page.locator(locator).all()
         return len(elements)
+
+    def get_list_elements(self, locator):
+        return self.page.locator(locator).all()
 
     def get_type_element(self, locator):
         element = self.page.locator(locator)

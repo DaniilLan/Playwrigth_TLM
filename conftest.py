@@ -19,6 +19,21 @@ def page(main_page):
     yield page
 
 
+@pytest.fixture()
+def page_help(main_page):
+    page = main_page
+    page.goto(url_help_test)
+    page = Locators(main_page)
+    yield page
+
+
+@pytest.fixture()
+def page_support(main_page):
+    page = main_page
+    page.goto(url_support_test)
+    page = Locators(main_page)
+    yield page
+
 # @pytest.fixture()
 # def page_users(main_page):
 #     page = LocatorsPageUsers(main_page)
