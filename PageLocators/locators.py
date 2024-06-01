@@ -33,9 +33,16 @@ class Locators(MethodsPageUsers):
 
         BUTTON_CANCEL = '//span[text()="Отмена"]'
 
+    class PageSupport:
+
         BUTTON_BAC_AUTH = '//span[text()="Авторизация"]'
 
-        PANELS_HELP = '//div[@class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-1oqimao"]'
+    class PageHelp:
+
+        BUTTON_BAC_AUTH = '//span[text()="Авторизация"]'
+
+        PANELS_HELP = ('//div[@class="MuiButtonBase-root MuiAccordionSummary-root '
+                       'MuiAccordionSummary-gutters css-1oqimao"]')
         OPEN_PANELS_HELP = '//div[@class="MuiAccordionDetails-root css-u7qq7e"]'
 
         PANEL1_HELP = '//div[@id="panel1a-header"]'

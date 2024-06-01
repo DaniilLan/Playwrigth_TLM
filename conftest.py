@@ -12,6 +12,12 @@ def main_page(context):
 
 
 @pytest.fixture()
+def general_page(main_page):
+    page = Locators(main_page)
+    yield page
+
+
+@pytest.fixture()
 def page_auth(main_page):
     page = main_page
     page.goto(url_auth_test)
