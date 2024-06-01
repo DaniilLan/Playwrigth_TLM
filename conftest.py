@@ -12,7 +12,7 @@ def main_page(context):
 
 
 @pytest.fixture()
-def general_page(main_page):
+def page_general(main_page):
     page = Locators(main_page)
     yield page
 

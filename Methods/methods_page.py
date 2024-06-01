@@ -80,10 +80,10 @@ class MethodsPageUsers:
         if type(locators) is not list:
             elements = self.page.locator(locators).all()
             for element in elements:
-                return expect(element).to_be_visible()
+                expect(element).to_be_visible()
         else:
             for locator in locators:
-                return self.expect_visible_element(locator)
+                self.expect_visible_element(locator)
 
     def dropdown_filter(self):
         element = self.page.locator('//*[@id="rootTelemedHub"]/div[2]/main/div/div[2]/div[1]/div/div')
@@ -96,7 +96,6 @@ class MethodsPageUsers:
     def get_list_elements(self, locator):
         return self.page.locator(locator).all()
 
-    def get_type_element(self, locator):
+    def get_attribute_element(self, locator, type_attribute: str):
         element = self.page.locator(locator)
-        return element.get_attribute("type")
-
+        return element.get_attribute(type_attribute)
