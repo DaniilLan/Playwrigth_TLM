@@ -5,6 +5,7 @@ url_help_test = 'http://192.168.7.221:8081/help'
 url_support_test = 'http://192.168.7.221:8081/support'
 
 list_url_test = [url_support_test, url_help_test, url_auth_test, url_users_test]
+
 password_all = '12345678'
 
 cred = {"adm@adm.com": 'Админ Телемедцентра',
@@ -16,7 +17,10 @@ cred = {"adm@adm.com": 'Админ Телемедцентра',
         "d.s.ivanov1@samsmu.ru": 'Доктор Фап'}  # Без медработник ФАП и Пациент Фап.
 
 mails_doc = ["testdoc@doc.doc", "doc@doc.com", "testdoc@doc.com", "d.s.ivanov1@samsmu.ru"]
+mail_doc = "testdoc@doc.doc"
+mail_adm = "adm@adm.com"
 mails_adm = ["adm@adm.com", "spadm@adm.adm", "testadm@adm.adm"]
+
 
 access_token = ("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHAudXNlcl9pZCI6MTAxLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQu"
                 "Y29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsIm9yZy5pZCI6MTAwLCJzdWIiOiJtZWRtb24iL"
