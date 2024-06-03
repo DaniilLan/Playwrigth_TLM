@@ -7,6 +7,7 @@ url_support_test = 'http://192.168.7.221:8081/support'
 list_url_test = [url_support_test, url_help_test, url_auth_test, url_users_test]
 
 password_all = '12345678'
+invalid_pass = '12345687'
 
 cred = {"adm@adm.com": 'Админ Телемедцентра',
         "spadm@adm.adm": 'Админ Скорой',

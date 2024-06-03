@@ -143,6 +143,23 @@ class TestPageUsers:
     #     assert name_profile == name
     #     page_users.screenshot(dop=mail)
 
+    @staticmethod
+    @pytest.mark.parametrize('mail', [mail_doc])
+    @pytest.mark.parametrize('password', [password_all])
+    @pytest.mark.parametrize('pass1, pass2', [(password_all, invalid_pass)])
+    def test_change_password(page_users, mail, password, pass1, pass2):
+        page_users.login_users(page_users, mail, password)
+        page_users.click(page_users.PageUsers.NAME_PROFILE)
+        page_users.click(page_users.PageUsers.BUTTON_CHANGE_PASSWORD)
+        page_users.change_password(page_users, pass1, pass2)
+        page_users.click(page_users.PageUsers.SAVE_NEW_PASS)
+        page_users.expect_visible_element(page_users.PageUsers.NOTIFICAL_CHANGE_PASS)
+        page_users.wait_for_element_visible(page_users.PageUsers.NOTIFICAL_CHANGE_PASS)
+        page_users.click(page_users.PageUsers.NAME_PROFILE)
+        page_users.click(page_users.PageUsers.BUTTON_CHANGE_PASSWORD)
+        page_users.change_password(page_users, pass2, pass1)
+        page_users.click(page_users.PageUsers.SAVE_NEW_PASS)
+
     # @staticmethod
     # @pytest.mark.parametrize('mail', [mail_doc])
     # @pytest.mark.parametrize('password', [password_all])

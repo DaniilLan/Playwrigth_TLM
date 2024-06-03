@@ -69,7 +69,21 @@ class Locators(MethodsPageUsers):
 
         WINDOW = '/html/body/div[2]/div/div[2]/form/div[2]/button'
 
+        POPUP_PROFILE = '//html/body/div[2]/div'
+
         NAME_PROFILE = '//*[@id="rootTelemedHub"]//div/div/div[2]/strong'
+
+        BUTTON_CHANGE_PASSWORD = 'div[data-locator="openChangePassword"]'
+
+        INPUT_CURRENT_PASS = '//html/body/div[2]/div/div[2]/form/div[1]/div/div/div/input'
+
+        INPUT_NEW_PASS = '//html/body/div[2]/div/div[2]/form/div[2]/div/div/div/input'
+
+        INPUT_NEW2_PASS = '//html/body/div[2]/div/div[2]/form/div[3]/div/div/div/input'
+
+        SAVE_NEW_PASS = '//html/body/div[2]/div/div[2]/form/div[5]/button[2]'
+
+        NOTIFICAL_CHANGE_PASS = '//*[@id="rootTelemedHub"]/div[1]/div'
 
         BUTTON_HEADER_USERS = "a[data-locator='/users']"
 

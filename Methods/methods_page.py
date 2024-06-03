@@ -99,3 +99,9 @@ class MethodsPageUsers:
     def get_attribute_element(self, locator, type_attribute: str):
         element = self.page.locator(locator)
         return element.get_attribute(type_attribute)
+
+    def change_password(self, page, current_pass, new_pass):
+        self.page.fill(page.PageUsers.INPUT_CURRENT_PASS, current_pass)
+        self.page.fill(page.PageUsers.INPUT_NEW_PASS, new_pass)
+        self.page.fill(page.PageUsers.INPUT_NEW2_PASS, new_pass)
+
