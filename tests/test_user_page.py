@@ -52,12 +52,16 @@ import re
 #         page_auth.focus_element(page_auth.PageAuth.INPUT_PASSWORD)
 #
 #     @staticmethod
-#     def test_visible_placeholder_before_click(page_auth):
+#     def test_placeholder_before_click(page_auth):
 #         page_auth.click(page_auth.PageAuth.INPUT_MAIL)
 #         page_auth.expect_visible_element(page_auth.PageAuth.PLACEHOLDER_EMAIL)
+#         type_class_mail = page_auth.get_attribute_element(page_auth.PageAuth.DIV_INPUT_EMAIL, 'class')
+#         assert 'focused__e6b9' in type_class_mail
 #         page_auth.click(page_auth.PageAuth.INPUT_PASSWORD)
 #         page_auth.expect_visible_element(page_auth.PageAuth.PLACEHOLDER_PASSWORD)
-#
+#         type_class_pass = page_auth.get_attribute_element(page_auth.PageAuth.DIV_INPUT_PASS, 'class')
+#         assert 'focused__e6b9' in type_class_pass
+
 #     @staticmethod
 #     def test_type_password(page_auth):
 #         page_auth.fill_text(page_auth.PageAuth.INPUT_PASSWORD, "12345678")
@@ -84,8 +88,32 @@ import re
 #         page_auth.click(page_auth.PageAuth.FORGOT_PASSWORD)
 #         page_auth.click(page_auth.PageAuth.BUTTON_CANCEL)
 #         page_auth.expect_visible_element(page_auth.PageAuth.BUTTON_LOG)
-#
-#
+
+    # @staticmethod
+    # def test_color_input_mail(page_auth):
+    #     page_auth.focus_element(page_auth.PageAuth.INPUT_MAIL)
+    #     page_auth.click(page_auth.LOGO_SAMGMU)
+    #     color_text = page_auth.PageAuth.PLACEHOLDER_EMAIL
+    #     border_background_color = page_auth.PageAuth.INPUT_MAIL
+    #     page_auth.expect_invalid_input_color(color_text, border_background_color)
+
+    # @staticmethod
+    # def test_color_input_password(page_auth):
+    #     page_auth.focus_element(page_auth.PageAuth.INPUT_PASSWORD)
+    #     page_auth.click(page_auth.LOGO_SAMGMU)
+    #     color_text = page_auth.PageAuth.PLACEHOLDER_PASSWORD
+    #     border_background_color = page_auth.PageAuth.INPUT_PASSWORD
+    #     page_auth.expect_invalid_input_color(color_text, border_background_color)
+
+    # @staticmethod
+    # def test_color_input_mail_forgot(page_auth):
+    #     page_auth.click(page_auth.PageAuth.LINK_FORGOT_PASSWORD)
+    #     page_auth.focus_element(page_auth.PageAuth.INPUT_MAIL)
+    #     page_auth.click(page_auth.LOGO_SAMGMU)
+    #     color_text = page_auth.PageAuth.PLACEHOLDER_EMAIL
+    #     border_background_color = page_auth.PageAuth.INPUT_MAIL
+    #     page_auth.expect_invalid_input_color(color_text, border_background_color)
+
 # class TestPageHelp:
 #
 #     @staticmethod
@@ -133,32 +161,15 @@ import re
 
 
 class TestPageUsers:
-
-    # @staticmethod
-    # @pytest.mark.parametrize('mail, name', [(mail, name) for mail, name in cred.items()])
-    # @pytest.mark.parametrize('password', [password_all])
-    # def test_auth(page_users, mail, password, name):
-    #     page_users.login_users(page_users, mail, password)
-    #     name_profile = page_users.get_text(page_users.PageUsers.NAME_PROFILE)
-    #     assert name_profile == name
-    #     page_users.screenshot(dop=mail)
-
-    @staticmethod
-    @pytest.mark.parametrize('mail', [mail_doc])
-    @pytest.mark.parametrize('password', [password_all])
-    @pytest.mark.parametrize('pass1, pass2', [(password_all, invalid_pass)])
-    def test_change_password(page_users, mail, password, pass1, pass2):
-        page_users.login_users(page_users, mail, password)
-        page_users.click(page_users.PageUsers.NAME_PROFILE)
-        page_users.click(page_users.PageUsers.BUTTON_CHANGE_PASSWORD)
-        page_users.change_password(page_users, pass1, pass2)
-        page_users.click(page_users.PageUsers.SAVE_NEW_PASS)
-        page_users.expect_visible_element(page_users.PageUsers.NOTIFICAL_CHANGE_PASS)
-        page_users.wait_for_element_visible(page_users.PageUsers.NOTIFICAL_CHANGE_PASS)
-        page_users.click(page_users.PageUsers.NAME_PROFILE)
-        page_users.click(page_users.PageUsers.BUTTON_CHANGE_PASSWORD)
-        page_users.change_password(page_users, pass2, pass1)
-        page_users.click(page_users.PageUsers.SAVE_NEW_PASS)
+#
+#     @staticmethod
+#     @pytest.mark.parametrize('mail, name', [(mail, name) for mail, name in cred.items()])
+#     @pytest.mark.parametrize('password', [password_all])
+#     def test_auth(page_users, mail, password, name):
+#         page_users.login_users(page_users, mail, password)
+#         name_profile = page_users.get_text(page_users.PageUsers.NAME_PROFILE)
+#         assert name_profile == name
+#         page_users.screenshot(dop=mail)
 
     # @staticmethod
     # @pytest.mark.parametrize('mail', [mail_doc])
@@ -212,7 +223,7 @@ class TestPageUsers:
 #         elif mail in mails_doc:
 #             page_users.wait_visible_all()
 #             assert "Пациенты" in page_users.get_text(page_users.PageUsers.USERS_OR_PATIENTS)
-# #
+#
 #     @staticmethod
 #     @pytest.mark.parametrize('mail', [mail for mail in cred])
 #     @pytest.mark.parametrize('password', [password_all])
@@ -269,4 +280,37 @@ class TestPageUsers:
 #         assert quantity_users == int(quantity_pagination)
 #         page.click(page.PageUsers.BUTTON_HEADER_ALLMS)
 #
-#
+    class TestChangePassword:
+    #
+    #     @staticmethod
+    #     @pytest.mark.parametrize('mail', [mail_doc])
+    #     @pytest.mark.parametrize('password', [password_all])
+    #     @pytest.mark.parametrize('pass1, pass2', [(password_all, invalid_pass)])
+    #     def test_change_password(page_users, mail, password, pass1, pass2):
+    #         page_users.login_users(page_users, mail, password)
+    #         page_users.click(page_users.PageUsers.NAME_PROFILE)
+    #         page_users.click(page_users.PageUsers.BUTTON_CHANGE_PASSWORD)
+    #         page_users.change_password(page_users, pass1, pass2)
+    #         page_users.click(page_users.PageUsers.SAVE_NEW_PASS)
+    #         page_users.expect_visible_element(page_users.PageUsers.NOTIFICAL_CHANGE_PASS)
+    #         page_users.wait_for_element_visible(page_users.PageUsers.NOTIFICAL_CHANGE_PASS)
+    #         page_users.click(page_users.PageUsers.NAME_PROFILE)
+    #         page_users.click(page_users.PageUsers.BUTTON_CHANGE_PASSWORD)
+    #         page_users.change_password(page_users, pass2, pass1)
+    #         page_users.click(page_users.PageUsers.SAVE_NEW_PASS)
+    #
+        @staticmethod
+        @pytest.mark.parametrize('mail', [mail_doc])
+        @pytest.mark.parametrize('password', [password_all])
+        @pytest.mark.parametrize('body_input', [[Loc.PageUsers.INPUT_CURRENT_PASS,
+                                                 Loc.PageUsers.INPUT_NEW_PASS,
+                                                 Loc.PageUsers.INPUT_NEW2_PASS]])
+        @pytest.mark.parametrize('text_input', [[Loc.PageUsers.PLACEHOLDER_CURRENT_PASS,
+                                                 Loc.PageUsers.PLACEHOLDER_NEW_PASS,
+                                                 Loc.PageUsers.PLACEHOLDER_NEW2_PASS]])
+        def test_color_input_change_password(page_users, mail, password, body_input, text_input):
+            page_users.login_users(page_users, mail, password)
+            page_users.click(page_users.PageUsers.NAME_PROFILE)
+            page_users.click(page_users.PageUsers.BUTTON_CHANGE_PASSWORD)
+            page_users.click(page_users.PageUsers.BUTTON_SAVE_NEW_PASS)
+            page_users.expect_invalid_input_color(body_input, text_input)

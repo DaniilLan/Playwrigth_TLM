@@ -100,8 +100,26 @@ class MethodsPageUsers:
         element = self.page.locator(locator)
         return element.get_attribute(type_attribute)
 
+    def expect_style_element(self, locator, name_style: str, value_style: str):
+        element = self.page.locator(locator)
+        return expect(element).to_have_css(name_style, value_style)
+
     def change_password(self, page, current_pass, new_pass):
         self.page.fill(page.PageUsers.INPUT_CURRENT_PASS, current_pass)
         self.page.fill(page.PageUsers.INPUT_NEW_PASS, new_pass)
         self.page.fill(page.PageUsers.INPUT_NEW2_PASS, new_pass)
+
+    def expect_invalid_input_color(self, locator_placeholder, locator_body_input):
+        if type(locator_placeholder) is not list:
+            self.expect_style_element(locator_placeholder, 'color', 'rgb(229, 74, 76)')
+        else:
+            for locator in locator_placeholder:
+                self.expect_style_element(locator, 'color', 'rgb(229, 74, 76)')
+        if type(locator_body_input) is not list:
+            self.expect_style_element(locator_body_input, 'background-color', 'rgb(255, 243, 242)')
+            self.expect_style_element(locator_body_input, 'border-color', 'rgb(229, 74, 76)')
+        else:
+            for locator in locator_body_input:
+                self.expect_style_element(locator, 'background-color', 'rgb(255, 243, 242)')
+                self.expect_style_element(locator, 'border-color', 'rgb(229, 74, 76)')
 

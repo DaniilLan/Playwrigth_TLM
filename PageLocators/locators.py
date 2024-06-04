@@ -23,7 +23,7 @@ class Locators(MethodsPageUsers):
 
         PLACEHOLDER_EMAIL = '//label[text()="E-mail"]'
 
-        FORGOT_PASSWORD = 'span[data-locator="forgotPassword"]'
+        LINK_FORGOT_PASSWORD = 'span[data-locator="forgotPassword"]'
 
         EYE_PASSWORD = 'svg[xmlns="http://www.w3.org/2000/svg"]'
 
@@ -32,6 +32,10 @@ class Locators(MethodsPageUsers):
         NOTIFICATION_FORGOT_PASSWORD = '//*[@id="rootTelemedHub"]/div[1]/div'
 
         BUTTON_CANCEL = '//span[text()="Отмена"]'
+
+        DIV_INPUT_EMAIL = '//*[@id="rootTelemedHub"]/div[2]/main/div/form/div[1]/div[1]'
+
+        DIV_INPUT_PASS = '//*[@id="rootTelemedHub"]/div[2]/main/div/form/div[1]/div[2]'
 
     class PageSupport:
 
@@ -77,11 +81,17 @@ class Locators(MethodsPageUsers):
 
         INPUT_CURRENT_PASS = '//html/body/div[2]/div/div[2]/form/div[1]/div/div/div/input'
 
+        PLACEHOLDER_CURRENT_PASS = '//html/body/div[2]/div/div[2]/form/div[1]/div/div/label'
+
         INPUT_NEW_PASS = '//html/body/div[2]/div/div[2]/form/div[2]/div/div/div/input'
+
+        PLACEHOLDER_NEW_PASS = '//html/body/div[2]/div/div[2]/form/div[2]/div/div/label'
 
         INPUT_NEW2_PASS = '//html/body/div[2]/div/div[2]/form/div[3]/div/div/div/input'
 
-        SAVE_NEW_PASS = '//html/body/div[2]/div/div[2]/form/div[5]/button[2]'
+        PLACEHOLDER_NEW2_PASS = '//html/body/div[2]/div/div[2]/form/div[3]/div/div/label'
+
+        BUTTON_SAVE_NEW_PASS = '//html/body/div[2]/div/div[2]/form/div[5]/button[2]'
 
         NOTIFICAL_CHANGE_PASS = '//*[@id="rootTelemedHub"]/div[1]/div'
 
