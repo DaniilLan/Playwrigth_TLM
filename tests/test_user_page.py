@@ -313,4 +313,4 @@ class TestPageUsers:
             page_users.click(page_users.PageUsers.NAME_PROFILE)
             page_users.click(page_users.PageUsers.BUTTON_CHANGE_PASSWORD)
             page_users.click(page_users.PageUsers.BUTTON_SAVE_NEW_PASS)
-            page_users.expect_invalid_input_color(body_input, text_input)
+            page_users.expect_invalid_input_color(text_input, body_input)
