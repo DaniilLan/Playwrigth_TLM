@@ -281,36 +281,56 @@ class TestPageUsers:
 #         page.click(page.PageUsers.BUTTON_HEADER_ALLMS)
 #
     class TestChangePassword:
+
+        @staticmethod
+        @pytest.mark.parametrize('mail', [mail_lan])
+        @pytest.mark.parametrize('password', [password_lan])
+        @pytest.mark.parametrize('new_password', [invalid_pass])
+        def test_change_password(page_users, mail, password, new_password):
+            create_key = page_users.APIMethods.api_create_user(mail, password)
+            page_users.login_users(page_users, mail, password)
+            page_users.click(page_users.PageUsers.NAME_PROFILE)
+            page_users.click(page_users.PageUsers.BUTTON_CHANGE_PASSWORD)
+            page_users.change_password(page_users, password, new_password)
+            page_users.click(page_users.PageUsers.BUTTON_SAVE_NEW_PASS)
+            page_users.wait_for_element_visible(page_users.PageUsers.NOTIFICAL_CHANGE_PASS)
+            page_users.APIMethods.api_delete_user(create_key)
+
+        # @staticmethod
+        # @pytest.mark.parametrize('mail', [mail_doc])
+        # @pytest.mark.parametrize('password', [password_all])
+        # @pytest.mark.parametrize('body_input', [[Loc.PageUsers.INPUT_CURRENT_PASS,
+        #                                          Loc.PageUsers.INPUT_NEW_PASS,
+        #                                          Loc.PageUsers.INPUT_NEW2_PASS]])
+        # @pytest.mark.parametrize('placeholder_input', [[Loc.PageUsers.PLACEHOLDER_CURRENT_PASS,
+        #                                                 Loc.PageUsers.PLACEHOLDER_NEW_PASS,
+        #                                                 Loc.PageUsers.PLACEHOLDER_NEW2_PASS]])
+        # def test_color_input_change_password(page_users, mail, password, body_input, placeholder_input):
+        #     page_users.login_users(page_users, mail, password)
+        #     page_users.click(page_users.PageUsers.NAME_PROFILE)
+        #     page_users.click(page_users.PageUsers.BUTTON_CHANGE_PASSWORD)
+        #     page_users.click(page_users.PageUsers.BUTTON_SAVE_NEW_PASS)
+        #     page_users.expect_invalid_input_color(placeholder_input, body_input)
+
+    # class TestChangeProfile:
     #
     #     @staticmethod
     #     @pytest.mark.parametrize('mail', [mail_doc])
     #     @pytest.mark.parametrize('password', [password_all])
-    #     @pytest.mark.parametrize('pass1, pass2', [(password_all, invalid_pass)])
-    #     def test_change_password(page_users, mail, password, pass1, pass2):
+    #     @pytest.mark.parametrize('body_input', [[Loc.PageUsers.INPUT_CHANGE_F,
+    #                                              Loc.PageUsers.INPUT_CHANGE_I,
+    #                                              Loc.PageUsers.INPUT_CHANGE_MAIL,
+    #                                              Loc.PageUsers.INPUT_CHANGE_PHONE]])
+    #     @pytest.mark.parametrize('placeholder_input', [[Loc.PageUsers.PLACEHOLDER_CHANGE_F,
+    #                                                     Loc.PageUsers.PLACEHOLDER_CHANGE_I,
+    #                                                     Loc.PageUsers.PLACEHOLDER_CHANGE_MAIL,
+    #                                                     Loc.PageUsers.PLACEHOLDER_CHANGE_PHONE]])
+    #     def test_empty_input_change_profile(page_users, mail, password, body_input, placeholder_input):
     #         page_users.login_users(page_users, mail, password)
     #         page_users.click(page_users.PageUsers.NAME_PROFILE)
-    #         page_users.click(page_users.PageUsers.BUTTON_CHANGE_PASSWORD)
-    #         page_users.change_password(page_users, pass1, pass2)
-    #         page_users.click(page_users.PageUsers.SAVE_NEW_PASS)
-    #         page_users.expect_visible_element(page_users.PageUsers.NOTIFICAL_CHANGE_PASS)
-    #         page_users.wait_for_element_visible(page_users.PageUsers.NOTIFICAL_CHANGE_PASS)
-    #         page_users.click(page_users.PageUsers.NAME_PROFILE)
-    #         page_users.click(page_users.PageUsers.BUTTON_CHANGE_PASSWORD)
-    #         page_users.change_password(page_users, pass2, pass1)
-    #         page_users.click(page_users.PageUsers.SAVE_NEW_PASS)
-    #
-        @staticmethod
-        @pytest.mark.parametrize('mail', [mail_doc])
-        @pytest.mark.parametrize('password', [password_all])
-        @pytest.mark.parametrize('body_input', [[Loc.PageUsers.INPUT_CURRENT_PASS,
-                                                 Loc.PageUsers.INPUT_NEW_PASS,
-                                                 Loc.PageUsers.INPUT_NEW2_PASS]])
-        @pytest.mark.parametrize('text_input', [[Loc.PageUsers.PLACEHOLDER_CURRENT_PASS,
-                                                 Loc.PageUsers.PLACEHOLDER_NEW_PASS,
-                                                 Loc.PageUsers.PLACEHOLDER_NEW2_PASS]])
-        def test_color_input_change_password(page_users, mail, password, body_input, text_input):
-            page_users.login_users(page_users, mail, password)
-            page_users.click(page_users.PageUsers.NAME_PROFILE)
-            page_users.click(page_users.PageUsers.BUTTON_CHANGE_PASSWORD)
-            page_users.click(page_users.PageUsers.BUTTON_SAVE_NEW_PASS)
-            page_users.expect_invalid_input_color(text_input, body_input)
+    #         page_users.click(page_users.PageUsers.BUTTON_CHANGE_PROFILE)
+    #         page_users.clear_inputs(body_input)
+    #         page_users.click(page_users.PageUsers.BUTTON_SAVE_PROFILE)
+    #         page_users.expect_invalid_input_color(placeholder_input, body_input)
+    #         page_users.wait_for_element_visible('//*[@id="rootTelemedHub"]/div[1]/div')
+

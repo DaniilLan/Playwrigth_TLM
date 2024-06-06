@@ -79,6 +79,8 @@ class Locators(MethodsPageUsers):
 
         BUTTON_CHANGE_PASSWORD = 'div[data-locator="openChangePassword"]'
 
+        BUTTON_CHANGE_PROFILE = 'div[data-locator="openChangeProfile"]'
+
         INPUT_CURRENT_PASS = '//html/body/div[2]/div/div[2]/form/div[1]/div/div/div/input'
 
         PLACEHOLDER_CURRENT_PASS = '//html/body/div[2]/div/div[2]/form/div[1]/div/div/label'
@@ -156,6 +158,30 @@ class Locators(MethodsPageUsers):
         USERS_LIST = '//div[@class="UsersList__E2xs"]/div'
 
         BELL = '//div[@class="NotificationDropdownHeader__sFmv"]'
+
+        INPUT_CHANGE_F = '//html/body/div[2]/div/div[2]/form/div[1]/div/div/input'
+
+        INPUT_CHANGE_I = '//html/body/div[2]/div/div[2]/form/div[2]/div/div/div/input'
+
+        INPUT_CHANGE_O = '//html/body/div[2]/div/div[2]/form/div[3]/div/div/div/input'
+
+        INPUT_CHANGE_MAIL = '//html/body/div[2]/div/div[2]/form/div[4]/div/div/div/input'
+
+        INPUT_CHANGE_PHONE = '//html/body/div[2]/div/div[2]/form/div[5]/div/div/div/input'
+
+        PLACEHOLDER_CHANGE_F = '//div[@data-locator="lastName"]/div/label[text()="Фамилия"]'
+
+        PLACEHOLDER_CHANGE_I = '//div[@data-locator="firstName"]/div/div/label[text()="Имя"]'
+
+        PLACEHOLDER_CHANGE_O = '//div[@data-locator="middleName"]/div/div/label[text()="Отчество"]'
+
+        PLACEHOLDER_CHANGE_MAIL = '//div[@data-locator="email"]/div/div/label[text()="E-mail"]'
+
+        PLACEHOLDER_CHANGE_PHONE = '//div[@data-locator="phone"]/div/div/label[text()="Телефон"]'
+
+        BUTTON_SAVE_PROFILE = '//body/div[2]/div/div[2]/form/div[7]/button[2]'
+
+        BUTTON_CLOSE_CHANGE_PROFILE = '//body/div[3]/div/div[2]/form/div[7]/button[1]'
 
     class PageAllMeasurements:
 

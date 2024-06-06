@@ -19,12 +19,14 @@ cred = {"adm@adm.com": 'Админ Телемедцентра',
 
 mails_doc = ["testdoc@doc.doc", "doc@doc.com", "testdoc@doc.com", "d.s.ivanov1@samsmu.ru"]
 mail_doc = "testdoc@doc.doc"
+mail_lan = "landan2024@mail.ru"
+password_lan = '123456789'
 mail_adm = "adm@adm.com"
 mails_adm = ["adm@adm.com", "spadm@adm.adm", "testadm@adm.adm"]
 
 
 access_token = ("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHAudXNlcl9pZCI6MTAxLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQu"
                 "Y29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsIm9yZy5pZCI6MTAwLCJzdWIiOiJtZWRtb24iL"
-                "CJpYXQiOjE3MTcxNDUxODIuMCwiZXhwIjoxNzE3MTcwMzgyLjAsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NzIwNCIsImF1ZC"
-                "I6Imh0dHA6Ly9sb2NhbGhvc3Q6NzIwNCJ9.B0ue4rE7FZxsVxbdr26DyIPQIiN7jcsbtH5FLTR6O5c")
+                "CJpYXQiOjE3MTc2Nzg2NzAuMCwiZXhwIjoxNzE3NzAzODcwLjAsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NzIwNCIsImF1ZC"
+                "I6Imh0dHA6Ly9sb2NhbGhvc3Q6NzIwNCJ9.Ur69rl4Akip1wcO21roZT2mezN8GFKOhwcUVUW1sZ6k")
 

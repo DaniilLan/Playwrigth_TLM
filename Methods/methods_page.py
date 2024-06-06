@@ -1,6 +1,7 @@
 import re
 import time
 
+import requests
 from playwright.sync_api import expect, Page
 import inspect
 import json
@@ -42,7 +43,7 @@ class MethodsPageUsers:
         return self.page.text_content(locator, strict=False)
 
     def wait_load_page(self):
-        self.page.wait_for_load_state()
+        self.page.wait_for_load_state("domcontentloaded")
 
     def wait_visible_all(self):
         all_elements = self.page.query_selector_all("*")
@@ -123,3 +124,60 @@ class MethodsPageUsers:
                 self.expect_style_element(locator, 'background-color', 'rgb(255, 243, 242)')
                 self.expect_style_element(locator, 'border-color', 'rgb(229, 74, 76)')
 
+    def clear_inputs(self, locators):
+        if type(locators) is not list:
+            elements = self.page.locator(locators).all()
+            for element in elements:
+                element.clear()
+        else:
+            for locator in locators:
+                element = self.page.locator(locator)
+                element.clear()
+
+    class APIMethods:
+
+        @staticmethod
+        def api_create_user(mail, password):
+            url = "http://192.168.7.221:5001/api/v4/Users/Register"
+            payload = {
+              "firstName": "Тестовт",
+              "lastName": "Тестовт",
+              "middleName": "Тестович",
+              "height": 0,
+              "weight": 0,
+              "email": mail,
+              "password": password,
+              "phone": "3123123123",
+              "birthDate": "2001-06-06T12:19:32.884Z",
+              "sex": "male",
+              "orgId": 100,
+              "role": "doctor",
+              "id": 0
+            }
+            headers = {
+                "Authorization": f"Bearer {access_token}"
+            }
+            response = requests.post(url, json=payload, headers=headers)
+            if response.status_code == 200:
+                response_json = response.json()
+                user_id = response_json.get("id")
+                print(f"Пользователь c id: {user_id} успешно создан.")
+                return int(user_id)
+            else:
+                print("Что-то прилетело с запросом.")
+                print("Статус код:", response.status_code)
+                print("Доп инфа:", response.text)
+
+        @staticmethod
+        def api_delete_user(id_user: int):
+            url = f"http://192.168.7.221:5001/api/v4/Users({id_user})"
+            headers = {
+                "Authorization": f"Bearer {access_token}"
+            }
+            response = requests.delete(url, headers=headers)
+            if response.status_code == 200:
+                print(f"Пользователь c id: {id_user} успешно удален.")
+            else:
+                print("Что-то прилетело с запросом.")
+                print("Статус код:", response.status_code)
+                print("Доп инфа:", response.text)
