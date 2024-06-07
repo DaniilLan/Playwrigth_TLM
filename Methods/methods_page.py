@@ -135,6 +135,24 @@ class MethodsPageUsers:
                 element.clear()
 
     class APIMethods:
+        @staticmethod
+        def get_access_token_adm():
+            url = f"http://192.168.7.221:5001/api/v4/Users/Login"
+            payload = {
+                "email": mail_adm,
+                "username": mail_adm,
+                "password": password_all
+            }
+            response = requests.post(url, json=payload)
+            if response.status_code == 200:
+                response_json = response.json()
+                access_token = response_json.get("accessToken")
+                print(f"Тоекн успешно получен {access_token}")
+                return str(access_token)
+            else:
+                print("Что-то прилетело с запросом.")
+                print("Статус код:", response.status_code)
+                print("Доп инфа:", response.text)
 
         @staticmethod
         def api_create_user(mail, password):
@@ -155,7 +173,7 @@ class MethodsPageUsers:
               "id": 0
             }
             headers = {
-                "Authorization": f"Bearer {access_token}"
+                "Authorization": f"Bearer {MethodsPageUsers.APIMethods.get_access_token_adm()}"
             }
             response = requests.post(url, json=payload, headers=headers)
             if response.status_code == 200:
@@ -170,14 +188,17 @@ class MethodsPageUsers:
 
         @staticmethod
         def api_delete_user(id_user: int):
-            url = f"http://192.168.7.221:5001/api/v4/Users({id_user})"
-            headers = {
-                "Authorization": f"Bearer {access_token}"
-            }
-            response = requests.delete(url, headers=headers)
-            if response.status_code == 200:
-                print(f"Пользователь c id: {id_user} успешно удален.")
-            else:
-                print("Что-то прилетело с запросом.")
-                print("Статус код:", response.status_code)
-                print("Доп инфа:", response.text)
+            while True:
+                url = f"http://192.168.7.221:5001/api/v4/Users({id_user})"
+                headers = {
+                    "Authorization": f"Bearer {MethodsPageUsers.APIMethods.get_access_token_adm()}"
+                }
+                response = requests.delete(url, headers=headers)
+                if response.status_code == 200:
+                    print(f"Пользователь c id: {id_user} успешно удален.")
+                    break
+                else:
+                    print("Что-то прилетело с запросом.")
+                    print("Статус код:", response.status_code)
+                    print("Доп инфа:", response.text)
+                    break

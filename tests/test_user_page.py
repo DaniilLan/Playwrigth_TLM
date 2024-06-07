@@ -297,6 +297,11 @@ class TestPageUsers:
             page_users.APIMethods.api_delete_user(create_key)
 
         # @staticmethod
+        # def test_get_key(page_users):
+        #     page_users.APIMethods.get_access_token_adm()
+
+
+        # @staticmethod
         # @pytest.mark.parametrize('mail', [mail_doc])
         # @pytest.mark.parametrize('password', [password_all])
         # @pytest.mark.parametrize('body_input', [[Loc.PageUsers.INPUT_CURRENT_PASS,

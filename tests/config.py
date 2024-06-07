@@ -25,8 +25,4 @@ mail_adm = "adm@adm.com"
 mails_adm = ["adm@adm.com", "spadm@adm.adm", "testadm@adm.adm"]
 
 
-access_token = ("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHAudXNlcl9pZCI6MTAxLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQu"
-                "Y29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsIm9yZy5pZCI6MTAwLCJzdWIiOiJtZWRtb24iL"
-                "CJpYXQiOjE3MTc2Nzg2NzAuMCwiZXhwIjoxNzE3NzAzODcwLjAsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NzIwNCIsImF1ZC"
-                "I6Imh0dHA6Ly9sb2NhbGhvc3Q6NzIwNCJ9.Ur69rl4Akip1wcO21roZT2mezN8GFKOhwcUVUW1sZ6k")
 
