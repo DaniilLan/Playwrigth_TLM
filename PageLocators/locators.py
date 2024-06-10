@@ -3,13 +3,16 @@ from Methods.methods_page import *
 
 class Locators(MethodsPageUsers):
 
-    LOGO_SAMGMU = 'img[src="/conf/logo.png"]'
+    class GeneralLocators:
+        LOGO_SAMGMU = 'img[src="/conf/logo.png"]'
 
-    YEAR_BOT = 'div[class="copyRight__FpJl"]'
+        YEAR_BOT = 'div[class="copyRight__FpJl"]'
 
-    HELP_LINK = '//a[text()="Помощь"]'
+        HELP_LINK = '//a[text()="Помощь"]'
 
-    SUPPORTS_LINK = '//a[text()="Поддержка"]'
+        SUPPORTS_LINK = '//a[text()="Поддержка"]'
+
+        NOTIFICATION = '//*[@id="rootTelemedHub"]/div[1]/div'
 
     class PageAuth:
 
@@ -29,7 +32,6 @@ class Locators(MethodsPageUsers):
 
         BUTTON_FORGOT = '//button[span[text()="Сбросить"]]'
 
-        NOTIFICATION_FORGOT_PASSWORD = '//*[@id="rootTelemedHub"]/div[1]/div'
 
         BUTTON_CANCEL = '//span[text()="Отмена"]'
 
@@ -95,7 +97,6 @@ class Locators(MethodsPageUsers):
 
         BUTTON_SAVE_NEW_PASS = '//html/body/div[2]/div/div[2]/form/div[5]/button[2]'
 
-        NOTIFICAL_CHANGE_PASS = '//*[@id="rootTelemedHub"]/div[1]/div'
 
         BUTTON_HEADER_USERS = "a[data-locator='/users']"
 

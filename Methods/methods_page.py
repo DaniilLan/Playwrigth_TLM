@@ -14,6 +14,7 @@ class MethodsPageUsers:
 
     def __init__(self, page: Page):
         self.page = page
+        self.access_token = self.api_get_access_token_adm()
 
     def open(self, url):
         self.page.goto(url)
@@ -134,71 +135,99 @@ class MethodsPageUsers:
                 element = self.page.locator(locator)
                 element.clear()
 
-    class APIMethods:
-        @staticmethod
-        def get_access_token_adm():
-            url = f"http://192.168.7.221:5001/api/v4/Users/Login"
-            payload = {
-                "email": mail_adm,
-                "username": mail_adm,
-                "password": password_all
-            }
-            response = requests.post(url, json=payload)
-            if response.status_code == 200:
-                response_json = response.json()
-                access_token = response_json.get("accessToken")
-                print(f"Тоекн успешно получен {access_token}")
-                return str(access_token)
-            else:
-                print("Что-то прилетело с запросом.")
-                print("Статус код:", response.status_code)
-                print("Доп инфа:", response.text)
+    # class APIMethods:
+    def api_get_access_token_adm(self):
+        url = f"http://192.168.7.221:5001/api/v4/Users/Login"
+        payload = {
+            "email": mail_adm,
+            "username": mail_adm,
+            "password": password_all
+        }
+        response = requests.post(url, json=payload)
+        if response.status_code == 200:
+            response_json = response.json()
+            access_token = response_json.get("accessToken")
+            print(f"Тоекн успешно получен {access_token}")
+            return str(access_token)
+        else:
+            print("Что-то прилетело с запросом.")
+            print("Статус код:", response.status_code)
+            print("Доп инфа:", response.text)
 
-        @staticmethod
-        def api_create_user(mail, password):
-            url = "http://192.168.7.221:5001/api/v4/Users/Register"
-            payload = {
-              "firstName": "Тестовт",
-              "lastName": "Тестовт",
-              "middleName": "Тестович",
-              "height": 0,
-              "weight": 0,
-              "email": mail,
-              "password": password,
-              "phone": "3123123123",
-              "birthDate": "2001-06-06T12:19:32.884Z",
-              "sex": "male",
-              "orgId": 100,
-              "role": "doctor",
-              "id": 0
-            }
+    def api_create_doctor(self, mail, password):
+        url = "http://192.168.7.221:5001/api/v4/Users/Register"
+        payload = {
+          "firstName": "Тестовт",
+          "lastName": "Тестовт",
+          "middleName": "Тестович",
+          "height": 0,
+          "weight": 0,
+          "email": mail,
+          "password": password,
+          "phone": "3123123123",
+          "birthDate": "2001-06-06T12:19:32.884Z",
+          "sex": "male",
+          "orgId": 100,
+          "role": "doctor",
+          "id": 0
+        }
+        headers = {
+            "Authorization": f"Bearer {self.access_token}"
+        }
+        response = requests.post(url, json=payload, headers=headers)
+        if response.status_code == 200:
+            response_json = response.json()
+            user_id = response_json.get("id")
+            print(f"Пользователь c id: {user_id} успешно создан.")
+            return int(user_id)
+        else:
+            print("Что-то прилетело с запросом.")
+            print("Статус код:", response.status_code)
+            print("Доп инфа:", response.text)
+
+    def api_create_admin(self, mail, password):
+        url = "http://192.168.7.221:5001/api/v4/Users/Register"
+        payload = {
+          "firstName": "Тестовт",
+          "lastName": "Тестовт",
+          "middleName": "Тестович",
+          "height": 0,
+          "weight": 0,
+          "email": mail,
+          "password": password,
+          "phone": "3123123123",
+          "birthDate": "2001-06-06T12:19:32.884Z",
+          "sex": "male",
+          "orgId": 100,
+          "role": "superadmin",
+          "id": 0
+        }
+        headers = {
+            "Authorization": f"Bearer {self.access_token}"
+        }
+        response = requests.post(url, json=payload, headers=headers)
+        if response.status_code == 200:
+            response_json = response.json()
+            user_id = response_json.get("id")
+            print(f"Пользователь c id: {user_id} успешно создан.")
+            return int(user_id)
+        else:
+            print("Что-то прилетело с запросом.")
+            print("Статус код:", response.status_code)
+            print("Доп инфа:", response.text)
+
+    def api_delete_user(self, id_user: int):
+        while True:
+            url = f"http://192.168.7.221:5001/api/v4/Users({id_user})"
             headers = {
-                "Authorization": f"Bearer {MethodsPageUsers.APIMethods.get_access_token_adm()}"
+                "Authorization": f"Bearer {self.access_token}"
             }
-            response = requests.post(url, json=payload, headers=headers)
+            response = requests.delete(url, headers=headers)
             if response.status_code == 200:
-                response_json = response.json()
-                user_id = response_json.get("id")
-                print(f"Пользователь c id: {user_id} успешно создан.")
-                return int(user_id)
+                print(f"Пользователь c id: {id_user} успешно удален.")
+                break
             else:
                 print("Что-то прилетело с запросом.")
                 print("Статус код:", response.status_code)
                 print("Доп инфа:", response.text)
-
-        @staticmethod
-        def api_delete_user(id_user: int):
-            while True:
-                url = f"http://192.168.7.221:5001/api/v4/Users({id_user})"
-                headers = {
-                    "Authorization": f"Bearer {MethodsPageUsers.APIMethods.get_access_token_adm()}"
-                }
-                response = requests.delete(url, headers=headers)
-                if response.status_code == 200:
-                    print(f"Пользователь c id: {id_user} успешно удален.")
-                    break
-                else:
-                    print("Что-то прилетело с запросом.")
-                    print("Статус код:", response.status_code)
-                    print("Доп инфа:", response.text)
-                    break
+                break
