@@ -287,14 +287,14 @@ class TestPageUsers:
         @pytest.mark.parametrize('password', [password_lan])
         @pytest.mark.parametrize('new_password', [invalid_pass])
         def test_change_password(page_users, mail, password, new_password):
-            create_key = page_users.APIMethods.api_create_user(mail, password)
+            create_user_get_key = page_users.APIMethods.api_create_user(mail, password)
             page_users.login_users(page_users, mail, password)
             page_users.click(page_users.PageUsers.NAME_PROFILE)
             page_users.click(page_users.PageUsers.BUTTON_CHANGE_PASSWORD)
             page_users.change_password(page_users, password, new_password)
             page_users.click(page_users.PageUsers.BUTTON_SAVE_NEW_PASS)
             page_users.wait_for_element_visible(page_users.PageUsers.NOTIFICAL_CHANGE_PASS)
-            page_users.APIMethods.api_delete_user(create_key)
+            page_users.APIMethods.api_delete_user(create_user_get_key)
 
         # @staticmethod
         # def test_get_key(page_users):
