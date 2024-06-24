@@ -18,10 +18,10 @@ cred = {"adm@adm.com": 'Админ Телемедцентра',
         "d.s.ivanov1@samsmu.ru": 'Доктор Фап'}  # Без медработник ФАП и Пациент Фап.
 
 mails_doc = ["testdoc@doc.doc", "doc@doc.com", "testdoc@doc.com", "d.s.ivanov1@samsmu.ru"]
-mail_doc = "testdoc@doc.doc"
-mail_lan = "landan2024@mail.ru"
-password_lan = '123456789'
+mail_lan_doc = "TestLanDoc@doc.doc"
+mail_lan_adm = "TestLanAdm@mail.ru"
 mail_adm = "adm@adm.com"
+mail_doc = "testdoc@doc.doc"
 mails_adm = ["adm@adm.com", "spadm@adm.adm", "testadm@adm.adm"]
 
 
