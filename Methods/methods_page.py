@@ -39,8 +39,17 @@ class MethodsPageUsers:
         locator = self.page.locator(locator)
         locator.focus()
 
-    def get_text(self, locator):
+    def get_texts(self, locator):
+        self.page.frame()
         return self.page.text_content(locator, strict=False)
+
+        if type(locators) is not list:
+            elements = self.page.locator(locators).all()
+            for element in elements:
+                expect(element)
+        else:
+            for locator in locators:
+                self.expect_visible_element(locator)
 
     def wait_load_page(self):
         self.page.wait_for_load_state("domcontentloaded")
@@ -51,6 +60,7 @@ class MethodsPageUsers:
             element.is_visible()
 
     def wait_for_element_visible(self, selector):
+        self.page.wait_for_timeout(timeout=500)
         try:
             self.page.wait_for_selector(selector, state='hidden')
         except PlaywrightTimeoutError:
@@ -59,8 +69,8 @@ class MethodsPageUsers:
     def expect_visible_element(self, locator):
         expect(self.page.locator(locator)).to_be_visible()
 
-    def expect_visible_text(self, locator):
-        text = self.get_text(locator)
+    def expect_visible_text(self, locators):
+        text = self.get_text(locators)
         expect(self.page.get_by_text(text)).to_be_visible()
 
     def screenshot_full(self, dop=None):

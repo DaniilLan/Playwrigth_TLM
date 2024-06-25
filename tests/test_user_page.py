@@ -9,14 +9,14 @@ import re
 
 class TestPageUsers:
 
-#     @staticmethod
-#     @pytest.mark.parametrize('mail, name', [(mail, name) for mail, name in cred.items()])
-#     @pytest.mark.parametrize('password', [password_all])
-#     def test_auth(page_users, mail, password, name):
-#         page_users.login_users(page_users, mail, password)
-#         name_profile = page_users.get_text(page_users.PageUsers.NAME_PROFILE)
-#         assert name_profile == name
-#         page_users.screenshot(dop=mail)
+    @staticmethod
+    @pytest.mark.parametrize('mail, name', [(mail, name) for mail, name in cred.items()])
+    @pytest.mark.parametrize('password', [password_all])
+    def test_auth(page_users, mail, password, name):
+        page_users.login_users(page_users, mail, password)
+        name_profile = page_users.get_text(page_users.PageUsers.NAME_PROFILE)
+        assert name_profile == name
+        page_users.screenshot(dop=mail)
 #
 #     @staticmethod
 #     @pytest.mark.parametrize('mail', [mail_doc])
@@ -140,7 +140,7 @@ class TestPageUsers:
         #     page_users.click(page_users.PageUsers.BUTTON_CHANGE_PASSWORD)
         #     page_users.change_password(page_users, password, new_password)
         #     page_users.click(page_users.PageUsers.BUTTON_SAVE_NEW_PASS)
-        #     page_users.wait_for_element_visible(page_users.GeneralLocators.NOTIFICATION)
+        #     page_users.wait_for_element_visible(page_users.GeneralLocators.NOTIFICATION_FIRST)
         #     page_users.api_delete_user(create_user_get_id)
 
         # @staticmethod
@@ -155,7 +155,7 @@ class TestPageUsers:
         #     page_users.fill_text(page_users.PageUsers.INPUT_NEW_PASS, invalid_pass)
         #     page_users.fill_text(page_users.PageUsers.INPUT_NEW2_PASS, invalid_pass)
         #     page_users.click(page_users.PageUsers.BUTTON_SAVE_NEW_PASS)
-        #     page_users.wait_for_element_visible(page_users.GeneralLocators.NOTIFICATION)
+        #     page_users.wait_for_element_visible(page_users.GeneralLocators.NOTIFICATION_FIRST)
         #     page_users.api_delete_user(create_user_get_id)
 
         # @staticmethod
@@ -170,7 +170,7 @@ class TestPageUsers:
         #     page_users.fill_text(page_users.PageUsers.INPUT_CURRENT_PASS, password_all)
         #     page_users.fill_text(page_users.PageUsers.INPUT_NEW_PASS, invalid_pass)
         #     page_users.click(page_users.PageUsers.BUTTON_SAVE_NEW_PASS)
-        #     page_users.wait_for_element_visible(page_users.GeneralLocators.NOTIFICATION)
+        #     page_users.wait_for_element_visible(page_users.GeneralLocators.NOTIFICATION_FIRST)
         #     page_users.api_delete_user(create_user_get_id)
 
 
@@ -189,7 +189,7 @@ class TestPageUsers:
         #     page_users.click(page_users.PageUsers.BUTTON_CHANGE_PASSWORD)
         #     page_users.click(page_users.PageUsers.BUTTON_SAVE_NEW_PASS)
         #     page_users.expect_invalid_input_color(placeholder_input, body_input)
-        #     page_users.wait_for_element_visible(page_users.GeneralLocators.NOTIFICATION)
+        #     page_users.wait_for_element_visible(page_users.GeneralLocators.NOTIFICATION_FIRST)
 
     class TestChangeProfile:
 
@@ -211,5 +211,7 @@ class TestPageUsers:
             page_users.clear_inputs(body_input)
             page_users.click(page_users.PageUsers.BUTTON_SAVE_PROFILE)
             page_users.expect_invalid_input_color(placeholder_input, body_input)
-            page_users.wait_for_element_visible(page_users.NOTIFICATION)
+            text_notif = page_users.get_text(page_users.GeneralLocators.NOTIFICATION_FIRST)
+            assert text_notif == "Ошибка при изменении пользователя"
+            page_users.wait_for_element_visible(page_users.GeneralLocators.NOTIFICATION_FIRST)
 

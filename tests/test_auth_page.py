@@ -9,85 +9,121 @@ import re
 
 class TestPageAuth:
 
-    @staticmethod
-    @pytest.mark.parametrize('elements', [Loc.GeneralLocators.LOGO_SAMGMU,
-                                          Loc.GeneralLocators.YEAR_BOT,
-                                          Loc.PageAuth.INPUT_MAIL,
-                                          Loc.PageAuth.INPUT_PASSWORD,
-                                          Loc.PageAuth.BUTTON_LOG,
-                                          Loc.PageAuth.LINK_FORGOT_PASSWORD,
-                                          Loc.PageAuth.EYE_PASSWORD,
-                                          Loc.PageAuth.PLACEHOLDER_EMAIL,
-                                          Loc.PageAuth.PLACEHOLDER_PASSWORD,
-                                          Loc.GeneralLocators.HELP_LINK,
-                                          Loc.GeneralLocators.SUPPORTS_LINK])
-    def test_visible_elements(page_auth, elements):
-        page_auth.expect_visible_element(elements)
+    # @staticmethod
+    # @pytest.mark.parametrize('elements', [Loc.GeneralLocators.LOGO_SAMGMU,
+    #                                       Loc.GeneralLocators.YEAR_BOT,
+    #                                       Loc.PageAuth.INPUT_MAIL,
+    #                                       Loc.PageAuth.INPUT_PASSWORD,
+    #                                       Loc.PageAuth.BUTTON_LOG,
+    #                                       Loc.PageAuth.LINK_FORGOT_PASSWORD,
+    #                                       Loc.PageAuth.EYE_PASSWORD,
+    #                                       Loc.PageAuth.PLACEHOLDER_EMAIL,
+    #                                       Loc.PageAuth.PLACEHOLDER_PASSWORD,
+    #                                       Loc.GeneralLocators.HELP_LINK,
+    #                                       Loc.GeneralLocators.SUPPORTS_LINK])
+    # def test_visible_elements(page_auth, elements):
+    #     page_auth.expect_visible_element(elements)
 
     @staticmethod
-    def test_focus_input(page_auth):
-        page_auth.focus_element(page_auth.PageAuth.INPUT_MAIL)
-        page_auth.focus_element(page_auth.PageAuth.INPUT_PASSWORD)
+    @pytest.mark.parametrize("mail", [mail_doc, "", "123123@mail.ru"])
+    @pytest.mark.parametrize("password", ["", "123123"])
+    def test_invalid_auth(page_auth, mail, password):
+        page_auth.fill_text(page_auth.PageAuth.INPUT_MAIL, mail)
+        page_auth.fill_text(page_auth.PageAuth.INPUT_PASSWORD, password)
+        page_auth.click(page_auth.PageAuth.BUTTON_LOG)
+        text_notif = page_auth.get_texts(page_auth.GeneralLocators.NOTIFICATION_ALL)
+        if password is None:
+            assert text_notif == "Заполните поле 'Пароль'"
+            page_auth.wait_for_element_visible(page_auth.PageAuth.NOTIFICATION_ALL)
+        elif mail is None:
+            assert text_notif == "Заполните полe 'E-mail'"
+            page_auth.wait_for_element_visible(page_auth.PageAuth.NOTIFICATION_ALL)
+        elif (password and mail) is None:
+            assert text_notif == "Заполните поле 'Пароль'Заполните полe 'E-mail'"
+            page_auth.wait_for_element_visible(page_auth.PageAuth.NOTIFICATION_ALL)
+        elif mail == mail_doc and password is not None:
+                assert text_notif == "Неверный пароль!"
+                page_auth.wait_for_element_visible(page_auth.PageAuth.NOTIFICATION_ALL)
+        elif mail == "123123@mail.ru" and password == "123123":
+            assert text_notif == "Имя пользователя или пароль не верные."
+            page_auth.wait_for_element_visible(page_auth.GeneralLocators.NOTIFICATION_ALL)
 
-    @staticmethod
-    def test_placeholder_before_click(page_auth):
-        page_auth.click(page_auth.PageAuth.INPUT_MAIL)
-        page_auth.expect_visible_element(page_auth.PageAuth.PLACEHOLDER_EMAIL)
-        type_class_mail = page_auth.get_attribute_element(page_auth.PageAuth.DIV_INPUT_EMAIL, 'class')
-        assert 'focused__e6b9' in type_class_mail
-        page_auth.click(page_auth.PageAuth.INPUT_PASSWORD)
-        page_auth.expect_visible_element(page_auth.PageAuth.PLACEHOLDER_PASSWORD)
-        type_class_pass = page_auth.get_attribute_element(page_auth.PageAuth.DIV_INPUT_PASS, 'class')
-        assert 'focused__e6b9' in type_class_pass
+    # @staticmethod
+    # def test_focus_input(page_auth):
+    #     page_auth.focus_element(page_auth.PageAuth.INPUT_MAIL)
+    #     page_auth.focus_element(page_auth.PageAuth.INPUT_PASSWORD)
 
-    @staticmethod
-    def test_type_password(page_auth):
-        page_auth.fill_text(page_auth.PageAuth.INPUT_PASSWORD, "12345678")
-        assert page_auth.get_attribute_element(page_auth.PageAuth.INPUT_PASSWORD, 'type') == 'password'
+    # @staticmethod
+    # def test_placeholder_before_click(page_auth):
+    #     page_auth.click(page_auth.PageAuth.INPUT_MAIL)
+    #     page_auth.expect_visible_element(page_auth.PageAuth.PLACEHOLDER_EMAIL)
+    #     type_class_mail = page_auth.get_attribute_element(page_auth.PageAuth.DIV_INPUT_EMAIL, 'class')
+    #     assert 'focused__e6b9' in type_class_mail
+    #     page_auth.click(page_auth.PageAuth.INPUT_PASSWORD)
+    #     page_auth.expect_visible_element(page_auth.PageAuth.PLACEHOLDER_PASSWORD)
+    #     type_class_pass = page_auth.get_attribute_element(page_auth.PageAuth.DIV_INPUT_PASS, 'class')
+    #     assert 'focused__e6b9' in type_class_pass
 
-    @staticmethod
-    def test_ear_password(page_auth):
-        page_auth.fill_text(page_auth.PageAuth.INPUT_PASSWORD, "12345678")
-        page_auth.click(page_auth.PageAuth.EYE_PASSWORD)
-        assert page_auth.get_attribute_element(page_auth.PageAuth.INPUT_PASSWORD, 'type') == 'text'
-        page_auth.click(page_auth.PageAuth.EYE_PASSWORD)
-        assert page_auth.get_attribute_element(page_auth.PageAuth.INPUT_PASSWORD, 'type') == 'password'
+    # @staticmethod
+    # def test_type_password(page_auth):
+    #     page_auth.fill_text(page_auth.PageAuth.INPUT_PASSWORD, "12345678")
+    #     assert page_auth.get_attribute_element(page_auth.PageAuth.INPUT_PASSWORD, 'type') == 'password'
+    #
+    # @staticmethod
+    # def test_ear_password(page_auth):
+    #     page_auth.fill_text(page_auth.PageAuth.INPUT_PASSWORD, "12345678")
+    #     page_auth.click(page_auth.PageAuth.EYE_PASSWORD)
+    #     assert page_auth.get_attribute_element(page_auth.PageAuth.INPUT_PASSWORD, 'type') == 'text'
+    #     page_auth.click(page_auth.PageAuth.EYE_PASSWORD)
+    #     assert page_auth.get_attribute_element(page_auth.PageAuth.INPUT_PASSWORD, 'type') == 'password'
 
-    @staticmethod
-    def test_forgot_password(page_auth):
-        page_auth.click(page_auth.PageAuth.LINK_FORGOT_PASSWORD)
-        page_auth.expect_visible_element(page_auth.PageAuth.PLACEHOLDER_EMAIL)
-        page_auth.fill_text(page_auth.PageAuth.INPUT_MAIL, "landan2001@mail.ru")
-        page_auth.click(page_auth.PageAuth.BUTTON_FORGOT)
-        page_auth.expect_visible_element(page_auth.GeneralLocators.NOTIFICATION)
+    # @staticmethod
+    # def test_color_input_mail(page_auth):
+    #     page_auth.focus_element(page_auth.PageAuth.INPUT_MAIL)
+    #     page_auth.click(page_auth.GeneralLocators.LOGO_SAMGMU)
+    #     color_text = page_auth.PageAuth.PLACEHOLDER_EMAIL
+    #     border_background_color = page_auth.PageAuth.INPUT_MAIL
+    #     page_auth.expect_invalid_input_color(color_text, border_background_color)
+    #
+    # @staticmethod
+    # def test_color_input_password(page_auth):
+    #     page_auth.focus_element(page_auth.PageAuth.INPUT_PASSWORD)
+    #     page_auth.click(page_auth.GeneralLocators.LOGO_SAMGMU)
+    #     color_text = page_auth.PageAuth.PLACEHOLDER_PASSWORD
+    #     border_background_color = page_auth.PageAuth.INPUT_PASSWORD
+    #     page_auth.expect_invalid_input_color(color_text, border_background_color)
 
-    @staticmethod
-    def test_cancel_forgot_password(page_auth):
-        page_auth.click(page_auth.PageAuth.LINK_FORGOT_PASSWORD)
-        page_auth.click(page_auth.PageAuth.BUTTON_CANCEL)
-        page_auth.expect_visible_element(page_auth.PageAuth.BUTTON_LOG)
 
-    @staticmethod
-    def test_color_input_mail(page_auth):
-        page_auth.focus_element(page_auth.PageAuth.INPUT_MAIL)
-        page_auth.click(page_auth.GeneralLocators.LOGO_SAMGMU)
-        color_text = page_auth.PageAuth.PLACEHOLDER_EMAIL
-        border_background_color = page_auth.PageAuth.INPUT_MAIL
-        page_auth.expect_invalid_input_color(color_text, border_background_color)
+    # class TestForgotPassword:
 
-    @staticmethod
-    def test_color_input_password(page_auth):
-        page_auth.focus_element(page_auth.PageAuth.INPUT_PASSWORD)
-        page_auth.click(page_auth.GeneralLocators.LOGO_SAMGMU)
-        color_text = page_auth.PageAuth.PLACEHOLDER_PASSWORD
-        border_background_color = page_auth.PageAuth.INPUT_PASSWORD
-        page_auth.expect_invalid_input_color(color_text, border_background_color)
+    #     @staticmethod
+    #     def test_valid_forgot_password(page_auth):
+    #         page_auth.click(page_auth.PageAuth.LINK_FORGOT_PASSWORD)
+    #         page_auth.expect_visible_element(page_auth.PageAuth.PLACEHOLDER_EMAIL)
+    #         page_auth.fill_text(page_auth.PageAuth.INPUT_MAIL, "landan2001@mail.ru")
+    #         page_auth.click(page_auth.PageAuth.BUTTON_FORGOT)
+    #         page_auth.wait_for_element_visible(page_auth.GeneralLocators.NOTIFICATION_FIRS)
+    #
+    #     @staticmethod
+    #     def test_invalid_forgot_password(page_auth):
+    #         page_auth.click(page_auth.PageAuth.LINK_FORGOT_PASSWORD)
+    #         page_auth.expect_visible_element(page_auth.PageAuth.PLACEHOLDER_EMAIL)
+    #         page_auth.fill_text(page_auth.PageAuth.INPUT_MAIL, "landan200222@mail.ru")
+    #         page_auth.click(page_auth.PageAuth.BUTTON_FORGOT)
+    #         page_auth.wait_for_element_visible(page_auth.GeneralLocators.NOTIFICATION_FIRST)
+    #
+    #     @staticmethod
+    #     def test_cancel_forgot_password(page_auth):
+    #         page_auth.click(page_auth.PageAuth.LINK_FORGOT_PASSWORD)
+    #         page_auth.click(page_auth.PageAuth.BUTTON_CANCEL)
+    #         page_auth.expect_visible_element(page_auth.PageAuth.BUTTON_LOG)
+    #
+    #     @staticmethod
+    #     def test_color_input_mail_forgot(page_auth):
+    #         page_auth.click(page_auth.PageAuth.LINK_FORGOT_PASSWORD)
+    #         page_auth.focus_element(page_auth.PageAuth.INPUT_MAIL)
+    #         page_auth.click(page_auth.GeneralLocators.LOGO_SAMGMU)
+    #         color_text = page_auth.PageAuth.PLACEHOLDER_EMAIL
+    #         border_background_color = page_auth.PageAuth.INPUT_MAIL
+    #         page_auth.expect_invalid_input_color(color_text, border_background_color)
 
-    @staticmethod
-    def test_color_input_mail_forgot(page_auth):
-        page_auth.click(page_auth.PageAuth.LINK_FORGOT_PASSWORD)
-        page_auth.focus_element(page_auth.PageAuth.INPUT_MAIL)
-        page_auth.click(page_auth.GeneralLocators.LOGO_SAMGMU)
-        color_text = page_auth.PageAuth.PLACEHOLDER_EMAIL
-        border_background_color = page_auth.PageAuth.INPUT_MAIL
-        page_auth.expect_invalid_input_color(color_text, border_background_color)

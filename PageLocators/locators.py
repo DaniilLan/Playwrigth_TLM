@@ -12,9 +12,15 @@ class Locators(MethodsPageUsers):
 
         SUPPORTS_LINK = '//a[text()="Поддержка"]'
 
-        NOTIFICATION = '//*[@id="rootTelemedHub"]/div[1]/div'
+        NOTIFICATION_FIRST = '//*[@id="rootTelemedHub"]/div[1]/div'
+
+        NOTIFICATION_ALL = '//*[@id="rootTelemedHub"]/div[1]/div'
 
     class PageAuth:
+
+        NOTIFICATION_MAIL = '//*[@id="rootTelemedHub"]/div[1]/div'
+
+        NOTIFICATION_PASSWORD = '//*[@id="rootTelemedHub"]/div[1]/div[2]'
 
         INPUT_MAIL = '//*[@id="rootTelemedHub"]/div[2]/main/div/form/div[1]/div[1]/div/input'
 
@@ -183,6 +189,10 @@ class Locators(MethodsPageUsers):
         BUTTON_SAVE_PROFILE = '//body/div[2]/div/div[2]/form/div[7]/button[2]'
 
         BUTTON_CLOSE_CHANGE_PROFILE = '//body/div[3]/div/div[2]/form/div[7]/button[1]'
+
+        VRACHI = "//div[div[span[text()='Врачи']]]//div[@class='gm_s']"
+
+
 
     class PageAllMeasurements:
 
