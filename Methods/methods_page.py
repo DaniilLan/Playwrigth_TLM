@@ -1,11 +1,9 @@
-import re
 import time
 
 import requests
 from playwright.sync_api import expect, Page
 import inspect
-import json
-import pytest
+
 from tests.config import *
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError
 
@@ -27,7 +25,7 @@ class MethodsPageUsers:
     def click_on_elements(self, locator):
         elements = self.page.locator(locator).all()
         for element in elements:
-            time.sleep(1)
+            self.page.wait_for_timeout(500)
             element.click()
 
     def fill_text(self, locator, value):
@@ -39,38 +37,52 @@ class MethodsPageUsers:
         locator = self.page.locator(locator)
         locator.focus()
 
-    def get_texts(self, locator):
-        self.page.frame()
-        return self.page.text_content(locator, strict=False)
-
-        if type(locators) is not list:
-            elements = self.page.locator(locators).all()
-            for element in elements:
-                expect(element)
+    def get_texts(self, locators):
+        elements = self.page.locator(locators).all()
+        if type(elements) is not list:
+            return self.page.text_content(locators, strict=False)
         else:
-            for locator in locators:
-                self.expect_visible_element(locator)
+            text = ''
+            for locator in elements:
+                text += locator.text_content()
+            return text
 
     def wait_load_page(self):
         self.page.wait_for_load_state("domcontentloaded")
 
-    def wait_visible_all(self):
-        all_elements = self.page.query_selector_all("*")
-        for element in all_elements:
-            element.is_visible()
+    def wait_visible_elements(self, locators):
+        if type(locators) is not list:
+            try:
+                self.page.wait_for_selector(locators, state='visible')
+            except PlaywrightTimeoutError:
+                pass
+        else:
+            elements = self.page.locator(locators).all()
+            for locator in elements:
+                try:
+                    locator.wait_for(state='visible')
+                except PlaywrightTimeoutError:
+                    pass
 
-    def wait_for_element_visible(self, selector):
-        self.page.wait_for_timeout(timeout=500)
-        try:
-            self.page.wait_for_selector(selector, state='hidden')
-        except PlaywrightTimeoutError:
-            print(2)
+    def wait_until_visible_elements(self, locators):
+        if type(locators) is not list:
+            try:
+                self.page.wait_for_selector(locators, state='hidden')
+            except PlaywrightTimeoutError:
+                pass
+        else:
+            elements = self.page.locator(locators).all()
+            for locator in elements:
+                try:
+                    locator.wait_for(state='hidden')
+                except PlaywrightTimeoutError:
+                    pass
 
     def expect_visible_element(self, locator):
         expect(self.page.locator(locator)).to_be_visible()
 
     def expect_visible_text(self, locators):
-        text = self.get_text(locators)
+        text = self.get_texts(locators)
         expect(self.page.get_by_text(text)).to_be_visible()
 
     def screenshot_full(self, dop=None):

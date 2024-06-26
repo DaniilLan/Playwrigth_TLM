@@ -18,10 +18,6 @@ class Locators(MethodsPageUsers):
 
     class PageAuth:
 
-        NOTIFICATION_MAIL = '//*[@id="rootTelemedHub"]/div[1]/div'
-
-        NOTIFICATION_PASSWORD = '//*[@id="rootTelemedHub"]/div[1]/div[2]'
-
         INPUT_MAIL = '//*[@id="rootTelemedHub"]/div[2]/main/div/form/div[1]/div[1]/div/input'
 
         INPUT_PASSWORD = '//*[@id="rootTelemedHub"]/div[2]/main/div/form/div[1]/div[2]/div/input'
@@ -102,7 +98,6 @@ class Locators(MethodsPageUsers):
         PLACEHOLDER_NEW2_PASS = '//html/body/div[2]/div/div[2]/form/div[3]/div/div/label'
 
         BUTTON_SAVE_NEW_PASS = '//html/body/div[2]/div/div[2]/form/div[5]/button[2]'
-
 
         BUTTON_HEADER_USERS = "a[data-locator='/users']"
 
