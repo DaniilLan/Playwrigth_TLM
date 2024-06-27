@@ -13,31 +13,38 @@ class MethodsPageUsers:
     def __init__(self, page: Page):
         self.page = page
 
-    def open(self, url):
-        self.page.goto(url)
+    def open(self, uri):
+        """Открыть страницу"""
+        self.page.goto(uri)
 
-    def get_url(self):
+    def get_uri(self):
+        """Получить URI"""
         return self.page.url
 
     def click(self, locator):
+        """Кликнуть по элементу"""
         self.page.click(locator)
 
     def click_on_elements(self, locator):
+        """Кликнуть по элементам"""
         elements = self.page.locator(locator).all()
         for element in elements:
             self.page.wait_for_timeout(500)
             element.click()
 
     def fill_text(self, locator, value):
+        """Ввод тескста"""
         element = self.page.locator(locator)
         expect(element).to_be_visible()
         self.page.fill(locator, value)
 
     def focus_element(self, locator):
+        """Проверка фокуса на элементе"""
         locator = self.page.locator(locator)
         locator.focus()
 
     def get_texts(self, locators):
+        """Получить текст(ы) в нутри элемента"""
         elements = self.page.locator(locators).all()
         if type(elements) is not list:
             return self.page.text_content(locators, strict=False)
@@ -48,9 +55,11 @@ class MethodsPageUsers:
             return text
 
     def wait_load_page(self):
+        """Ожидать полной загрузки DOM"""
         self.page.wait_for_load_state("domcontentloaded")
 
     def wait_visible_elements(self, locators):
+        """Ожидать пока элемент не будет виден"""
         if type(locators) is not list:
             try:
                 self.page.wait_for_selector(locators, state='visible')
@@ -65,6 +74,7 @@ class MethodsPageUsers:
                     pass
 
     def wait_until_visible_elements(self, locators):
+        """Ожидать пока элемент не пропадет"""
         if type(locators) is not list:
             try:
                 self.page.wait_for_selector(locators, state='hidden')
@@ -78,61 +88,77 @@ class MethodsPageUsers:
                 except PlaywrightTimeoutError:
                     pass
 
-    def expect_visible_element(self, locator):
-        expect(self.page.locator(locator)).to_be_visible()
-
     def expect_visible_text(self, locators):
+        """Проверка - виден ли текст элемента"""
         text = self.get_texts(locators)
         expect(self.page.get_by_text(text)).to_be_visible()
 
     def screenshot_full(self, dop=None):
+        """Сделать скриншот всей странице (всего скролла)"""
         current_function_name = inspect.stack()[1].function
         self.page.screenshot(path=f"screenshot_tests/{current_function_name}/{current_function_name}_{dop}.png",
                              full_page=True)
 
     def screenshot(self, dop=None):
+        """Сделать скрин стр (на позиции скролла)"""
         current_function_name = inspect.stack()[1].function
         self.page.screenshot(path=f"screenshot_tests/{current_function_name}/{current_function_name}_{dop}.png")
 
     def login_users(self, page, mail, password):
+        """Авторизация пользователя"""
         self.page.fill(page.PageAuth.INPUT_MAIL, mail)
         self.page.fill(page.PageAuth.INPUT_PASSWORD, password)
         self.page.click(page.PageAuth.BUTTON_LOG)
 
+    def expect_not_visible_elements(self, locators):
+        """Проверка - элемент не виден"""
+        if type(locators) is not list:
+            elements = self.page.locator(locators).all()
+            for element in elements:
+                expect(element).not_to_be_visible()
+        else:
+            for locator in locators:
+                expect(self.page.locator(locator)).not_to_be_visible()
+
     def expect_visible_elements(self, locators):
+        """Проверка - элемент виден"""
         if type(locators) is not list:
             elements = self.page.locator(locators).all()
             for element in elements:
                 expect(element).to_be_visible()
         else:
             for locator in locators:
-                self.expect_visible_element(locator)
+                expect(self.page.locator(locator)).to_be_visible()
 
     def dropdown_filter(self):
+        """Опустить drop-down список 'Фильтры' - изменив параметр элемента в DOM"""
         element = self.page.locator('//*[@id="rootTelemedHub"]/div[2]/main/div/div[2]/div[1]/div/div')
         element.evaluate('(element) => { element.style.maxHeight = "none"; }')
 
     def get_quantity_elements(self, locator):
+        """Получить количество элементов"""
         elements = self.page.locator(locator).all()
         return len(elements)
 
-    def get_list_elements(self, locator):
-        return self.page.locator(locator).all()
-
     def get_attribute_element(self, locator, type_attribute: str):
+        """Получить атрибуты элемента"""
         element = self.page.locator(locator)
         return element.get_attribute(type_attribute)
 
     def expect_style_element(self, locator, name_style: str, value_style: str):
+        """Проверка - 'имя' и 'значение' стиля элемента равны заданным параметрам (name_style, value_style)"""
         element = self.page.locator(locator)
         return expect(element).to_have_css(name_style, value_style)
 
     def change_password(self, page, current_pass, new_pass):
+        """Смена пароля на стр. /users в профиле пользователя"""
         self.page.fill(page.PageUsers.INPUT_CURRENT_PASS, current_pass)
         self.page.fill(page.PageUsers.INPUT_NEW_PASS, new_pass)
         self.page.fill(page.PageUsers.INPUT_NEW2_PASS, new_pass)
 
     def expect_invalid_input_color(self, locator_placeholder, locator_body_input):
+        """Проверка - что цвет плейсхолдера и тела поля(ля)
+        при вводе не валидных данных соответствует цвету при ошибке"""
         if type(locator_placeholder) is not list:
             self.expect_style_element(locator_placeholder, 'color', 'rgb(229, 74, 76)')
         else:
@@ -147,6 +173,7 @@ class MethodsPageUsers:
                 self.expect_style_element(locator, 'border-color', 'rgb(229, 74, 76)')
 
     def clear_inputs(self, locators):
+        """Очистить поле ввода"""
         if type(locators) is not list:
             elements = self.page.locator(locators).all()
             for element in elements:
@@ -158,6 +185,7 @@ class MethodsPageUsers:
 
     @staticmethod
     def api_get_access_token_adm():
+        """Авторизация под админом с последующим получаением токена"""
         url = f"http://192.168.7.221:5001/api/v4/Users/Login"
         payload = {
             "email": mail_adm,
@@ -175,10 +203,9 @@ class MethodsPageUsers:
             print("Статус код:", response.status_code)
             print("Доп инфа:", response.text)
 
-    access_token = api_get_access_token_adm()
-
     @staticmethod
-    def api_create_doctor(mail, password, access_token=access_token):
+    def api_create_doctor(mail, password, access_token):
+        """Создание пользователя(doctor)"""
         url = "http://192.168.7.221:5001/api/v4/Users/Register"
         payload = {
           "firstName": "Тестовт",
@@ -242,7 +269,8 @@ class MethodsPageUsers:
     #         print("Доп инфа:", response.text)
 
     @staticmethod
-    def api_delete_user(id_user: int, access_token=access_token):
+    def api_delete_user(id_user: int, access_token):
+        """Удаление пользователя по id_user"""
         url = f"http://192.168.7.221:5001/api/v4/Users({id_user})"
         headers = {
             "Authorization": f"Bearer {access_token}"

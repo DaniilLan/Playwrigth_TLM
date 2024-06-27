@@ -23,6 +23,8 @@ mail_lan_adm = "TestLanAdm@mail.ru"
 mail_adm = "adm@adm.com"
 mail_doc = "testdoc@doc.doc"
 mails_adm = ["adm@adm.com", "spadm@adm.adm", "testadm@adm.adm"]
+invalid_mail = "123123@mail.ru"
+valid_mail = 'landan2001@mail.ru'
 
 
 
