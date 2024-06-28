@@ -12,8 +12,6 @@ class Locators(MethodsPageUsers):
 
         SUPPORTS_LINK = '//a[text()="Поддержка"]'
 
-        NOTIFICATION_FIRST = '//*[@id="rootTelemedHub"]/div[1]/div'
-
         NOTIFICATION_ALL = '//*[@id="rootTelemedHub"]/div[1]/div'
 
     class PageAuth:
@@ -33,7 +31,6 @@ class Locators(MethodsPageUsers):
         EYE_PASSWORD = 'svg[xmlns="http://www.w3.org/2000/svg"]'
 
         BUTTON_FORGOT = '//button[span[text()="Сбросить"]]'
-
 
         BUTTON_CANCEL = '//span[text()="Отмена"]'
 
@@ -113,9 +110,9 @@ class Locators(MethodsPageUsers):
 
         BUTTON_LOAD_PATIENT = '//div[2]/main/div/div[1]/div[2]/button[2]'
 
-        BUTTON_ADD_USERS = '//div[2]/main/div/div[1]/div[2]/button[3]'
+        BUTTON_ADD_USERS = '//button[@data-locator="addUser"]'
 
-        BUTTON_ADD_PATIENT = '//div[2]/main/div/div[1]/div[2]/button'
+        BUTTON_ADD_PATIENT = '//button[@data-locator="addUser"]'
 
         USERS_OR_PATIENTS = "//div[2]/main/div/div[1]/div[1]"
 
@@ -183,11 +180,21 @@ class Locators(MethodsPageUsers):
 
         BUTTON_SAVE_PROFILE = '//body/div[2]/div/div[2]/form/div[7]/button[2]'
 
-        BUTTON_CLOSE_CHANGE_PROFILE = '//body/div[3]/div/div[2]/form/div[7]/button[1]'
+        BUTTON_CLOSE_CHANGE_PROFILE = '//html/body/div[2]/div/div[2]/form/div[7]/button[1]'
 
-        VRACHI = "//div[div[span[text()='Врачи']]]//div[@class='gm_s']"
+        DOCTORS = "//div[div[span[text()='Врачи']]]//div[@class='gm_s']"
 
+        WINDOW_CHANGE_PROFILE = '//div[@class="WrapModal productTheme__ef49 WrapModal__b7af"]'
 
+        BUTTON_X_CHANGE_PROFILE = "//div[@class='closeBtn__b66b closeBtn']"
+
+        INPUT_ADD_USER_F = '//html/body/div[2]/div/div[2]/form/div[1]/div[1]/div/input'
+
+        INPUT_ADD_USER_I = '//html/body/div[2]/div/div[2]/form/div[1]/div[2]/div/input'
+
+        INPUT_ADD_USER_MAIL = '//html/body/div[2]/div/div[2]/form/div[1]/div[8]/div/input'
+
+        INPUT_ADD_USER_PHONE = '/html/body/div[2]/div/div[2]/form/div[1]/div[9]/div/input'
 
     class PageAllMeasurements:
 
