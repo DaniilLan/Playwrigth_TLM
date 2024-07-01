@@ -4,6 +4,7 @@ from Methods.methods_page import *
 class Locators(MethodsPageUsers):
 
     class GeneralLocators:
+
         LOGO_SAMGMU = 'img[src="/conf/logo.png"]'
 
         YEAR_BOT = 'div[class="copyRight__FpJl"]'
@@ -50,29 +51,41 @@ class Locators(MethodsPageUsers):
 
         BUTTON_BAC_AUTH = '//span[text()="Авторизация"]'
 
-        PANELS_HELP = ('//div[@class="MuiButtonBase-root MuiAccordionSummary-root '
-                       'MuiAccordionSummary-gutters css-1oqimao"]')
+        PANELS_HELP = ('//div[@class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-1oqimao"]')
+
         OPEN_PANELS_HELP = '//div[@class="MuiAccordionDetails-root css-u7qq7e"]'
 
         PANEL1_HELP = '//div[@id="panel1a-header"]'
+
         PANEL2_HELP = '//div[@id="panel2a-header"]'
+
         PANEL3_HELP = '//div[@id="panel3a-header"]'
+
         PANEL4_HELP = '//div[@id="panel4a-header"]'
+
         PANEL5_HELP = '//div[div[strong[text()="Настройка профиля"]]]'
+
         PANEL6_HELP = '//div[div[strong[text()="Порядок работы администратора в веб-приложении"]]]'
+
         PANEL7_HELP = '//div[div[strong[text()="Порядок работы врача в веб-приложении"]]]'
 
         OPEN_PANEL1_HELP = '//div[@id="panel1a-content"]'
+
         OPEN_PANEL2_HELP = '//div[@id="panel2a-content"]'
+
         OPEN_PANEL3_HELP = '//div[@id="panel3a-content"]'
+
         OPEN_PANEL4_HELP = '//div[@id="panel4a-content"]'
+
         OPEN_PANEL5_HELP = '//div[div[p[strong[text()="Изменить профиль."]]]]'
+
         OPEN_PANEL6_HELP = '//div[h3[text()="Регистрация пользователя"]]'
+
         OPEN_PANEL7_HELP = '//div[h3[text()="Регистрация пациента"]]'
 
     class PageUsers:
 
-        WINDOW = '/html/body/div[2]/div/div[2]/form/div[2]/button'
+        BUTTON_ADD_USER_IN_WINDOW = '//html/body/div[2]/div/div[2]/form/div[2]/button'
 
         POPUP_PROFILE = '//html/body/div[2]/div'
 
@@ -112,8 +125,6 @@ class Locators(MethodsPageUsers):
 
         BUTTON_ADD_USERS = '//button[@data-locator="addUser"]'
 
-        BUTTON_ADD_PATIENT = '//button[@data-locator="addUser"]'
-
         USERS_OR_PATIENTS = "//div[2]/main/div/div[1]/div[1]"
 
         QUANTITY_USERS_HEADER = "//div[2]/main/div/div[1]/div[1]/span"
@@ -128,19 +139,7 @@ class Locators(MethodsPageUsers):
 
         FILTER_INPUT_BOXS = '//div/div/input'
 
-        # FILTER_INPUT_F =
-        #
-        # FILTER_INPUT_I =
-        #
-        # FILTER_INPUT_O =
-        #
-        # FILTER_INPUT_DATA =
-
         FILTER_DROPDOWN_GENDER = 'div[class="selectContainer selectContainer__e7c6"]'
-
-        # FILTER_INPUT_OLD_1 =
-        #
-        # FILTER_INPUT_OLD_2 =
 
         FILTER_DROPDOWN_ROLE = '//div[2]/main/div/div[2]/div[1]/div/div/div/div[7]/div/div/div'
 
@@ -192,9 +191,27 @@ class Locators(MethodsPageUsers):
 
         INPUT_ADD_USER_I = '//html/body/div[2]/div/div[2]/form/div[1]/div[2]/div/input'
 
+        INPUT_ADD_USER_DATA = '//html/body/div[2]/div/div[2]/form/div[1]/div[4]/div/div/div/div/input'
+
         INPUT_ADD_USER_MAIL = '//html/body/div[2]/div/div[2]/form/div[1]/div[8]/div/input'
 
-        INPUT_ADD_USER_PHONE = '/html/body/div[2]/div/div[2]/form/div[1]/div[9]/div/input'
+        INPUT_ADD_USER_PHONE = '//html/body/div[2]/div/div[2]/form/div[1]/div[9]/div/input'
+
+        INPUT_ADD_USER_ORG = '//html/body/div[2]/div/div[2]/form/div[1]/div[11]/div/div/div/input'
+
+        PLACEHOLDER_ADD_USER_F = "//div[@data-locator='WrapModal']//label[text()='Фамилия']"
+
+        PLACEHOLDER_ADD_USER_I = "//div[@data-locator='WrapModal']//label[text()='Имя']"
+
+        PLACEHOLDER_ADD_USER_DATA = "//div[@data-locator='WrapModal']//label[text()='Дата рождения']"
+
+        PLACEHOLDER_ADD_USER_ORG = "//div[@data-locator='WrapModal']//label[text()='Организация']"
+
+        PLACEHOLDER_ADD_USER_PHONE = "//div[@data-locator='WrapModal']//label[text()='Телефон']"
+
+        PLACEHOLDER_ADD_USER_MAIL = "//div[@data-locator='WrapModal']//label[text()='E-mail']"
+
+        DIV_SUCCESSFULLY_CREATED = '//div[@data-locator="credentialUser"]'
 
     class PageAllMeasurements:
 

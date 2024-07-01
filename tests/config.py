@@ -1,3 +1,6 @@
+import random
+from russian_names import RussianNames
+
 url_auth_test = 'http://192.168.7.221:8081/'
 url_users_test = 'http://192.168.7.221:8081/users'
 url_allm_test = 'http://192.168.7.221:8081/all-measurements'
@@ -27,4 +30,42 @@ invalid_mail = "123123@mail.ru"
 valid_mail = 'landan2001@mail.ru'
 
 
+def random_phone():
+    """Строка из 10 рандомных цифр без - 9276013854 (пример)"""
+    numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    random.shuffle(numbers)
+    numbers_str = ''
+    for i in numbers:
+        numbers_str += str(i)
+    return numbers_str
 
+
+def random_fio(value='I'):
+    """Указать в параметре нужное значение ФИО.
+
+    'FIO' - верентся ФИО *По умолчанию
+
+    'F' - вернется фамилия
+
+    'I' - вернется имя
+
+    'O' - вернется отчество
+    """
+    rn = RussianNames(count=1, name_reduction=False, patronymic_reduction=False, surname_reduction=False)
+    fio = str(rn.get_batch()[0])
+    if value == 'FIO':
+        fio = fio.split()
+        fio = fio[2]+' '+fio[0]+' '+fio[1]
+        return str(fio)
+    elif value == 'I':
+        firstname = fio.split()
+        return str(firstname[0])
+    elif value == 'F':
+        lastname = fio.split()
+        return str(lastname[2])
+    elif value == "O":
+        patronymic = fio.split()
+        return str(patronymic[1])
+
+
+print(random_fio())

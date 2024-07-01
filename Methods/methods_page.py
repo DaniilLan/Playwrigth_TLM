@@ -1,3 +1,4 @@
+import random
 import time
 
 import requests
@@ -134,6 +135,13 @@ class MethodsPageUsers:
         """Опустить drop-down список 'Фильтры' - изменив параметр элемента в DOM"""
         element = self.page.locator('//*[@id="rootTelemedHub"]/div[2]/main/div/div[2]/div[1]/div/div')
         element.evaluate('(element) => { element.style.maxHeight = "none"; }')
+
+    def open_dropdown_organization(self):
+        elements = self.page.locator('//div[@class="arrowControl__e920 arrowControl"]').all()
+        col = 0
+        while col != len(elements):
+            self.click('//div[@class="arrowControl__e920 arrowControl"]')
+            col += 1
 
     def get_quantity_elements(self, locator):
         """Получить количество элементов"""
