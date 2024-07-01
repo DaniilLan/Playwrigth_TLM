@@ -192,72 +192,71 @@ class TestPageUsers:
     #         page_users.wait_for_element_visible(page_users.GeneralLocators.NOTIFICATION_ALL)
 
     # class TestChangeProfile:
-
-    # @staticmethod
-    # @pytest.mark.parametrize('mail', [mail_lan_doc])
-    # @pytest.mark.parametrize('password', [password_all])
-    # @pytest.mark.parametrize('body_input', [[Loc.PageUsers.INPUT_CHANGE_F,
-    #                                          Loc.PageUsers.INPUT_CHANGE_I,
-    #                                          Loc.PageUsers.INPUT_CHANGE_MAIL,
-    #                                          Loc.PageUsers.INPUT_CHANGE_PHONE]])
-    # @pytest.mark.parametrize('placeholder_input', [[Loc.PageUsers.PLACEHOLDER_CHANGE_F,
-    #                                                 Loc.PageUsers.PLACEHOLDER_CHANGE_I,
-    #                                                 Loc.PageUsers.PLACEHOLDER_CHANGE_MAIL,
-    #                                                 Loc.PageUsers.PLACEHOLDER_CHANGE_PHONE]])
-    # def test_empty_input_change_profile(page_users, mail, password, body_input, placeholder_input):
-    #     page_users.login_users(page_users, mail, password)
-    #     page_users.click(page_users.PageUsers.NAME_PROFILE)
-    #     page_users.click(page_users.PageUsers.BUTTON_CHANGE_PROFILE)
-    #     page_users.clear_inputs(body_input)
-    #     page_users.click(page_users.PageUsers.BUTTON_SAVE_PROFILE)
-    #     page_users.expect_invalid_input_color(placeholder_input, body_input)
-    #     text_notif = page_users.get_texts(page_users.GeneralLocators.NOTIFICATION_ALL)
-    #     assert text_notif == "Ошибка при изменении пользователя"
-    #     page_users.wait_until_visible_elements(page_users.GeneralLocators.NOTIFICATION_ALL)
-
-    # @staticmethod
-    # @pytest.mark.parametrize('mail', [mail_lan_doc])
-    # @pytest.mark.parametrize('password', [password_all])
-    # @pytest.mark.parametrize('body_input', [[Loc.PageUsers.INPUT_CHANGE_F,
-    #                                          Loc.PageUsers.INPUT_CHANGE_I,
-    #                                          Loc.PageUsers.INPUT_CHANGE_MAIL,
-    #                                          Loc.PageUsers.INPUT_CHANGE_PHONE]])
-    # @pytest.mark.parametrize('placeholder_input', [[Loc.PageUsers.PLACEHOLDER_CHANGE_F,
-    #                                                 Loc.PageUsers.PLACEHOLDER_CHANGE_I,
-    #                                                 Loc.PageUsers.PLACEHOLDER_CHANGE_MAIL,
-    #                                                 Loc.PageUsers.PLACEHOLDER_CHANGE_PHONE]])
-    # def test_color_input_change_profile(page_users, mail, password, body_input, placeholder_input):
-    #     page_users.login_users(page_users, mail, password)
-    #     page_users.click(page_users.PageUsers.NAME_PROFILE)
-    #     page_users.click(page_users.PageUsers.BUTTON_CHANGE_PROFILE)
-    #     page_users.clear_inputs(body_input)
-    #     page_users.click(page_users.PageUsers.BUTTON_SAVE_PROFILE)
-    #     page_users.expect_invalid_input_color(placeholder_input, body_input)
-    #     page_users.wait_until_visible_elements(page_users.GeneralLocators.NOTIFICATION_ALL)
-
-    # @staticmethod
-    # @pytest.mark.parametrize('mail', [mail_lan_doc])
-    # @pytest.mark.parametrize('password', [password_all])
-    # @pytest.mark.parametrize('button_close', [Loc.PageUsers.BUTTON_CLOSE_CHANGE_PROFILE,
-    #                                           Loc.PageUsers.BUTTON_X_CHANGE_PROFILE])
-    # def test_close_change_profile(page_users, mail, password, button_close):
-    #     page_users.login_users(page_users, mail, password)
-    #     page_users.click(page_users.PageUsers.NAME_PROFILE)
-    #     page_users.click(page_users.PageUsers.BUTTON_CHANGE_PROFILE)
-    #     page_users.click(button_close)
-    #     page_users.expect_not_visible_elements(page_users.PageUsers.WINDOW_CHANGE_PROFILE)
+    #
+    #     @staticmethod
+    #     @pytest.mark.parametrize('mail', [mail_lan_doc])
+    #     @pytest.mark.parametrize('password', [password_all])
+    #     @pytest.mark.parametrize('body_input', [[Loc.PageUsers.INPUT_CHANGE_F,
+    #                                              Loc.PageUsers.INPUT_CHANGE_I,
+    #                                              Loc.PageUsers.INPUT_CHANGE_MAIL,
+    #                                              Loc.PageUsers.INPUT_CHANGE_PHONE]])
+    #     @pytest.mark.parametrize('placeholder_input', [[Loc.PageUsers.PLACEHOLDER_CHANGE_F,
+    #                                                     Loc.PageUsers.PLACEHOLDER_CHANGE_I,
+    #                                                     Loc.PageUsers.PLACEHOLDER_CHANGE_MAIL,
+    #                                                     Loc.PageUsers.PLACEHOLDER_CHANGE_PHONE]])
+    #     def test_empty_input_change_profile(page_users, mail, password, body_input, placeholder_input):
+    #         page_users.login_users(page_users, mail, password)
+    #         page_users.click(page_users.PageUsers.NAME_PROFILE)
+    #         page_users.click(page_users.PageUsers.BUTTON_CHANGE_PROFILE)
+    #         page_users.clear_inputs(body_input)
+    #         page_users.click(page_users.PageUsers.BUTTON_SAVE_PROFILE)
+    #         text_notif = page_users.get_texts(page_users.GeneralLocators.NOTIFICATION_ALL)
+    #         assert text_notif == "Ошибка при изменении пользователя"
+    #         page_users.wait_until_visible_elements(page_users.GeneralLocators.NOTIFICATION_ALL)
+    #
+    #     @staticmethod
+    #     @pytest.mark.parametrize('mail', [mail_lan_doc])
+    #     @pytest.mark.parametrize('password', [password_all])
+    #     @pytest.mark.parametrize('body_input', [[Loc.PageUsers.INPUT_CHANGE_F,
+    #                                              Loc.PageUsers.INPUT_CHANGE_I,
+    #                                              Loc.PageUsers.INPUT_CHANGE_MAIL,
+    #                                              Loc.PageUsers.INPUT_CHANGE_PHONE]])
+    #     @pytest.mark.parametrize('placeholder_input', [[Loc.PageUsers.PLACEHOLDER_CHANGE_F,
+    #                                                     Loc.PageUsers.PLACEHOLDER_CHANGE_I,
+    #                                                     Loc.PageUsers.PLACEHOLDER_CHANGE_MAIL,
+    #                                                     Loc.PageUsers.PLACEHOLDER_CHANGE_PHONE]])
+    #     def test_color_required_field_change_profile(page_users, mail, password, body_input, placeholder_input):
+    #         page_users.login_users(page_users, mail, password)
+    #         page_users.click(page_users.PageUsers.NAME_PROFILE)
+    #         page_users.click(page_users.PageUsers.BUTTON_CHANGE_PROFILE)
+    #         page_users.clear_inputs(body_input)
+    #         page_users.click(page_users.PageUsers.BUTTON_SAVE_PROFILE)
+    #         page_users.expect_invalid_input_color(placeholder_input, body_input)
+    #         page_users.wait_until_visible_elements(page_users.GeneralLocators.NOTIFICATION_ALL)
+    #
+    #     @staticmethod
+    #     @pytest.mark.parametrize('mail', [mail_lan_doc])
+    #     @pytest.mark.parametrize('password', [password_all])
+    #     @pytest.mark.parametrize('button_close', [Loc.PageUsers.BUTTON_CLOSE_CHANGE_PROFILE,
+    #                                               Loc.PageUsers.BUTTON_X_CHANGE_PROFILE])
+    #     def test_close_change_profile(page_users, mail, password, button_close):
+    #         page_users.login_users(page_users, mail, password)
+    #         page_users.click(page_users.PageUsers.NAME_PROFILE)
+    #         page_users.click(page_users.PageUsers.BUTTON_CHANGE_PROFILE)
+    #         page_users.click(button_close)
+    #         page_users.expect_not_visible_elements(page_users.PageUsers.WINDOW_CHANGE_PROFILE)
 
     class TestAddUsers:
 
         @staticmethod
         @pytest.mark.parametrize('mail', [mail_doc])
         @pytest.mark.parametrize('password', [password_all])
-        def test_valid_add_user_empty_input(page_users, mail, password):
+        def test_valid_add_user_required_field(page_users, mail, password):
             page_users.login_users(page_users, mail, password)
             page_users.click(page_users.PageUsers.BUTTON_ADD_USERS)
             page_users.fill_text(page_users.PageUsers.INPUT_ADD_USER_F, random_fio('F'))
             page_users.fill_text(page_users.PageUsers.INPUT_ADD_USER_I, random_fio('I'))
-            page_users.fill_text(page_users.PageUsers.INPUT_ADD_USER_DATA, '01011900')
+            page_users.fill_text(page_users.PageUsers.INPUT_ADD_USER_DATA, random_data())
             page_users.click(page_users.PageUsers.INPUT_ADD_USER_ORG)
             page_users.open_dropdown_organization()
             page_users.click('//div[@title="Тестовый ФАП ЦРБ 2"]')
@@ -267,16 +266,35 @@ class TestPageUsers:
             assert page_users.get_texts(notification) == "Пользователь успешно добавленДиагнозы успешно изменены"
             page_users.expect_visible_elements(page_users.PageUsers.DIV_SUCCESSFULLY_CREATED)
             page_users.wait_until_visible_elements(notification)
+        #
+        # @staticmethod
+        # @pytest.mark.parametrize('mail', [mail_doc])
+        # @pytest.mark.parametrize('password', [password_all])
+        # def test_valid_add_user_all_field(page_users, mail, password):
+        #     page_users.login_users(page_users, mail, password)
+        #     page_users.click(page_users.PageUsers.BUTTON_ADD_USERS)
+        #     page_users.fill_text(page_users.PageUsers.INPUT_ADD_USER_F, random_fio('F'))
+        #     page_users.fill_text(page_users.PageUsers.INPUT_ADD_USER_I, random_fio('I'))
+        #     page_users.fill_text(page_users.PageUsers.INPUT_ADD_USER_DATA, random_data())
+        #     page_users.click(page_users.PageUsers.INPUT_ADD_USER_ORG)
+        #     page_users.open_dropdown_organization()
+        #     page_users.click('//div[@title="Тестовый ФАП ЦРБ 2"]')
+        #     page_users.click(page_users.PageUsers.BUTTON_ADD_USER_IN_WINDOW)
+        #     notification = page_users.GeneralLocators.NOTIFICATION_ALL
+        #     page_users.wait_visible_elements(notification)
+        #     assert page_users.get_texts(notification) == "Пользователь успешно добавленДиагнозы успешно изменены"
+        #     page_users.expect_visible_elements(page_users.PageUsers.DIV_SUCCESSFULLY_CREATED)
+        #     page_users.wait_until_visible_elements(notification)
 
-                                                                # @staticmethod
-                                                                # @pytest.mark.parametrize('mail', [mail_adm, mail_doc])
-                                                                # @pytest.mark.parametrize('password', [password_all])
-                                                                # @pytest.mark.parametrize('input', [Loc.PageUsers.IN])
-                                                                # def test_invalid_add_user_empty_input(page_users, mail, password):
-                                                                #     page_users.login_users(mail, password)
-                                                                #     page_users.click(page_users.PageUsers.BUTTON_ADD_USERS)
-                                                                #     page_users.fill_text()
-
+    #                                                             @staticmethod
+    #                                                             @pytest.mark.parametrize('mail', [mail_adm, mail_doc])
+    #                                                             @pytest.mark.parametrize('password', [password_all])
+    #                                                             @pytest.mark.parametrize('input', [Loc.PageUsers.IN])
+    #                                                             def test_invalid_add_user_empty_input(page_users, mail, password):
+    #                                                                 page_users.login_users(mail, password)
+    #                                                                 page_users.click(page_users.PageUsers.BUTTON_ADD_USERS)
+    #                                                                 page_users.fill_text()
+    #
     # @staticmethod
     # @pytest.mark.parametrize('mail', [mail_lan_doc])
     # @pytest.mark.parametrize('password', [password_all])
@@ -288,7 +306,7 @@ class TestPageUsers:
     #                                                 Loc.PageUsers.PLACEHOLDER_ADD_USER_I,
     #                                                 Loc.PageUsers.PLACEHOLDER_ADD_USER_DATA,
     #                                                 Loc.PageUsers.PLACEHOLDER_ADD_USER_ORG]])
-    # def test_color_input_add_user(page_users, mail, password, body_input, placeholder_input):
+    # def test_color_required_field_add_user(page_users, mail, password, body_input, placeholder_input):
     #     page_users.login_users(page_users, mail, password)
     #     page_users.click(page_users.PageUsers.BUTTON_ADD_USERS)
     #     page_users.click(page_users.PageUsers.BUTTON_ADD_USER_IN_WINDOW)

@@ -68,4 +68,10 @@ def random_fio(value='I'):
         return str(patronymic[1])
 
 
-print(random_fio())
+def random_data():
+    month = str(random.randint(1, 12)).zfill(2)
+    day = str(random.randint(1, 28)).zfill(2) if month == '02' else str(random.randint(1, 31)).zfill(2)
+    year = str(random.randint(1900, 2024))
+    date = day + month + year
+    return date
+

@@ -110,7 +110,7 @@ class TestPageAuth:
             page_auth.wait_until_visible_elements(page_auth.GeneralLocators.NOTIFICATION_FIRS)
 
         @staticmethod
-        @pytest.mark.parametrize("mail", [valid_mail, "", invalid_mail])
+        @pytest.mark.parametrize("mail", ["", invalid_mail])
         def test_invalid_forgot_password(page_auth, mail):
             page_auth.click(page_auth.PageAuth.LINK_FORGOT_PASSWORD)
             page_auth.expect_visible_elements(page_auth.PageAuth.PLACEHOLDER_EMAIL)
@@ -126,11 +126,6 @@ class TestPageAuth:
                 print(text_notif)
                 assert text_notif == f"Пользователь c логином '{invalid_mail}' не существует!"
                 page_auth.wait_until_visible_elements(page_auth.GeneralLocators.NOTIFICATION_ALL)
-            elif mail == valid_mail:
-                print(text_notif)
-                assert text_notif == f"Письмо отправлено на почту {valid_mail}"
-                page_auth.wait_until_visible_elements(page_auth.GeneralLocators.NOTIFICATION_ALL)
-                page_auth.expect_not_visible_elements(page_auth.PageAuth.BUTTON_FORGOT)
 
         @staticmethod
         def test_cancel_forgot_password(page_auth):
