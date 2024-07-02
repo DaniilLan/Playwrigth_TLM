@@ -137,6 +137,7 @@ class MethodsPageUsers:
         element.evaluate('(element) => { element.style.maxHeight = "none"; }')
 
     def open_dropdown_organization(self):
+        """Раскрыть все видимые организации в поле 'Организации' при добавлении пользователя"""
         elements = self.page.locator('//div[@class="arrowControl__e920 arrowControl"]').all()
         col = 0
         while col != len(elements):

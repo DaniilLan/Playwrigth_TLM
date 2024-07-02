@@ -107,7 +107,7 @@ class TestPageAuth:
             page_auth.expect_visible_elements(page_auth.PageAuth.PLACEHOLDER_EMAIL)
             page_auth.fill_text(page_auth.PageAuth.INPUT_MAIL, "landan2001@mail.ru")
             page_auth.click(page_auth.PageAuth.BUTTON_FORGOT)
-            page_auth.wait_until_visible_elements(page_auth.GeneralLocators.NOTIFICATION_FIRS)
+            page_auth.wait_until_visible_elements(page_auth.GeneralLocators.NOTIFICATION_ALL)
 
         @staticmethod
         @pytest.mark.parametrize("mail", ["", invalid_mail])

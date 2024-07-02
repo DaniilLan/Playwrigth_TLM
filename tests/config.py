@@ -32,7 +32,7 @@ valid_mail = 'landan2001@mail.ru'
 
 
 def random_phone():
-    """Строка из 10 рандомных цифр без - 9276013854 (пример)"""
+    """Создание нмоера-телефона из 10 рандомных цифр без +7 (пример - 9276013854)"""
     numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     random.shuffle(numbers)
     numbers_str = ''
@@ -42,7 +42,9 @@ def random_phone():
 
 
 def random_fio(value='I'):
-    """Указать в параметре нужное значение ФИО.
+    """Создание рандомого ФИО
+
+    Указать в параметре нужное значение ФИО.
 
     'FIO' - верентся ФИО *По умолчанию
 
@@ -71,6 +73,7 @@ def random_fio(value='I'):
 
 
 def random_data():
+    """Создание рандомной даты (пример - 03072001)"""
     month = str(random.randint(1, 12)).zfill(2)
     day = str(random.randint(1, 28)).zfill(2) if month == '02' else str(random.randint(1, 31)).zfill(2)
     year = str(random.randint(1900, 2024))
@@ -79,11 +82,13 @@ def random_data():
 
 
 def random_height_weight():
+    """Создание рандомного числа для полей 'Рост/Вес'"""
     height_weight = str(random.randint(1, 250))
     return height_weight
 
 
 def random_mail():
+    """Создание рандомного mail"""
     mail = ''.join(random.choice(string.ascii_letters) for _ in range(8)) + str(random.randint(1, 1000)) + "@gmail.com"
     return mail
 
