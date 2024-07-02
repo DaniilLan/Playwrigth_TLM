@@ -1,5 +1,6 @@
 import random
 from russian_names import RussianNames
+import string
 
 url_auth_test = 'http://192.168.7.221:8081/'
 url_users_test = 'http://192.168.7.221:8081/users'
@@ -56,16 +57,17 @@ def random_fio(value='I'):
     if value == 'FIO':
         fio = fio.split()
         fio = fio[2]+' '+fio[0]+' '+fio[1]
-        return str(fio)
+        fio = str(fio)
     elif value == 'I':
         firstname = fio.split()
-        return str(firstname[0])
+        fio = str(firstname[0])
     elif value == 'F':
         lastname = fio.split()
-        return str(lastname[2])
+        fio = str(lastname[2])
     elif value == "O":
         patronymic = fio.split()
-        return str(patronymic[1])
+        fio = str(patronymic[1])
+    return fio
 
 
 def random_data():
@@ -74,4 +76,15 @@ def random_data():
     year = str(random.randint(1900, 2024))
     date = day + month + year
     return date
+
+
+def random_height_weight():
+    height_weight = str(random.randint(1, 250))
+    return height_weight
+
+
+def random_mail():
+    mail = ''.join(random.choice(string.ascii_letters) for _ in range(8)) + str(random.randint(1, 1000)) + "@gmail.com"
+    return mail
+
 

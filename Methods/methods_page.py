@@ -192,12 +192,19 @@ class MethodsPageUsers:
                 element.clear()
 
     @staticmethod
-    def api_get_access_token_adm():
-        """Авторизация под админом с последующим получаением токена"""
+    def api_get_access_token_adm(org_id=100):
+        """Авторизация под админом определенной организации с последующим получаением токена"""
+        mail_admin = ''
         url = f"http://192.168.7.221:5001/api/v4/Users/Login"
+        if org_id == 100:
+            mail_admin = mails_adm[0]
+        elif org_id == 101:
+            mail_admin = mails_adm[1]
+        elif (org_id == 102) or (org_id == 103):
+            mail_admin = mails_adm[2]
         payload = {
-            "email": mail_adm,
-            "username": mail_adm,
+            "email": mail_admin,
+            "username": mail_admin,
             "password": password_all
         }
         response = requests.post(url, json=payload)
@@ -212,8 +219,10 @@ class MethodsPageUsers:
             print("Доп инфа:", response.text)
 
     @staticmethod
-    def api_create_doctor(mail, password, access_token):
-        """Создание пользователя(doctor)"""
+    def api_create_doctor(mail, password, access_token, org_id=100):
+        """Создание пользователя(doctor) под ролью 'Врач / Телемед.центр'
+
+        По умолчанию orgId - 100"""
         url = "http://192.168.7.221:5001/api/v4/Users/Register"
         payload = {
           "firstName": "Тестовт",
@@ -226,7 +235,7 @@ class MethodsPageUsers:
           "phone": "3123123123",
           "birthDate": "2001-06-06T12:19:32.884Z",
           "sex": "male",
-          "orgId": 100,
+          "orgId": org_id,
           "role": "doctor",
           "id": 0
         }

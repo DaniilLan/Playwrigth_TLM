@@ -191,13 +191,23 @@ class Locators(MethodsPageUsers):
 
         INPUT_ADD_USER_I = '//html/body/div[2]/div/div[2]/form/div[1]/div[2]/div/input'
 
+        INPUT_ADD_USER_O = '//html/body/div[2]/div/div[2]/form/div[1]/div[3]/div/input'
+
         INPUT_ADD_USER_DATA = '//html/body/div[2]/div/div[2]/form/div[1]/div[4]/div/div/div/div/input'
+
+        INPUT_ADD_USER_HEIGHT = '//html/body/div[2]/div/div[2]/form/div[1]/div[6]/div/input'
+
+        INPUT_ADD_USER_WEIGHT = '//html/body/div[2]/div/div[2]/form/div[1]/div[7]/div/input'
 
         INPUT_ADD_USER_MAIL = '//html/body/div[2]/div/div[2]/form/div[1]/div[8]/div/input'
 
         INPUT_ADD_USER_PHONE = '//html/body/div[2]/div/div[2]/form/div[1]/div[9]/div/input'
 
         INPUT_ADD_USER_ORG = '//html/body/div[2]/div/div[2]/form/div[1]/div[11]/div/div/div/input'
+
+        INPUT_ADD_USER_DIAGNOSES = '//html/body/div[2]/div/div[2]/form/div[1]/div[12]/div/div'
+
+        INPUT_ADD_USER_DIAGNOSES_CHOOSE_ALL = '//html/body/div[3]/div/div[2]/div[1]'
 
         PLACEHOLDER_ADD_USER_F = "//div[@data-locator='WrapModal']//label[text()='Фамилия']"
 
@@ -212,6 +222,20 @@ class Locators(MethodsPageUsers):
         PLACEHOLDER_ADD_USER_MAIL = "//div[@data-locator='WrapModal']//label[text()='E-mail']"
 
         DIV_SUCCESSFULLY_CREATED = '//div[@data-locator="credentialUser"]'
+
+        ORG_TELCENT = '//div[@title="Тестовый ФАП ЦРБ 2"]'
+
+        ORG_TELCENT_AMBULANCE = '//div[@title="Скорая помощь"]'
+
+        ORG_TELCENT_AMBULANCE_CRB1 = '//div[@title="Тестовая организация (ЦРБ) №1"]'
+
+        ORG_TELCENT_AMBULANCE_CRB1_FAP1 = '//div[@title="Тестовый ФАП №1"]'
+
+        ORG_TELCENT_AMBULANCE_CRB1_FAP2 = '//div[@title="Тестовый 2 ФАП"]'
+
+        ORG_TELCENT_AMBULANCE_CRB2 = '//div[@title="Тестовая организация ФАП ЦРБ 2"]'
+
+        ORG_TELCENT_AMBULANCE_CRB2_FAP2 = '//div[@title="Тестовый ФАП ЦРБ 2"]'
 
     class PageAllMeasurements:
 
