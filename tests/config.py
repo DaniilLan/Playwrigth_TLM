@@ -41,7 +41,7 @@ def random_phone():
     return numbers_str
 
 
-def random_fio(value='I'):
+def random_fio(value='FIO'):
     """Создание рандомого ФИО
 
     Указать в параметре нужное значение ФИО.
