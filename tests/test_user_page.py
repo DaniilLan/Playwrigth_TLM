@@ -1,6 +1,7 @@
 from tests.config import *
 import time
 import pytest
+from conftest import *
 import json
 from playwright.sync_api import Route
 from PageLocators.locators import Locators as Loc
@@ -249,7 +250,7 @@ class TestPageUsers:
     class TestAddUsers:
 
         @staticmethod
-        @pytest.mark.parametrize('mail', ['mailtest@mail.ru'])
+        @pytest.mark.parametrize('mail', [random_mail()])
         @pytest.mark.parametrize('org_id', [100, 101, 102, 103])
         @pytest.mark.parametrize('password', [password_all])
         def test_valid_add_doctor_required_field(page_users, mail, password, org_id):
