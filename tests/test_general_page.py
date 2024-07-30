@@ -17,7 +17,7 @@ class TestGeneralElements:
     def test_general_elements(page_general, elements, url):
         page_general.open(url)
         if url is url_users_test:
-            page_general.login_users(page_general, "adm@adm.com", "12345678")
+            page_general.login_users(page_general, "m", "1")
         page_general.expect_visible_elements(elements)
 
     @staticmethod
