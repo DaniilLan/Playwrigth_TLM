@@ -2,11 +2,11 @@ import random
 from russian_names import RussianNames
 import string
 
-url_auth_test = 'http://192.168.7.221:8081/'
-url_users_test = 'http://192.168.7.221:8081/users'
-url_allm_test = 'http://192.168.7.221:8081/all-measurements'
-url_help_test = 'http://192.168.7.221:8081/help'
-url_support_test = 'http://192.168.7.221:8081/support'
+url_auth_test = 'http://1928081/'
+url_users_test = 'http://181/users'
+url_allm_test = 'http://192./all-measurements'
+url_help_test = 'http://192:8081/help'
+url_support_test = 'http://192.181/support'
 
 list_url_test = [url_support_test, url_help_test, url_auth_test, url_users_test]
 
