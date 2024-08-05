@@ -32,7 +32,7 @@ class TestPageUsers:
     @pytest.mark.parametrize('locator', [Loc.PageUsers.BUTTON_HEADER_USERS,
                                          Loc.PageUsers.BUTTON_HEADER_ALLMS,
                                          Loc.PageUsers.BUTTON_HEADER_MEETING,
-                                         Loc.PageUsers.BUTTON_ADD_USER,
+                                         Loc.PageUsers.BUTTON_ADD_USERS,
                                          Loc.PageUsers.BELL])
     def test_button_role_doc(page_users, mail, password, locator):
         page_users.login_users(page_users, mail, password)
@@ -76,7 +76,6 @@ class TestPageUsers:
     #     bot = re.split("из ", pag_quantity)
     #     assert bot[1] in top 2
 
-
     class TestPagination:
 
         @staticmethod
@@ -86,13 +85,13 @@ class TestPageUsers:
                                            Loc.PageUsers.PAGINATION_50,
                                            Loc.PageUsers.PAGINATION_100,
                                            Loc.PageUsers.PAGINATION_150])
-        def test_quantity_user_limit(page, limit, mail, password):
-            page.login_users(page, mail, password)
-            page.click(limit)
-            quantity_pagination = page.get_text(limit)
-            quantity_users = page.get_quantity_elements(page.PageUsers.USERS_LIST)
+        def test_quantity_user_limit(page_users, limit, mail, password):
+            page_users.login_users(page_users, mail, password)
+            page_users.click(limit)
+            quantity_pagination = page_users.get_text(limit)
+            quantity_users = page_users.get_quantity_elements(page_users.PageUsers.USERS_LIST)
             assert quantity_users == int(quantity_pagination)
-            page.click(page.PageUsers.BUTTON_HEADER_ALLMS)
+            page_users.click(page_users.PageUsers.BUTTON_HEADER_ALLMS)
 
     # class TestChangePassword:
     #

@@ -196,7 +196,7 @@ class MethodsPageUsers:
     def api_get_access_token_adm(org_id=100):
         """Авторизация под админом определенной организации с последующим получаением токена"""
         mail_admin = ''
-        url = f"http://s/Login"
+        url = f"http://192.168.7.221:5001/api/v4/Users/Login"
         if org_id == 100:
             mail_admin = mails_adm[0]
         elif org_id == 101:
@@ -224,9 +224,21 @@ class MethodsPageUsers:
         """Создание пользователя(doctor) под ролью 'Врач / Телемед.центр'
 
         По умолчанию orgId - 100"""
-        url = "http://1gister"
+        url = "http://192.168.7.221:5001/api/v4/Users/Register"
         payload = {
-          "firstName": "Тестовт"
+          "firstName": "Тестовт",
+          "lastName": "Тестовт",
+          "middleName": "Тестович",
+          "height": 0,
+          "weight": 0,
+          "email": mail,
+          "password": password,
+          "phone": "3123123123",
+          "birthDate": "2001-06-06T12:19:32.884Z",
+          "sex": "male",
+          "orgId": org_id,
+          "role": "doctor",
+          "id": 0
         }
         headers = {
             "Authorization": f"Bearer {access_token}"
@@ -244,8 +256,22 @@ class MethodsPageUsers:
 
     # @staticmethod
     # def api_create_admin(mail, password, access_token):
-    #     url = "httrs/Register"
-    #     payload = {''}
+    #     url = "http://192.168.7.221:5001/api/v4/Users/Register"
+    #     payload = {
+    #       "firstName": "Тестовт",
+    #       "lastName": "Тестовт",
+    #       "middleName": "Тестович",
+    #       "height": 0,
+    #       "weight": 0,
+    #       "email": mail,
+    #       "password": password,
+    #       "phone": "3123123123",
+    #       "birthDate": "2001-06-06T12:19:32.884Z",
+    #       "sex": "male",
+    #       "orgId": 100,
+    #       "role": "admin",
+    #       "id": 0
+    #     }
     #     headers = {
     #         "Authorization": f"Bearer {access_token}"
     #     }
@@ -263,7 +289,7 @@ class MethodsPageUsers:
     @staticmethod
     def api_delete_user(id_user: int, access_token):
         """Удаление пользователя по id_user"""
-        url = f"hrs({id_user})"
+        url = f"http://192.168.7.221:5001/api/v4/Users({id_user})"
         headers = {
             "Authorization": f"Bearer {access_token}"
         }
