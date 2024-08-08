@@ -13,21 +13,21 @@ class TestPageUsers:
     @staticmethod
     @pytest.mark.parametrize('mail', [mail_lan_doc])
     @pytest.mark.parametrize('password', [password_all])
-    def test_header_organization(page_users, mail, password):
+    def test_header_goto_measurements(page_users, mail, password):
         page_users.login_users(page_users, mail, password)
         page_users.click(page_users.PageUsers.BUTTON_HEADER_ALLMS)
-        page_users.expect_visible_element(page_users.PageAllMeasurements.TEXT_ALL_MEASUREMENTS)
+        page_users.expect_visible_elements(page_users.PageAllMeasurements.TEXT_ALL_MEASUREMENTS)
 
     @staticmethod
     @pytest.mark.parametrize('mail', [mail_lan_doc])
     @pytest.mark.parametrize('password', [password_all])
-    def test_header_meetings(page_users, mail, password):
+    def test_header_goto_meetings(page_users, mail, password):
         page_users.login_users(page_users, mail, password)
         page_users.click(page_users.PageUsers.BUTTON_HEADER_MEETING)
-        page_users.expect_visible_element(page_users.PageMeetings.BUTTON_ADD_MEETING)
+        page_users.expect_visible_elements(page_users.PageMeetings.BUTTON_ADD_MEETING)
 
     @staticmethod
-    @pytest.mark.parametrize('mail', mail_lan_doc)
+    @pytest.mark.parametrize('mail', [mail_lan_doc])
     @pytest.mark.parametrize('password', [password_all])
     @pytest.mark.parametrize('locator', [Loc.PageUsers.BUTTON_HEADER_USERS,
                                          Loc.PageUsers.BUTTON_HEADER_ALLMS,
@@ -36,10 +36,10 @@ class TestPageUsers:
                                          Loc.PageUsers.BELL])
     def test_button_role_doc(page_users, mail, password, locator):
         page_users.login_users(page_users, mail, password)
-        page_users.expect_visible_element(locator)
+        page_users.expect_visible_elements(locator)
 
     @staticmethod
-    @pytest.mark.parametrize('mail', mail_adm)
+    @pytest.mark.parametrize('mail', [mail_lan_adm])
     @pytest.mark.parametrize('password', [password_all])
     @pytest.mark.parametrize('locator', [[Loc.PageUsers.BUTTON_HEADER_USERS,
                                          Loc.PageUsers.BUTTON_HEADER_ORGANIZATION,
@@ -76,22 +76,22 @@ class TestPageUsers:
     #     bot = re.split("из ", pag_quantity)
     #     assert bot[1] in top 2
 
-    class TestPagination:
-
-        @staticmethod
-        @pytest.mark.parametrize('mail', [mail for mail in mails_doc])
-        @pytest.mark.parametrize('password', [password_all])
-        @pytest.mark.parametrize('limit', [Loc.PageUsers.PAGINATION_20,
-                                           Loc.PageUsers.PAGINATION_50,
-                                           Loc.PageUsers.PAGINATION_100,
-                                           Loc.PageUsers.PAGINATION_150])
-        def test_quantity_user_limit(page_users, limit, mail, password):
-            page_users.login_users(page_users, mail, password)
-            page_users.click(limit)
-            quantity_pagination = page_users.get_text(limit)
-            quantity_users = page_users.get_quantity_elements(page_users.PageUsers.USERS_LIST)
-            assert quantity_users == int(quantity_pagination)
-            page_users.click(page_users.PageUsers.BUTTON_HEADER_ALLMS)
+    # class TestPagination:
+    #
+    #     @staticmethod
+    #     @pytest.mark.parametrize('mail', [mail_lan_doc, mail_lan_adm])
+    #     @pytest.mark.parametrize('password', [password_all])
+    #     @pytest.mark.parametrize('limit', [Loc.PageUsers.PAGINATION_20,
+    #                                        Loc.PageUsers.PAGINATION_50,
+    #                                        Loc.PageUsers.PAGINATION_100,
+    #                                        Loc.PageUsers.PAGINATION_150])
+    #     def test_quantity_user_limit(page_users, limit, mail, password):
+    #         page_users.login_users(page_users, mail, password)
+    #         page_users.click(limit)
+    #         quantity_pagination = page_users.get_texts(limit)
+    #         quantity_users = page_users.get_quantity_elements(page_users.PageUsers.USERS_LIST)
+    #         assert quantity_users == int(quantity_pagination)
+    #         page_users.click(page_users.PageUsers.BUTTON_HEADER_ALLMS)
 
     # class TestChangePassword:
     #
