@@ -139,11 +139,15 @@ class Locators(MethodsPageUsers):
 
         FILTER_INPUT_BOXS = '//div/div/input'
 
-        FILTER_DROPDOWN_GENDER = 'div[class="selectContainer selectContainer__e7c6"]'
+        FILTER_DROPDOWN_GENDER = '//div[@class="filterForm__PexX"]/div[@class="Dropdown productTheme Dropdown__d478"]'
+
+        FILTER_CONTAINER_GENDER = '//html/body/div[2]/ul'
 
         FILTER_DROPDOWN_ROLE = '//div[2]/main/div/div[2]/div[1]/div/div/div/div[7]/div/div/div'
 
-        FILTER_DROPDOWN_ORGANIZATION = '//div[@class="HeaderTitle HeaderTitle__a637"]/div[@data-locator="multiSelectInput"]'
+        FILTER_DROPDOWN_ORG = '//div[@class="HeaderTitle HeaderTitle__a637"]/div[@data-locator="multiSelectInput"]'
+
+        FILTER_CONTAINER_ORG_ROLE = '//html/body/div[2]/div'
 
         PAGINATION_20 = '//div[@class="limitsList__IzFN"]/span[1]'
 

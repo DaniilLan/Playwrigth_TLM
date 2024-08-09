@@ -300,3 +300,5 @@ class MethodsPageUsers:
             print("Что-то прилетело с запросом.")
             print("Статус код:", response.status_code)
             print("Доп инфа:", response.text)
+
+
