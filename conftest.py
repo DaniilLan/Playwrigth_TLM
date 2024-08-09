@@ -8,7 +8,7 @@ from tests.config import *
 @pytest.fixture()
 def main_page():
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False, slow_mo=300)
+        browser = p.chromium.launch(headless=True, slow_mo=300)
         context = browser.new_context(viewport={"width": 1920, "height": 1080})
         page = context.new_page()
         page = Locators(page)
