@@ -223,19 +223,19 @@ class Locators(MethodsPageUsers):
 
         DIV_SUCCESSFULLY_CREATED = '//div[@data-locator="credentialUser"]'
 
-        ORG_TELCENT = '//div[@title="Тестовый ФАП ЦРБ 2"]'
+        ORG_TELCENTR = '//div[@title="Тестовый ФАП ЦРБ 2"]'
 
-        ORG_TELCENT_AMBULANCE = '//div[@title="Скорая помощь"]'
+        ORG_TELCENTR_AMBULANCE = '//div[@title="Скорая помощь"]'
 
-        ORG_TELCENT_AMBULANCE_CRB1 = '//div[@title="Тестовая организация (ЦРБ) №1"]'
+        ORG_TELCENTR_AMBULANCE_CRB1 = '//div[@title="Тестовая организация (ЦРБ) №1"]'
 
-        ORG_TELCENT_AMBULANCE_CRB1_FAP1 = '//div[@title="Тестовый ФАП №1"]'
+        ORG_TELCENTR_AMBULANCE_CRB1_FAP1 = '//div[@title="Тестовый ФАП №1"]'
 
-        ORG_TELCENT_AMBULANCE_CRB1_FAP2 = '//div[@title="Тестовый 2 ФАП"]'
+        ORG_TELCENTR_AMBULANCE_CRB1_FAP2 = '//div[@title="Тестовый 2 ФАП"]'
 
-        ORG_TELCENT_AMBULANCE_CRB2 = '//div[@title="Тестовая организация ФАП ЦРБ 2"]'
+        ORG_TELCENTR_AMBULANCE_CRB2 = '//div[@title="Тестовая организация ФАП ЦРБ 2"]'
 
-        ORG_TELCENT_AMBULANCE_CRB2_FAP2 = '//div[@title="Тестовый ФАП ЦРБ 2"]'
+        ORG_TELCENTR_AMBULANCE_CRB2_FAP2 = '//div[@title="Тестовый ФАП ЦРБ 2"]'
 
     class PageAllMeasurements:
 
