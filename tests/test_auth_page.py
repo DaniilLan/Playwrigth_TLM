@@ -25,35 +25,35 @@ class TestPageAuth:
     # def test_visible_elements(page_auth, elements):
     #     page_auth.expect_visible_elements(elements)
     #
-    # @staticmethod
-    # @pytest.mark.parametrize("mail", [valid_mail, "", invalid_mail])
-    # @pytest.mark.parametrize("password", ["", "123123", ])
-    # def test_invalid_auth(page_auth, mail, password):
-    #     page_auth.fill_text(page_auth.PageAuth.INPUT_MAIL, mail)
-    #     page_auth.fill_text(page_auth.PageAuth.INPUT_PASSWORD, password)
-    #     page_auth.click(page_auth.PageAuth.BUTTON_LOG)
-    #     page_auth.wait_visible_elements(page_auth.GeneralLocators.NOTIFICATION_ALL)
-    #     text_notif = page_auth.get_texts(page_auth.GeneralLocators.NOTIFICATION_ALL)
-    #     if (password == '') and (mail != ''):
-    #         print(text_notif)
-    #         assert text_notif == "Заполните полe 'Пароль'"
-    #         page_auth.wait_until_visible_elements(page_auth.GeneralLocators.NOTIFICATION_ALL)
-    #     elif (password != '') and (mail == ''):
-    #         print(text_notif)
-    #         assert text_notif == "Заполните полe 'E-mail'"
-    #         page_auth.wait_until_visible_elements(page_auth.GeneralLocators.NOTIFICATION_ALL)
-    #     elif (password == '') and (mail == ''):
-    #         print(text_notif)
-    #         assert text_notif == "Заполните полe 'E-mail'Заполните полe 'Пароль'"
-    #         page_auth.wait_until_visible_elements(page_auth.GeneralLocators.NOTIFICATION_ALL)
-    #     elif (mail == valid_mail) and (password != ''):
-    #         print(text_notif)
-    #         assert text_notif == "Неверный пароль!"
-    #         page_auth.wait_until_visible_elements(page_auth.GeneralLocators.NOTIFICATION_ALL)
-    #     elif (mail == invalid_mail) and (password == "123123"):
-    #         print(text_notif)
-    #         assert text_notif == "Имя пользователя или пароль не верные."
-    #         page_auth.wait_until_visible_elements(page_auth.GeneralLocators.NOTIFICATION_ALL)
+    @staticmethod
+    @pytest.mark.parametrize("mail", [valid_mail, "", invalid_mail])
+    @pytest.mark.parametrize("password", ["", "123123", ])
+    def test_invalid_auth(page_auth, mail, password):
+        page_auth.fill_text(page_auth.PageAuth.INPUT_MAIL, mail)
+        page_auth.fill_text(page_auth.PageAuth.INPUT_PASSWORD, password)
+        page_auth.click(page_auth.PageAuth.BUTTON_LOG)
+        page_auth.wait_visible_elements(page_auth.GeneralLocators.NOTIFICATION_ALL)
+        text_notif = page_auth.get_texts(page_auth.GeneralLocators.NOTIFICATION_ALL)
+        if (password == '') and (mail != ''):
+            print(text_notif)
+            assert text_notif == "Заполните полe 'Пароль'"
+            page_auth.wait_until_visible_elements(page_auth.GeneralLocators.NOTIFICATION_ALL)
+        elif (password != '') and (mail == ''):
+            print(text_notif)
+            assert text_notif == "Заполните полe 'E-mail'"
+            page_auth.wait_until_visible_elements(page_auth.GeneralLocators.NOTIFICATION_ALL)
+        elif (password == '') and (mail == ''):
+            print(text_notif)
+            assert text_notif == "Заполните полe 'E-mail'Заполните полe 'Пароль'"
+            page_auth.wait_until_visible_elements(page_auth.GeneralLocators.NOTIFICATION_ALL)
+        elif (mail == valid_mail) and (password != ''):
+            print(text_notif)
+            assert text_notif == "Неверный пароль!"
+            page_auth.wait_until_visible_elements(page_auth.GeneralLocators.NOTIFICATION_ALL)
+        elif (mail == invalid_mail) and (password == "123123"):
+            print(text_notif)
+            assert text_notif == "Имя пользователя или пароль не верные."
+            page_auth.wait_until_visible_elements(page_auth.GeneralLocators.NOTIFICATION_ALL)
     #
     # @staticmethod
     # def test_focus_input(page_auth):

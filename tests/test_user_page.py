@@ -5,6 +5,7 @@ import json
 from playwright.sync_api import Route
 from PageLocators.locators import Locators as Loc
 import re
+from conftest import *
 
 
 class TestPageUsers:

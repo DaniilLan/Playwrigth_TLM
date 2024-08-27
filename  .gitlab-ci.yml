@@ -1,0 +1,20 @@
+image: python:3.9
+
+stages:
+  - test
+
+local_tests:
+  stage: test
+  script:
+    - echo "Setting up environment"
+    - C:\Users\dlancov\Playwrigth_TLM\.venv\Scripts\python.exe -m venv venv  # Создание виртуальной среды
+    - C:\Users\dlancov\Playwrigth_TLM\.venv\Scripts\activate  # Активация виртуальной среды
+    - echo "Installing dependencies"
+    - C:\Users\dlancov\Playwrigth_TLM\.venv\Scripts\python.exe -m pip install --upgrade pip  # Обновление pip
+    - C:\Users\dlancov\Playwrigth_TLM\.venv\Scripts\python.exe -m pip install playwright  # Установка Playwright
+    - C:\Users\dlancov\Playwrigth_TLM\.venv\Scripts\python.exe -m playwright install  # Установка браузеров
+    - C:\Users\dlancov\Playwrigth_TLM\.venv\Scripts\python.exe -m pip install -r requirements.txt  # Установка зависимостей
+    - echo "Running tests"
+    - C:\Users\dlancov\Playwrigth_TLM\.venv\Scripts\python.exe -m pytest tests/test_auth_page.py -v  # Запуск тестов
+  tags:
+    - shell_local_test
