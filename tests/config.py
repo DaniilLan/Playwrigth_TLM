@@ -2,7 +2,7 @@ import random
 from russian_names import RussianNames
 import string
 
-url_auth_test = 'ht081/'
+url_auth_test = 'http://192.168.7.221:8085/'
 url_users_test = 'http:users'
 url_allm_test = 'ts'
 url_help_test = 'http:elp'
