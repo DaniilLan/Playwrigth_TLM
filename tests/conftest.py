@@ -1,10 +1,5 @@
-import time
 import pytest
-from playwright.sync_api import Page, Playwright, sync_playwright
-from PageLocators.locators import *
-from tests.config import *
 from Methods.methods_page import *
-
 
 @pytest.fixture()
 def main_page():
@@ -13,6 +8,12 @@ def main_page():
         context = browser.new_context(viewport={"width": 1920, "height": 1080})
         page = context.new_page()
         yield page
+
+@pytest.fixture()
+def page_general(main_page):
+    page = main_page
+    page.goto(url_auth_test)
+    yield MethodsPageUsers(page)
 
 
 @pytest.fixture()

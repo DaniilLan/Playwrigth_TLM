@@ -1,6 +1,6 @@
 import random
 import time
-
+from PageLocators.locators import LocatorsPageAuth, LocatorsPageUsers
 import requests
 from playwright.sync_api import expect, Page
 import inspect
@@ -105,11 +105,12 @@ class MethodsPageUsers:
         current_function_name = inspect.stack()[1].function
         self.page.screenshot(path=f"screenshot_tests/{current_function_name}/{current_function_name}_{dop}.png")
 
-    def login_users(self, page, mail, password):
+    def login_users(self, mail, password):
         """Авторизация пользователя"""
-        self.page.fill(page.PageAuth.INPUT_MAIL, mail)
-        self.page.fill(page.PageAuth.INPUT_PASSWORD, password)
-        self.page.click(page.PageAuth.BUTTON_LOG)
+        self.page.fill(LocatorsPageAuth.INPUT_MAIL, mail)
+        self.page.fill(LocatorsPageAuth.INPUT_PASSWORD, password)
+        self.page.click(LocatorsPageAuth.BUTTON_LOG)
+        self.page.wait_for_selector(LocatorsPageUsers.NAME_PROFILE)
 
     def expect_not_visible_elements(self, locators):
         """Проверка - элемент не виден"""
@@ -166,7 +167,7 @@ class MethodsPageUsers:
         self.page.fill(page.PageUsers.INPUT_NEW2_PASS, new_pass)
 
     def expect_invalid_input_color(self, locator_placeholder, locator_body_input):
-        """Проверка - что цвет плейсхолдера и тела поля(ля)
+        """Проверка - что цвет плейсхолдера и тела поля(лей)
         при вводе не валидных данных соответствует цвету при ошибке"""
         if type(locator_placeholder) is not list:
             self.expect_style_element(locator_placeholder, 'color', 'rgb(229, 74, 76)')
@@ -254,38 +255,6 @@ class MethodsPageUsers:
             print("Статус код:", response.status_code)
             print("Доп инфа:", response.text)
 
-    # @staticmethod
-    # def api_create_admin(mail, password, access_token):
-    #     url = "http://192.168.7.221:5001/api/v4/Users/Register"
-    #     payload = {
-    #       "firstName": "Тестовт",
-    #       "lastName": "Тестовт",
-    #       "middleName": "Тестович",
-    #       "height": 0,
-    #       "weight": 0,
-    #       "email": mail,
-    #       "password": password,
-    #       "phone": "3123123123",
-    #       "birthDate": "2001-06-06T12:19:32.884Z",
-    #       "sex": "male",
-    #       "orgId": 100,
-    #       "role": "admin",
-    #       "id": 0
-    #     }
-    #     headers = {
-    #         "Authorization": f"Bearer {access_token}"
-    #     }
-    #     response = requests.post(url, json=payload, headers=headers)
-    #     if response.status_code == 200:
-    #         response_json = response.json()
-    #         user_id = response_json.get("id")
-    #         print(f"Пользователь c id: {user_id} успешно создан.")
-    #         return int(user_id)
-    #     else:
-    #         print("Что-то прилетело с запросом.")
-    #         print("Статус код:", response.status_code)
-    #         print("Доп инфа:", response.text)
-
     @staticmethod
     def api_delete_user(id_user: int, access_token):
         """Удаление пользователя по id_user"""
@@ -300,5 +269,8 @@ class MethodsPageUsers:
             print("Что-то прилетело с запросом.")
             print("Статус код:", response.status_code)
             print("Доп инфа:", response.text)
+
+
+
 
 

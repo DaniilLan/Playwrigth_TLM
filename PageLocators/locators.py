@@ -1,5 +1,3 @@
-from Methods.methods_page import *
-
 
 class LocatorsGeneral:
     LOGO_SAMGMU = 'img[src="/conf/logo.png"]'
@@ -14,7 +12,7 @@ class LocatorsPageAuth:
     INPUT_PASSWORD = '//*[@id="rootTelemedHub"]/div[2]/main/div/form/div[1]/div[2]/div/input'
     BUTTON_LOG = '//*[@id="rootTelemedHub"]/div[2]/main/div/form/div[2]/button'
     PLACEHOLDER_PASSWORD = '//label[text()="Пароль"]'
-    PLACEHOLDER_EMAIL = '//label[text()="E-mail"]'
+    PLACEHOLDER_EMAIL = '//label[text()="Email"]'
     LINK_FORGOT_PASSWORD = 'span[data-locator="forgotPassword"]'
     EYE_PASSWORD = 'svg[xmlns="http://www.w3.org/2000/svg"]'
     BUTTON_FORGOT = '//button[span[text()="Сбросить"]]'

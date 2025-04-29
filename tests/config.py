@@ -1,35 +1,43 @@
 import random
 from russian_names import RussianNames
 import string
+from PageLocators.locators import LocatorsPageHelp
 
 url_auth_test = 'http://192.168.7.221:8085/'
-url_users_test = 'http:users'
-url_allm_test = 'ts'
-url_help_test = 'http:elp'
-url_support_test = 'httport'
+url_users_test = 'http://192.168.7.221:8085/users'
+url_allm_test = 'http://192.168.7.221:8085/all-measurements'
+url_help_test = 'http://192.168.7.221:8085/help'
+url_support_test = 'http://192.168.7.221:8085/support'
 
 list_url_test = [url_support_test, url_help_test, url_auth_test, url_users_test]
 
-password_all = ''
-invalid_pass = ''
+password_all = '12345678'
+invalid_pass = '12345687'
 
-cred = {"m": 'Админ Телемедцентра',
-        "spdm": 'Админ Скорой',
-        "tadm": 'Админ Црб',
-        "tedoc": 'Доктор Телемедцентра',
-        "dm": 'Доктор Скорой',
-        "tescom": 'Доктор Црб',
-        "d.s.iu.ru": 'Доктор Фап'}  # Без медработник ФАП и Пациент Фап.
+cred = {"adm@tele.com": 'Админ Телемедцентра',
+        "adm@amb.com": 'Админ Скорой',
+        "adm@crb.com": 'Админ Црб',
+        "doc@tele.com": 'Доктор Телемедцентра',
+        "doc@amb.com": 'Доктор Скорой',
+        "doc@crb.com": 'Доктор Црб',}
 
-mails_doc = ["te.ru"]
-mail_lan_doc = "Tedoc"
-mail_lan_adm = "Tesl.ru"
-mail_adm = "am"
-mail_doc = "testoc"
-mails_adm = ["adm.adm"]
-invalid_mail = "123u"
-valid_mail = 'lanru'
 
+mails_doc = ["doc@tele.com", "doc@doc.com", "testdoc@doc.com", "d.s.ivanov1@samsmu.ru"]
+mail_lan_doc = "TestLanDoc@doc.doc"
+mail_lan_adm = "TestLanAdm@mail.ru"
+mail_adm = "adm@tele.com"
+mail_doc = "doc@tele.com"
+mails_adm = ["adm@tele.com", "spadm@adm.adm", "testadm@adm.adm"]
+invalid_mail = "123123@mail.ru"
+valid_mail = 'doc@tele.com'
+
+elements_help_panel = {LocatorsPageHelp.PANEL1_HELP: LocatorsPageHelp.OPEN_PANEL1_HELP,
+                       LocatorsPageHelp.PANEL2_HELP: LocatorsPageHelp.OPEN_PANEL2_HELP,
+                       LocatorsPageHelp.PANEL3_HELP: LocatorsPageHelp.OPEN_PANEL3_HELP,
+                       LocatorsPageHelp.PANEL4_HELP: LocatorsPageHelp.OPEN_PANEL4_HELP,
+                       LocatorsPageHelp.PANEL5_HELP: LocatorsPageHelp.OPEN_PANEL5_HELP,
+                       LocatorsPageHelp.PANEL6_HELP: LocatorsPageHelp.OPEN_PANEL6_HELP,
+                       LocatorsPageHelp.PANEL7_HELP: LocatorsPageHelp.OPEN_PANEL7_HELP}
 
 def random_phone():
     """Создание нмоера-телефона из 10 рандомных цифр без +7 (пример - 9276013854)"""
