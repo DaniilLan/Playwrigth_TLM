@@ -92,13 +92,13 @@ class TestPageUsers:
 
     @pytest.mark.parametrize('mail', [mail for mail in cred])
     @pytest.mark.parametrize('password', [password_all])
-    def test_boxs_dropdown_filter(self, page, mail, password):
-        page.login_users(page, mail, password)
-        page.dropdown_filter()
-        page.click(page.PageUsers.FILTER_DROPDOWN_GENDER)
-        page.click(page.PageUsers.FILTER_DROPDOWN_ORGANIZATION)
+    def test_boxs_dropdown_filter(self, page_users, mail, password):
+        page_users.login_users(mail, password)
+        page_users.dropdown_filter()
+        page_users.click(LocatorsPageUsers.FILTER_DROPDOWN_GENDER)
+        page_users.click(LocatorsPageUsers.FILTER_DROPDOWN_ORG)
         if mail in mails_adm:
-            page.click(page.PageUsers.FILTER_DROPDOWN_ROLE)
+            page_users.click(LocatorsPageUsers.FILTER_DROPDOWN_ROLE)
 
 
     class TestPagination:
@@ -109,13 +109,13 @@ class TestPageUsers:
                                            LocatorsPageUsers.PAGINATION_50,
                                            LocatorsPageUsers.PAGINATION_100,
                                            LocatorsPageUsers.PAGINATION_150])
-        def test_quantity_user_limit(self, page, limit, mail, password):
-            page.login_users(page, mail, password)
-            page.click(limit)
-            quantity_pagination = page.get_text(limit)
-            quantity_users = page.get_quantity_elements(page.PageUsers.USERS_LIST)
+        def test_quantity_user_limit(self, page_users, limit, mail, password):
+            page_users.login_users(page_users, mail, password)
+            page_users.click(limit)
+            quantity_pagination = page_users.get_text(limit)
+            quantity_users = page_users.get_quantity_elements(page_users.PageUsers.USERS_LIST)
             assert quantity_users == int(quantity_pagination)
-            page.click(page.PageUsers.BUTTON_HEADER_ALLMS)
+            page_users.click(page_users.PageUsers.BUTTON_HEADER_ALLMS)
 
     class TestChangePassword:
 

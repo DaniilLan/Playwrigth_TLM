@@ -3,3 +3,6 @@ playwright~=1.44.0
 requests~=2.32.3
 pytest-playwright~=0.5.1
 russian-names~=0.1.2
+psycopg2~=2.9.10
+dotenv~=0.9.9
+python-dotenv~=1.1.0

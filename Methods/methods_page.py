@@ -142,7 +142,7 @@ class MethodsPageUsers:
 
     def dropdown_filter(self):
         """Опустить drop-down список 'Фильтры' - изменив параметр элемента в DOM"""
-        element = self.page.locator('//*[@id="rootTelemedHub"]/div[2]/main/div/div[2]/div[1]/div/div')
+        element = self.page.locator('//*[@id="rootTelemedHub"]/div[2]/main/div/div[2]/div/div')
         element.evaluate('(element) => { element.style.maxHeight = "none"; }')
 
     def open_dropdown_organization(self):
