@@ -2,6 +2,7 @@ import psycopg2
 from psycopg2 import sql
 from dotenv import load_dotenv
 import os
+from tests.config import *
 
 load_dotenv()
 
@@ -19,6 +20,62 @@ class QueryDB:
 
     def _get_connection(self):
         return psycopg2.connect(**self.connection_params)
+
+    def query_create_user(
+            self,
+            username= random_name(),
+            email= random_mail(),
+            first_name="Авто",
+            middle_name="Тестович",
+            last_name="",
+            password_hash="$argon2id$v=19$m=4096,t=3,p=3$NA1AsABbbIslp2gkSK8XG0P5IcYZ8G/Xu/tNBjfRz7o$W+u0OCso3uqyusDwX00odYPhPtaIoxP0O5QuRKMP+Bw",
+            role_name="doctor"):
+        conn = None
+        cursor = None
+        try:
+            conn = self._get_connection()
+            cursor = conn.cursor()
+
+            query = """
+            INSERT INTO public.users (
+                created, username, email, org_id,
+                first_name, middle_name, sex,
+                status, password_hash, role_name,
+                deleted, urgent_inspection
+            ) VALUES (
+                NOW(), %s, %s, 0,
+                %s, %s, 'male',
+                'active', %s, %s,
+                FALSE, FALSE
+            ) RETURNING id;
+            """
+
+            cursor.execute(query, (
+                username, email,
+                first_name, middle_name,
+                password_hash, role_name
+            ))
+
+            user_id = cursor.fetchone()[0]
+            conn.commit()
+
+            data_user = {
+                "id": user_id,
+                "mail": email,
+                "password": "12345678",  # Пароль для авторизации (не хэш)
+            }
+            return data_user
+
+        except psycopg2.Error as e:
+            print(f"Ошибка при создании пользователя: {e}")
+            if conn:
+                conn.rollback()
+            return None
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
 
     def query_delete_user(self, id_user):
         conn = self._get_connection()
@@ -135,3 +192,6 @@ class QueryDB:
                 cursor.close()
             if 'conn' in locals():
                 conn.close()
+
+
+# db = QueryDB()

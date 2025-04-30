@@ -1,5 +1,6 @@
 import pytest
 from Methods.methods_page import *
+from Methods.db_method import QueryDB
 
 @pytest.fixture()
 def main_page():
@@ -42,3 +43,11 @@ def page_support(main_page):
     page = main_page
     page.goto(url_support_test)
     yield MethodsPageUsers(page)
+
+
+@pytest.fixture
+def test_user():
+    db = QueryDB()
+    user_data = db.query_create_user()
+    yield user_data
+    db.query_delete_user(user_data['id'])

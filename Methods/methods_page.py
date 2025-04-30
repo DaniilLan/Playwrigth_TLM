@@ -4,7 +4,7 @@ from PageLocators.locators import LocatorsPageAuth, LocatorsPageUsers
 import requests
 from playwright.sync_api import expect, Page
 import inspect
-
+from typing import Union, List
 from tests.config import *
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError
 
@@ -32,6 +32,13 @@ class MethodsPageUsers:
         for element in elements:
             self.page.wait_for_timeout(500)
             element.click()
+
+    def focus_inputs(self, locator):
+        """Кликнуть по элементам"""
+        elements = self.page.locator(locator).all()
+        for element in elements:
+            self.page.wait_for_timeout(500)
+            element.focus()
 
     def fill_text(self, locator, value):
         """Ввод тескста"""
@@ -67,20 +74,18 @@ class MethodsPageUsers:
         """Ожидать полной загрузки DOM"""
         self.page.wait_for_load_state("domcontentloaded")
 
-    def wait_visible_elements(self, locators):
-        """Ожидать пока элемент не будет виден"""
-        if type(locators) is not list:
-            try:
-                self.page.wait_for_selector(locators, state='visible')
-            except PlaywrightTimeoutError:
-                pass
-        else:
-            elements = self.page.locator(locators).all()
-            for locator in elements:
+    def wait_visible_elements(self, locators: Union[str, List[str]], timeout: float = 30.0):
+        if isinstance(locators, (list, tuple)):
+            for locator in locators:
                 try:
-                    locator.wait_for(state='visible')
-                except PlaywrightTimeoutError:
-                    pass
+                    self.page.wait_for_selector(locator, state="visible", timeout=timeout * 1000)  # ms
+                except PlaywrightTimeoutError as e:
+                    raise PlaywrightTimeoutError(f"Элемент '{locator}' не появился за {timeout} сек.") from e
+        else:
+            try:
+                self.page.wait_for_selector(locators, state="visible", timeout=timeout * 1000)
+            except PlaywrightTimeoutError as e:
+                raise PlaywrightTimeoutError(f"Элемент '{locators}' не появился за {timeout} сек.") from e
 
     def wait_until_visible_elements(self, locators):
         """Ожидать пока элемент не пропадет"""

@@ -22,12 +22,10 @@ cred = {"adm@tele.com": 'Админ Телемедцентра',
         "doc@crb.com": 'Доктор Црб',}
 
 
-mails_doc = ["doc@tele.com", "doc@doc.com", "testdoc@doc.com", "d.s.ivanov1@samsmu.ru"]
+mails_doc = ["doc@tele.com", "doc@amb.com", "doc@crb.com"]
+mails_adm = ["adm@tele.com", "adm@amb.com", "adm@crb.com"]
 mail_doc = "doc@tele.com"
-mail_lan_adm = "TestLanAdm@mail.ru"
 mail_adm = "adm@tele.com"
-mail_doc = "doc@tele.com"
-mails_adm = ["adm@tele.com", "spadm@adm.adm", "testadm@adm.adm"]
 invalid_mail = "123123@mail.ru"
 valid_mail = 'doc@tele.com'
 
@@ -96,8 +94,16 @@ def random_height_weight():
 
 
 def random_mail():
-    """Создание рандомного mail"""
-    mail = ''.join(random.choice(string.ascii_letters) for _ in range(8)) + str(random.randint(1, 1000)) + "@gmail.com"
+    """Создание рандомного mail (только строчные буквы)"""
+    mail = ''.join(random.choice(string.ascii_lowercase) for _ in range(8))  # 8 строчных букв
+    mail += str(random.randint(1, 1000))  # случайное число
+    mail += "@gmail.com"  # домен
     return mail
+
+def random_name():
+    """Создание рандомного name (только строчные буквы)"""
+    name = ''.join(random.choice(string.ascii_lowercase) for _ in range(8))  # 8 строчных букв
+    name += str(random.randint(1, 1000))  # случайное число
+    return name
 
 

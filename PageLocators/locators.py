@@ -60,7 +60,7 @@ class LocatorsPageUsers:
     PLACEHOLDER_NEW_PASS = '//html/body/div[2]/div/div[2]/form/div[2]/div/div/label'
     INPUT_NEW2_PASS = '//html/body/div[2]/div/div[2]/form/div[3]/div/div/div/input'
     PLACEHOLDER_NEW2_PASS = '//html/body/div[2]/div/div[2]/form/div[3]/div/div/label'
-    BUTTON_SAVE_NEW_PASS = '//html/body/div[2]/div/div[2]/form/div[5]/button[2]'
+    BUTTON_SAVE_NEW_PASS = '//html/body/div[2]/div/div[2]/form/button'
     BUTTON_HEADER_USERS = "a[data-locator='/users']"
     BUTTON_HEADER_ALLMS = "a[data-locator='/all-measurements']"
     BUTTON_HEADER_MEETING = "a[data-locator='/meetings']"
@@ -76,11 +76,11 @@ class LocatorsPageUsers:
     BUTTON_APPLY_FILTER = 'button[data-locator="apply"]'
     FILTER_FORM = 'div[class="filterForm__PexX"]'
     FILTER_INPUT_BOXS = '//div/div/input'
-    FILTER_DROPDOWN_GENDER = '//div[@class="filterForm__PexX"]/div[@class="Dropdown productTheme Dropdown__d478"]'
-    FILTER_CONTAINER_GENDER = '//html/body/div[2]/ul'
-    FILTER_DROPDOWN_ROLE = '//div[2]/main/div/div[2]/div[1]/div/div/div/div[7]/div/div/div'
-    FILTER_DROPDOWN_ORG = '//div[@class="HeaderTitle HeaderTitle__a637"]/div[@data-locator="multiSelectInput"]'
-    FILTER_CONTAINER_ORG_ROLE = '//html/body/div[2]/div'
+    FILTER_DROPDOWN_GENDER = '//*[@id="rootTelemedHub"]/div[2]/main/div/div[2]/div/div/div/div[5]/div/div/label'
+    FILTER_LIST_GENDER = '//html/body/div[2]/ul'
+    FILTER_DROPDOWN_ROLE = '//*[@id="rootTelemedHub"]/div[2]/main/div/div[2]/div/div/div/div[7]/div/div'
+    FILTER_DROPDOWN_ORG = '//*[@id="rootTelemedHub"]/div[2]/main/div/div[2]/div/div/div/div[6]/div/div'
+    FILTER_LIST_ORG_ROLE = '//html/body/div[2]/div'
     PAGINATION_20 = '//div[@class="limitsList__IzFN"]/span[1]'
     PAGINATION_50 = '//div[@class="limitsList__IzFN"]/span[2]'
     PAGINATION_100 = '//div[@class="limitsList__IzFN"]/span[3]'
@@ -95,13 +95,12 @@ class LocatorsPageUsers:
     PLACEHOLDER_CHANGE_F = '//div[@data-locator="lastName"]/div/label[text()="Фамилия"]'
     PLACEHOLDER_CHANGE_I = '//div[@data-locator="firstName"]/div/div/label[text()="Имя"]'
     PLACEHOLDER_CHANGE_O = '//div[@data-locator="middleName"]/div/div/label[text()="Отчество"]'
-    PLACEHOLDER_CHANGE_MAIL = '//div[@data-locator="email"]/div/div/label[text()="E-mail"]'
+    PLACEHOLDER_CHANGE_MAIL = '//div[@data-locator="email"]/div/div/label[text()="Email"]'
     PLACEHOLDER_CHANGE_PHONE = '//div[@data-locator="phone"]/div/div/label[text()="Телефон"]'
-    BUTTON_SAVE_PROFILE = '//body/div[2]/div/div[2]/form/div[7]/button[2]'
-    BUTTON_CLOSE_CHANGE_PROFILE = '//html/body/div[2]/div/div[2]/form/div[7]/button[1]'
+    BUTTON_SAVE_PROFILE = '//html/body/div[2]/div/div[2]/form/button'
     DOCTORS = "//div[div[span[text()='Врачи']]]//div[@class='gm_s']"
     WINDOW_CHANGE_PROFILE = '//div[@class="WrapModal productTheme__ef49 WrapModal__b7af"]'
-    BUTTON_X_CHANGE_PROFILE = "//div[@class='closeBtn__b66b closeBtn']"
+    BUTTON_X_CHANGE_PROFILE = "//html/body/div[2]/div/div[1]/div"
     INPUT_ADD_USER_F = '//html/body/div[2]/div/div[2]/form/div[1]/div[1]/div/input'
     INPUT_ADD_USER_I = '//html/body/div[2]/div/div[2]/form/div[1]/div[2]/div/input'
     INPUT_ADD_USER_O = '//html/body/div[2]/div/div[2]/form/div[1]/div[3]/div/input'

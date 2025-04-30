@@ -2,7 +2,9 @@ from PageLocators.locators import *
 import re
 from config import *
 import pytest
+from Methods.db_method import QueryDB
 
+db = QueryDB()
 
 class TestPageUsers:
     @pytest.mark.parametrize('mail, name', [(mail, name) for mail, name in cred.items()])
@@ -88,7 +90,7 @@ class TestPageUsers:
     def test_boxs_input_filter(self, page_users, mail, password):
         page_users.login_users(mail, password)
         page_users.dropdown_filter()
-        page_users.click_on_elements(LocatorsPageUsers.FILTER_INPUT_BOXS)
+        page_users.focus_inputs(LocatorsPageUsers.FILTER_INPUT_BOXS)
 
     @pytest.mark.parametrize('mail', [mail for mail in cred])
     @pytest.mark.parametrize('password', [password_all])
@@ -96,69 +98,66 @@ class TestPageUsers:
         page_users.login_users(mail, password)
         page_users.dropdown_filter()
         page_users.click(LocatorsPageUsers.FILTER_DROPDOWN_GENDER)
+        page_users.wait_visible_elements(LocatorsPageUsers.FILTER_LIST_GENDER)
         page_users.click(LocatorsPageUsers.FILTER_DROPDOWN_ORG)
+        page_users.wait_visible_elements(LocatorsPageUsers.FILTER_LIST_ORG_ROLE)
         if mail in mails_adm:
             page_users.click(LocatorsPageUsers.FILTER_DROPDOWN_ROLE)
+            page_users.wait_visible_elements(LocatorsPageUsers.FILTER_DROPDOWN_ROLE)
 
 
-    class TestPagination:
-
-        @pytest.mark.parametrize('mail', [mail for mail in mails_doc])
-        @pytest.mark.parametrize('password', [password_all])
-        @pytest.mark.parametrize('limit', [LocatorsPageUsers.PAGINATION_20,
-                                           LocatorsPageUsers.PAGINATION_50,
-                                           LocatorsPageUsers.PAGINATION_100,
-                                           LocatorsPageUsers.PAGINATION_150])
-        def test_quantity_user_limit(self, page_users, limit, mail, password):
-            page_users.login_users(page_users, mail, password)
-            page_users.click(limit)
-            quantity_pagination = page_users.get_text(limit)
-            quantity_users = page_users.get_quantity_elements(page_users.PageUsers.USERS_LIST)
-            assert quantity_users == int(quantity_pagination)
-            page_users.click(page_users.PageUsers.BUTTON_HEADER_ALLMS)
+    # class TestPagination:
+    #
+    #     @pytest.mark.parametrize('mail', [mail for mail in mails_doc])
+    #     @pytest.mark.parametrize('password', [password_all])
+    #     @pytest.mark.parametrize('limit', [LocatorsPageUsers.PAGINATION_20,
+    #                                        LocatorsPageUsers.PAGINATION_50,
+    #                                        LocatorsPageUsers.PAGINATION_100,
+    #                                        LocatorsPageUsers.PAGINATION_150]) ----------------------------------------- Предусловие: должно быть более 150 пользователей
+    #     def test_quantity_user_limit(self, page_users, limit, mail, password):
+    #         page_users.login_users(mail, password)
+    #         page_users.click(limit)
+    #         quantity_pagination = page_users.get_text(limit)
+    #         quantity_users = page_users.get_quantity_elements(LocatorsPageUsers.USERS_LIST)
+    #         assert quantity_users == int(quantity_pagination)
+    #         page_users.click(LocatorsPageUsers.BUTTON_HEADER_ALLMS)
 
     class TestChangePassword:
 
-        @pytest.mark.parametrize("mail, password, new_password",
-                                 [(mail_doc, password_all, invalid_pass)],
-                                 ids=["for_doctor"])
-        def test_valid_change_password(self, page_users, mail, password, new_password):
-            create_user_get_id = page_users.api_create_doctor(mail, password_all)
-            page_users.login_users(page_users, mail, password)
+        def test_valid_change_password(self, page_users, test_user):
+            page_users.login_users(test_user['mail'], test_user['password'])
             page_users.click(LocatorsPageUsers.NAME_PROFILE)
             page_users.click(LocatorsPageUsers.BUTTON_CHANGE_PASSWORD)
-            page_users.change_password(password, new_password)
+            page_users.change_password(test_user['password'], invalid_pass)
             page_users.click(LocatorsPageUsers.BUTTON_SAVE_NEW_PASS)
-            page_users.wait_for_element_visible(LocatorsGeneral.NOTIFICATION_ALL)
-            page_users.api_delete_user(create_user_get_id)
+            page_users.wait_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
+            notif_text = page_users.get_text(LocatorsGeneral.NOTIFICATION_ALL)
+            assert notif_text == "Пароль успешно изменён"
+            page_users.wait_until_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
 
-        @pytest.mark.parametrize('mail', [mail_doc])
-        @pytest.mark.parametrize('password', [password_all])
-        @pytest.mark.parametrize('new_password', [invalid_pass])
-        def test_invalid_without_current_password(self, page_users, mail, password, new_password):
-            create_user_get_id = page_users.api_create_doctor(mail, password_all)
-            page_users.login_users(page_users, mail, password)
+        def test_current_password_invalid(self, page_users, test_user):
+            page_users.login_users(test_user['mail'], test_user['password'])
             page_users.click(LocatorsPageUsers.NAME_PROFILE)
             page_users.click(LocatorsPageUsers.BUTTON_CHANGE_PASSWORD)
-            page_users.fill_text(LocatorsPageUsers.INPUT_NEW_PASS, invalid_pass)
-            page_users.fill_text(LocatorsPageUsers.INPUT_NEW2_PASS, invalid_pass)
+            page_users.change_password("98763578", invalid_pass)
             page_users.click(LocatorsPageUsers.BUTTON_SAVE_NEW_PASS)
-            page_users.wait_for_element_visible(page_users.GeneralLocators.NOTIFICATION_ALL)
-            page_users.api_delete_user(create_user_get_id)
+            page_users.wait_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
+            notif_text = page_users.get_text(LocatorsGeneral.NOTIFICATION_ALL)
+            assert notif_text == "Пароль не верный."
+            page_users.wait_until_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
 
-        @pytest.mark.parametrize('mail', [mail_doc])
-        @pytest.mark.parametrize('password', [password_all])
-        @pytest.mark.parametrize('new_password', [invalid_pass])
-        def test_invalid_without_re_password(self, page_users, mail, password, new_password):
-            create_user_get_id = page_users.api_create_doctor(mail, password_all)
-            page_users.login_users(page_users, mail, password)
+        def test_empty_new_password(self, page_users, test_user):
+            page_users.login_users(test_user['mail'], test_user['password'])
             page_users.click(LocatorsPageUsers.NAME_PROFILE)
             page_users.click(LocatorsPageUsers.BUTTON_CHANGE_PASSWORD)
-            page_users.fill_text(LocatorsPageUsers.INPUT_CURRENT_PASS, password_all)
-            page_users.fill_text(LocatorsPageUsers.INPUT_NEW_PASS, invalid_pass)
+            page_users.fill_text(LocatorsPageUsers.INPUT_CURRENT_PASS, test_user["password"])
+            page_users.fill_text(LocatorsPageUsers.INPUT_NEW_PASS, "123")
+            page_users.fill_text(LocatorsPageUsers.INPUT_NEW2_PASS, "")
             page_users.click(LocatorsPageUsers.BUTTON_SAVE_NEW_PASS)
-            page_users.wait_for_element_visible(page_users.GeneralLocators.NOTIFICATION_ALL)
-            page_users.api_delete_user(create_user_get_id)
+            page_users.wait_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
+            notif_text = page_users.get_text(LocatorsGeneral.NOTIFICATION_ALL)
+            assert notif_text == "Пароль не может быть изменён"
+            page_users.wait_until_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
 
 
         @pytest.mark.parametrize('mail', [mail_doc])
@@ -170,12 +169,15 @@ class TestPageUsers:
                                                         LocatorsPageUsers.PLACEHOLDER_NEW_PASS,
                                                         LocatorsPageUsers.PLACEHOLDER_NEW2_PASS]])
         def test_color_input_change_password(self, page_users, mail, password, body_input, placeholder_input):
-            page_users.login_users(page_users, mail, password)
+            page_users.login_users(mail, password)
             page_users.click(LocatorsPageUsers.NAME_PROFILE)
             page_users.click(LocatorsPageUsers.BUTTON_CHANGE_PASSWORD)
             page_users.click(LocatorsPageUsers.BUTTON_SAVE_NEW_PASS)
             page_users.expect_invalid_input_color(placeholder_input, body_input)
-            page_users.wait_for_element_visible(page_users.GeneralLocators.NOTIFICATION_ALL)
+            page_users.wait_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
+            notif_text = page_users.get_text(LocatorsGeneral.NOTIFICATION_ALL)
+            assert notif_text == "Пароль не может быть изменён"
+            page_users.wait_until_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
 
     class TestChangeProfile:
 
@@ -190,14 +192,14 @@ class TestPageUsers:
                                                         LocatorsPageUsers.PLACEHOLDER_CHANGE_MAIL,
                                                         LocatorsPageUsers.PLACEHOLDER_CHANGE_PHONE]])
         def test_empty_input_change_profile(self, page_users, mail, password, body_input, placeholder_input):
-            page_users.login_users(page_users, mail, password)
+            page_users.login_users(mail, password)
             page_users.click(LocatorsPageUsers.NAME_PROFILE)
             page_users.click(LocatorsPageUsers.BUTTON_CHANGE_PROFILE)
             page_users.clear_inputs(body_input)
             page_users.click(LocatorsPageUsers.BUTTON_SAVE_PROFILE)
-            text_notif = page_users.get_texts(page_users.GeneralLocators.NOTIFICATION_ALL)
+            text_notif = page_users.get_text(LocatorsGeneral.NOTIFICATION_ALL)
             assert text_notif == "Ошибка при изменении пользователя"
-            page_users.wait_until_visible_elements(page_users.GeneralLocators.NOTIFICATION_ALL)
+            page_users.wait_until_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
 
         @pytest.mark.parametrize('mail', [mail_doc])
         @pytest.mark.parametrize('password', [password_all])
@@ -210,25 +212,23 @@ class TestPageUsers:
                                                         LocatorsPageUsers.PLACEHOLDER_CHANGE_MAIL,
                                                         LocatorsPageUsers.PLACEHOLDER_CHANGE_PHONE]])
         def test_color_required_field_change_profile(self, page_users, mail, password, body_input, placeholder_input):
-            page_users.login_users(page_users, mail, password)
+            page_users.login_users(mail, password)
             page_users.click(LocatorsPageUsers.NAME_PROFILE)
             page_users.click(LocatorsPageUsers.BUTTON_CHANGE_PROFILE)
             page_users.clear_inputs(body_input)
             page_users.click(LocatorsPageUsers.BUTTON_SAVE_PROFILE)
             page_users.expect_invalid_input_color(placeholder_input, body_input)
-            page_users.wait_until_visible_elements(page_users.GeneralLocators.NOTIFICATION_ALL)
+            page_users.wait_until_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
 
         @pytest.mark.parametrize('mail', [mail_doc])
         @pytest.mark.parametrize('password', [password_all])
-        @pytest.mark.parametrize('button_close', [LocatorsPageUsers.BUTTON_CLOSE_CHANGE_PROFILE,
-                                                  LocatorsPageUsers.BUTTON_X_CHANGE_PROFILE])
-        def test_close_change_profile(self, page_users, mail, password, button_close):
-            page_users.login_users(page_users, mail, password)
+        def test_close_change_profile(self, page_users, mail, password):
+            page_users.login_users(mail, password)
             page_users.click(LocatorsPageUsers.NAME_PROFILE)
             page_users.click(LocatorsPageUsers.BUTTON_CHANGE_PROFILE)
-            page_users.click(button_close)
+            page_users.click(LocatorsPageUsers.BUTTON_X_CHANGE_PROFILE)
             page_users.expect_not_visible_elements(LocatorsPageUsers.WINDOW_CHANGE_PROFILE)
-
+#------------------------------------------------------------------------------------------------------------------------ Почти
     class TestAddUsers:
 
         @pytest.mark.parametrize('mail', ['mailtest@mail.ru'])
