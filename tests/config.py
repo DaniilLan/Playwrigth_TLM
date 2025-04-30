@@ -23,7 +23,7 @@ cred = {"adm@tele.com": 'Админ Телемедцентра',
 
 
 mails_doc = ["doc@tele.com", "doc@doc.com", "testdoc@doc.com", "d.s.ivanov1@samsmu.ru"]
-mail_lan_doc = "TestLanDoc@doc.doc"
+mail_doc = "doc@tele.com"
 mail_lan_adm = "TestLanAdm@mail.ru"
 mail_adm = "adm@tele.com"
 mail_doc = "doc@tele.com"

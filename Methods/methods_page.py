@@ -44,8 +44,14 @@ class MethodsPageUsers:
         locator = self.page.locator(locator)
         locator.focus()
 
-    def get_texts(self, locators):
-        """Получить текст(ы) в нутри элемента"""
+    def get_text(self, locators):
+        """Получить текст внутри элемента"""
+        text = self.page.text_content(locators)
+        return text
+
+
+    def get_list_text(self, locators):
+        """Получить текст внутри элемента(ов)"""
         elements = self.page.locator(locators).all()
         if type(elements) is not list:
             return self.page.text_content(locators, strict=False)
@@ -53,7 +59,9 @@ class MethodsPageUsers:
             text = ''
             for locator in elements:
                 text += locator.text_content()
+            print(text)
             return text
+
 
     def wait_load_page(self):
         """Ожидать полной загрузки DOM"""
@@ -160,11 +168,11 @@ class MethodsPageUsers:
         element = self.page.locator(locator)
         return expect(element).to_have_css(name_style, value_style)
 
-    def change_password(self, page, current_pass, new_pass):
+    def change_password(self, current_pass, new_pass):
         """Смена пароля на стр. /users в профиле пользователя"""
-        self.page.fill(page.PageUsers.INPUT_CURRENT_PASS, current_pass)
-        self.page.fill(page.PageUsers.INPUT_NEW_PASS, new_pass)
-        self.page.fill(page.PageUsers.INPUT_NEW2_PASS, new_pass)
+        self.page.fill(LocatorsPageUsers.INPUT_CURRENT_PASS, current_pass)
+        self.page.fill(LocatorsPageUsers.INPUT_NEW_PASS, new_pass)
+        self.page.fill(LocatorsPageUsers.INPUT_NEW2_PASS, new_pass)
 
     def expect_invalid_input_color(self, locator_placeholder, locator_body_input):
         """Проверка - что цвет плейсхолдера и тела поля(лей)

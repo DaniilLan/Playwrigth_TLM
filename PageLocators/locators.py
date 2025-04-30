@@ -71,8 +71,8 @@ class LocatorsPageUsers:
     BUTTON_ADD_USERS = '//button[@data-locator="addUser"]'
     USERS_OR_PATIENTS = "//div[2]/main/div/div[1]/div[1]"
     QUANTITY_USERS_HEADER = "//div[2]/main/div/div[1]/div[1]/span"
-    QUANTITY_USERS_PAGINATION = "//div[2]/main/div/div[2]/div[2]/div[3]/div[3]"
-    DROPDOWN_FILTER = '//div[2]/main/div/div[2]/div[1]/label'
+    QUANTITY_USERS_PAGINATION = "//*[@id='rootTelemedHub']/div[2]/main/div/div[3]/div[3]/div[3]"
+    DROPDOWN_FILTER = '//*[@id="rootTelemedHub"]/div[2]/main/div/div[2]/label'
     BUTTON_APPLY_FILTER = 'button[data-locator="apply"]'
     FILTER_FORM = 'div[class="filterForm__PexX"]'
     FILTER_INPUT_BOXS = '//div/div/input'

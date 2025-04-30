@@ -32,7 +32,7 @@ class TestPageAuth:
         "valid_email_wrong_password",
         "invalid_email_any_password"
     ])
-    def test_invalid_auth_scenarios(self, page_auth, mail, password, expected_error):
+    def test_invalid_auth(self, page_auth, mail, password, expected_error):
         page_auth.fill_text(LocatorsPageAuth.INPUT_MAIL, mail)
         page_auth.fill_text(LocatorsPageAuth.INPUT_PASSWORD, password)
         page_auth.click(LocatorsPageAuth.BUTTON_LOG)
