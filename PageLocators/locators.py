@@ -79,7 +79,7 @@ class LocatorsPageUsers:
     FILTER_DROPDOWN_GENDER = '//*[@id="rootTelemedHub"]/div[2]/main/div/div[2]/div/div/div/div[5]/div/div/label'
     FILTER_LIST_GENDER = '//html/body/div[2]/ul'
     FILTER_DROPDOWN_ROLE = '//*[@id="rootTelemedHub"]/div[2]/main/div/div[2]/div/div/div/div[7]/div/div'
-    FILTER_DROPDOWN_ORG = '//*[@id="rootTelemedHub"]/div[2]/main/div/div[2]/div/div/div/div[6]/div/div'
+    FILTER_DROPDOWN_ORG = '//html/body/div[2]/div/div[2]/form/div[1]/div[10]/div/div/div/input'
     FILTER_LIST_ORG_ROLE = '//html/body/div[2]/div'
     PAGINATION_20 = '//div[@class="limitsList__IzFN"]/span[1]'
     PAGINATION_50 = '//div[@class="limitsList__IzFN"]/span[2]'
@@ -91,7 +91,7 @@ class LocatorsPageUsers:
     INPUT_CHANGE_I = '//html/body/div[2]/div/div[2]/form/div[2]/div/div/div/input'
     INPUT_CHANGE_O = '//html/body/div[2]/div/div[2]/form/div[3]/div/div/div/input'
     INPUT_CHANGE_MAIL = '//html/body/div[2]/div/div[2]/form/div[4]/div/div/div/input'
-    INPUT_CHANGE_PHONE = '//html/body/div[2]/div/div[2]/form/div[5]/div/div/div/input'
+    INPUT_CHANGE_PHONE = '//div[label[text()="Телефон"]]//input'
     PLACEHOLDER_CHANGE_F = '//div[@data-locator="lastName"]/div/label[text()="Фамилия"]'
     PLACEHOLDER_CHANGE_I = '//div[@data-locator="firstName"]/div/div/label[text()="Имя"]'
     PLACEHOLDER_CHANGE_O = '//div[@data-locator="middleName"]/div/div/label[text()="Отчество"]'
@@ -119,13 +119,10 @@ class LocatorsPageUsers:
     PLACEHOLDER_ADD_USER_PHONE = "//div[@data-locator='WrapModal']//label[text()='Телефон']"
     PLACEHOLDER_ADD_USER_MAIL = "//div[@data-locator='WrapModal']//label[text()='E-mail']"
     DIV_SUCCESSFULLY_CREATED = '//div[@data-locator="credentialUser"]'
-    ORG_TELCENTR = '//div[@title="Тестовый ФАП ЦРБ 2"]'
-    ORG_TELCENTR_AMBULANCE = '//div[@title="Скорая помощь"]'
-    ORG_TELCENTR_AMBULANCE_CRB1 = '//div[@title="Тестовая организация (ЦРБ) №1"]'
-    ORG_TELCENTR_AMBULANCE_CRB1_FAP1 = '//div[@title="Тестовый ФАП №1"]'
-    ORG_TELCENTR_AMBULANCE_CRB1_FAP2 = '//div[@title="Тестовый 2 ФАП"]'
-    ORG_TELCENTR_AMBULANCE_CRB2 = '//div[@title="Тестовая организация ФАП ЦРБ 2"]'
-    ORG_TELCENTR_AMBULANCE_CRB2_FAP2 = '//div[@title="Тестовый ФАП ЦРБ 2"]'
+    ORG_LVL0 = '//html/body/div[3]/div/div/div[1]/div[2]'
+    ORG_LVL1 = '//html/body/div[3]/div/div/div[2]/div/div/div[1]/div[2]'
+    ORG_LVL2 = '//html/body/div[3]/div/div/div[2]/div/div/div[2]/div/div/div[1]/div[2]'
+    ORG_LVL3 = '//html/body/div[3]/div/div/div[2]/div/div/div[2]/div/div/div[2]/div/div'
 
 
 class LocatorsPageAllMeasurements:

@@ -58,7 +58,7 @@ class MethodsPageUsers:
 
 
     def get_list_text(self, locators):
-        """Получить текст внутри элемента(ов)"""
+        """Получить текст внутри элементов"""
         elements = self.page.locator(locators).all()
         if type(elements) is not list:
             return self.page.text_content(locators, strict=False)
@@ -74,13 +74,13 @@ class MethodsPageUsers:
         """Ожидать полной загрузки DOM"""
         self.page.wait_for_load_state("domcontentloaded")
 
-    def wait_visible_elements(self, locators: Union[str, List[str]], timeout: float = 30.0):
+    def wait_visible_elements(self, locators: Union[str, List[str]], timeout: int = 30):
         if isinstance(locators, (list, tuple)):
             for locator in locators:
                 try:
-                    self.page.wait_for_selector(locator, state="visible", timeout=timeout * 1000)  # ms
+                    self.page.wait_for_selector(locator, state="visible", timeout=timeout * 1000)
                 except PlaywrightTimeoutError as e:
-                    raise PlaywrightTimeoutError(f"Элемент '{locator}' не появился за {timeout} сек.") from e
+                    raise PlaywrightTimeoutError(f"Элемент '{locator}' не появился за {timeout} сек.") from e #------------------------ Пример новой конструкции
         else:
             try:
                 self.page.wait_for_selector(locators, state="visible", timeout=timeout * 1000)
@@ -93,7 +93,7 @@ class MethodsPageUsers:
             try:
                 self.page.wait_for_selector(locators, state='hidden')
             except PlaywrightTimeoutError:
-                pass
+                pass                                                                                         #-------------------------- Пример старой конструкции
         else:
             elements = self.page.locator(locators).all()
             for locator in elements:
@@ -104,7 +104,7 @@ class MethodsPageUsers:
 
     def expect_visible_text(self, locators):
         """Проверка - виден ли текст элемента"""
-        text = self.get_texts(locators)
+        text = self.get_text(locators)
         expect(self.page.get_by_text(text)).to_be_visible()
 
     def screenshot_full(self, dop=None):
@@ -152,6 +152,7 @@ class MethodsPageUsers:
 
     def open_dropdown_organization(self):
         """Раскрыть все видимые организации в поле 'Организации' при добавлении пользователя"""
+        self.page.click(LocatorsPageUsers.FILTER_DROPDOWN_ORG)
         elements = self.page.locator('//div[@class="arrowControl__e920 arrowControl"]').all()
         col = 0
         while col != len(elements):
@@ -206,82 +207,82 @@ class MethodsPageUsers:
                 element = self.page.locator(locator)
                 element.clear()
 
-    @staticmethod
-    def api_get_access_token_adm(org_id=100):
-        """Авторизация под админом определенной организации с последующим получаением токена"""
-        mail_admin = ''
-        url = f"http://192.168.7.221:5001/api/v4/Users/Login"
-        if org_id == 100:
-            mail_admin = mails_adm[0]
-        elif org_id == 101:
-            mail_admin = mails_adm[1]
-        elif (org_id == 102) or (org_id == 103):
-            mail_admin = mails_adm[2]
-        payload = {
-            "email": mail_admin,
-            "username": mail_admin,
-            "password": password_all
-        }
-        response = requests.post(url, json=payload)
-        if response.status_code == 200:
-            response_json = response.json()
-            access_token = response_json.get("accessToken")
-            print(f"Тоекн успешно получен {access_token}")
-            return str(access_token)
-        else:
-            print("Что-то прилетело с запросом.")
-            print("Статус код:", response.status_code)
-            print("Доп инфа:", response.text)
-
-    @staticmethod
-    def api_create_doctor(mail, password, access_token, org_id=100):
-        """Создание пользователя(doctor) под ролью 'Врач / Телемед.центр'
-
-        По умолчанию orgId - 100"""
-        url = "http://192.168.7.221:5001/api/v4/Users/Register"
-        payload = {
-          "firstName": "Тестовт",
-          "lastName": "Тестовт",
-          "middleName": "Тестович",
-          "height": 0,
-          "weight": 0,
-          "email": mail,
-          "password": password,
-          "phone": "3123123123",
-          "birthDate": "2001-06-06T12:19:32.884Z",
-          "sex": "male",
-          "orgId": org_id,
-          "role": "doctor",
-          "id": 0
-        }
-        headers = {
-            "Authorization": f"Bearer {access_token}"
-        }
-        response = requests.post(url, json=payload, headers=headers)
-        if response.status_code == 200:
-            response_json = response.json()
-            user_id = response_json.get("id")
-            print(f"Пользователь c id: {user_id} успешно создан.")
-            return int(user_id)
-        else:
-            print("Что-то прилетело с запросом.")
-            print("Статус код:", response.status_code)
-            print("Доп инфа:", response.text)
-
-    @staticmethod
-    def api_delete_user(id_user: int, access_token):
-        """Удаление пользователя по id_user"""
-        url = f"http://192.168.7.221:5001/api/v4/Users({id_user})"
-        headers = {
-            "Authorization": f"Bearer {access_token}"
-        }
-        response = requests.delete(url, headers=headers)
-        if response.status_code == 200:
-            print(f"Пользователь c id: {id_user} успешно удален.")
-        else:
-            print("Что-то прилетело с запросом.")
-            print("Статус код:", response.status_code)
-            print("Доп инфа:", response.text)
+    # @staticmethod
+    # def api_get_access_token_adm(org_id=100):
+    #     """Авторизация под админом определенной организации с последующим получаением токена"""
+    #     mail_admin = ''
+    #     url = f"http://192.168.7.221:5001/api/v4/Users/Login"
+    #     if org_id == 100:
+    #         mail_admin = mails_adm[0]
+    #     elif org_id == 101:
+    #         mail_admin = mails_adm[1]
+    #     elif (org_id == 102) or (org_id == 103):
+    #         mail_admin = mails_adm[2]
+    #     payload = {
+    #         "email": mail_admin,
+    #         "username": mail_admin,
+    #         "password": password_all
+    #     }
+    #     response = requests.post(url, json=payload)
+    #     if response.status_code == 200:
+    #         response_json = response.json()
+    #         access_token = response_json.get("accessToken")
+    #         print(f"Тоекн успешно получен {access_token}")
+    #         return str(access_token)
+    #     else:
+    #         print("Что-то прилетело с запросом.")
+    #         print("Статус код:", response.status_code)
+    #         print("Доп инфа:", response.text)
+    #
+    # @staticmethod
+    # def api_create_doctor(mail, password, access_token, org_id=100):
+    #     """Создание пользователя(doctor) под ролью 'Врач / Телемед.центр'
+    #
+    #     По умолчанию orgId - 100"""
+    #     url = "http://192.168.7.221:5001/api/v4/Users/Register"
+    #     payload = {
+    #       "firstName": "Тестовт",
+    #       "lastName": "Тестовт",
+    #       "middleName": "Тестович",
+    #       "height": 0,
+    #       "weight": 0,
+    #       "email": mail,
+    #       "password": password,
+    #       "phone": "3123123123",
+    #       "birthDate": "2001-06-06T12:19:32.884Z",
+    #       "sex": "male",
+    #       "orgId": org_id,
+    #       "role": "doctor",
+    #       "id": 0
+    #     }
+    #     headers = {
+    #         "Authorization": f"Bearer {access_token}"
+    #     }
+    #     response = requests.post(url, json=payload, headers=headers)
+    #     if response.status_code == 200:
+    #         response_json = response.json()
+    #         user_id = response_json.get("id")
+    #         print(f"Пользователь c id: {user_id} успешно создан.")
+    #         return int(user_id)
+    #     else:
+    #         print("Что-то прилетело с запросом.")
+    #         print("Статус код:", response.status_code)
+    #         print("Доп инфа:", response.text)
+    #
+    # @staticmethod
+    # def api_delete_user(id_user: int, access_token):
+    #     """Удаление пользователя по id_user"""
+    #     url = f"http://192.168.7.221:5001/api/v4/Users({id_user})"
+    #     headers = {
+    #         "Authorization": f"Bearer {access_token}"
+    #     }
+    #     response = requests.delete(url, headers=headers)
+    #     if response.status_code == 200:
+    #         print(f"Пользователь c id: {id_user} успешно удален.")
+    #     else:
+    #         print("Что-то прилетело с запросом.")
+    #         print("Статус код:", response.status_code)
+    #         print("Доп инфа:", response.text)
 
 
 

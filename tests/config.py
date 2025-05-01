@@ -1,7 +1,7 @@
 import random
 from russian_names import RussianNames
 import string
-from PageLocators.locators import LocatorsPageHelp
+from PageLocators.locators import LocatorsPageHelp, LocatorsPageUsers
 
 url_auth_test = 'http://192.168.7.221:8085/'
 url_users_test = 'http://192.168.7.221:8085/users'
@@ -21,21 +21,39 @@ cred = {"adm@tele.com": 'Админ Телемедцентра',
         "doc@amb.com": 'Доктор Скорой',
         "doc@crb.com": 'Доктор Црб',}
 
+mail_adm_tele = "adm@tele.com"
+mail_adm_amb = "adm@amb.com"
+mail_adm_crb = "adm@crb.com"
+mail_doc_tele = "doc@tele.com"
+mail_doc_amb = "doc@amb.com"
+mail_doc_crb = "doc@crb.com"
 
 mails_doc = ["doc@tele.com", "doc@amb.com", "doc@crb.com"]
 mails_adm = ["adm@tele.com", "adm@amb.com", "adm@crb.com"]
-mail_doc = "doc@tele.com"
-mail_adm = "adm@tele.com"
 invalid_mail = "123123@mail.ru"
-valid_mail = 'doc@tele.com'
 
-elements_help_panel = {LocatorsPageHelp.PANEL1_HELP: LocatorsPageHelp.OPEN_PANEL1_HELP,
-                       LocatorsPageHelp.PANEL2_HELP: LocatorsPageHelp.OPEN_PANEL2_HELP,
-                       LocatorsPageHelp.PANEL3_HELP: LocatorsPageHelp.OPEN_PANEL3_HELP,
-                       LocatorsPageHelp.PANEL4_HELP: LocatorsPageHelp.OPEN_PANEL4_HELP,
-                       LocatorsPageHelp.PANEL5_HELP: LocatorsPageHelp.OPEN_PANEL5_HELP,
-                       LocatorsPageHelp.PANEL6_HELP: LocatorsPageHelp.OPEN_PANEL6_HELP,
-                       LocatorsPageHelp.PANEL7_HELP: LocatorsPageHelp.OPEN_PANEL7_HELP}
+help_panels = {LocatorsPageHelp.PANEL1_HELP: LocatorsPageHelp.OPEN_PANEL1_HELP,
+              LocatorsPageHelp.PANEL2_HELP: LocatorsPageHelp.OPEN_PANEL2_HELP,
+              LocatorsPageHelp.PANEL3_HELP: LocatorsPageHelp.OPEN_PANEL3_HELP,
+              LocatorsPageHelp.PANEL4_HELP: LocatorsPageHelp.OPEN_PANEL4_HELP,
+              LocatorsPageHelp.PANEL5_HELP: LocatorsPageHelp.OPEN_PANEL5_HELP,
+              LocatorsPageHelp.PANEL6_HELP: LocatorsPageHelp.OPEN_PANEL6_HELP,
+              LocatorsPageHelp.PANEL7_HELP: LocatorsPageHelp.OPEN_PANEL7_HELP}
+
+required_fields_change_profile = [LocatorsPageUsers.INPUT_CHANGE_F,
+                                 LocatorsPageUsers.INPUT_CHANGE_I,
+                                 LocatorsPageUsers.INPUT_CHANGE_MAIL,
+                                 LocatorsPageUsers.INPUT_CHANGE_PHONE]
+
+placeholders_required_fields_change_profile = [LocatorsPageUsers.PLACEHOLDER_CHANGE_F,
+                                               LocatorsPageUsers.PLACEHOLDER_CHANGE_I,
+                                               LocatorsPageUsers.PLACEHOLDER_CHANGE_MAIL,
+                                               LocatorsPageUsers.PLACEHOLDER_CHANGE_PHONE]
+
+lvl_orgs = [LocatorsPageUsers.ORG_LVL0,
+            LocatorsPageUsers.ORG_LVL1,
+            LocatorsPageUsers.ORG_LVL2,
+            LocatorsPageUsers.ORG_LVL3]
 
 def random_phone():
     """Создание нмоера-телефона из 10 рандомных цифр без +7 (пример - 9276013854)"""

@@ -25,7 +25,7 @@ class TestPageAuth:
 
     @pytest.mark.parametrize("mail, password, expected_error", [
         # Валидная почта + неверный пароль
-        (valid_mail, "1278", "Неверный пароль!"),
+        (mail_doc_tele, "1278", "Неверный пароль!"),
         # Невалидная почта + любой пароль
         (invalid_mail, "1278", "Имя пользователя или пароль не верные."),
     ], ids=[
