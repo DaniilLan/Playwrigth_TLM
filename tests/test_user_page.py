@@ -56,7 +56,7 @@ class TestPageUsers:
         (mail_adm, password_all),
         (mail_doc, password_all),
     ], ids=[
-        "for_admim",
+        "for_admin",
         "for_doctor"
     ])
     def test_name_title_page(self, page_users, mail, password):
@@ -231,10 +231,15 @@ class TestPageUsers:
 #------------------------------------------------------------------------------------------------------------------------ Почти
     class TestAddUsers:
 
-        @pytest.mark.parametrize('mail', ['mailtest@mail.ru'])
-        @pytest.mark.parametrize('org_id', [100, 101, 102, 103])
-        @pytest.mark.parametrize('password', [password_all])
-        def test_valid_add_user_required_field(self, page_users, mail, password, org_id):
+        @pytest.mark.parametrize("mail, password", [
+            (mail_adm, password_all),
+            (mail_doc, password_all),
+        ], ids=[
+            "doctor_for_admin",
+            "patient_for_doctor"
+        ])
+        @pytest.mark.parametrize('org_id', [0, 1, 2, 3])
+        def test_add_user_only_required_fields(self, page_users, mail, password, org_id):
             access_token = page_users.api_get_access_token_adm(org_id)
             user_id = page_users.api_create_doctor(mail, password, access_token, org_id)
             page_users.login_users(page_users, mail, password)
