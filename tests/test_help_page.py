@@ -9,7 +9,7 @@ class TestPageHelp:
 
     @pytest.mark.parametrize('panel_help, open_panel_help', [(panel_help, open_panel_help)
                                                              for panel_help, open_panel_help
-                                                             in help_panels.items()])
+                                                             in LocatorsPageHelp.help_panels.items()])
     def test_open_panels_help(self, page_help, panel_help, open_panel_help):
         page_help.click(panel_help)
         page_help.expect_visible_elements(open_panel_help)

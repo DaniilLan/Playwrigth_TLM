@@ -46,6 +46,13 @@ class LocatorsPageHelp:
     OPEN_PANEL5_HELP = '//div[div[p[strong[text()="Изменить профиль."]]]]'
     OPEN_PANEL6_HELP = '//div[h3[text()="Регистрация пользователя"]]'
     OPEN_PANEL7_HELP = '//div[h3[text()="Регистрация пациента"]]'
+    help_panels = {PANEL1_HELP: OPEN_PANEL1_HELP,
+                   PANEL2_HELP: OPEN_PANEL2_HELP,
+                   PANEL3_HELP: OPEN_PANEL3_HELP,
+                   PANEL4_HELP: OPEN_PANEL4_HELP,
+                   PANEL5_HELP: OPEN_PANEL5_HELP,
+                   PANEL6_HELP: OPEN_PANEL6_HELP,
+                   PANEL7_HELP: OPEN_PANEL7_HELP}
 
 
 class LocatorsPageUsers:
@@ -123,6 +130,19 @@ class LocatorsPageUsers:
     ORG_LVL1 = '//html/body/div[3]/div/div/div[2]/div/div/div[1]/div[2]'
     ORG_LVL2 = '//html/body/div[3]/div/div/div[2]/div/div/div[2]/div/div/div[1]/div[2]'
     ORG_LVL3 = '//html/body/div[3]/div/div/div[2]/div/div/div[2]/div/div/div[2]/div/div'
+
+    required_fields_change_profile = [INPUT_CHANGE_F,
+                                      INPUT_CHANGE_I,
+                                      INPUT_CHANGE_MAIL,
+                                      INPUT_CHANGE_PHONE]
+    placeholders_required_fields_change_profile = [PLACEHOLDER_CHANGE_F,
+                                                   PLACEHOLDER_CHANGE_I,
+                                                   PLACEHOLDER_CHANGE_MAIL,
+                                                   PLACEHOLDER_CHANGE_PHONE]
+    lvl_orgs = [ORG_LVL0,
+                ORG_LVL1,
+                ORG_LVL2,
+                ORG_LVL3]
 
 
 class LocatorsPageAllMeasurements:

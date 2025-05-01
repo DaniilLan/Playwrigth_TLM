@@ -32,28 +32,6 @@ mails_doc = ["doc@tele.com", "doc@amb.com", "doc@crb.com"]
 mails_adm = ["adm@tele.com", "adm@amb.com", "adm@crb.com"]
 invalid_mail = "123123@mail.ru"
 
-help_panels = {LocatorsPageHelp.PANEL1_HELP: LocatorsPageHelp.OPEN_PANEL1_HELP,
-              LocatorsPageHelp.PANEL2_HELP: LocatorsPageHelp.OPEN_PANEL2_HELP,
-              LocatorsPageHelp.PANEL3_HELP: LocatorsPageHelp.OPEN_PANEL3_HELP,
-              LocatorsPageHelp.PANEL4_HELP: LocatorsPageHelp.OPEN_PANEL4_HELP,
-              LocatorsPageHelp.PANEL5_HELP: LocatorsPageHelp.OPEN_PANEL5_HELP,
-              LocatorsPageHelp.PANEL6_HELP: LocatorsPageHelp.OPEN_PANEL6_HELP,
-              LocatorsPageHelp.PANEL7_HELP: LocatorsPageHelp.OPEN_PANEL7_HELP}
-
-required_fields_change_profile = [LocatorsPageUsers.INPUT_CHANGE_F,
-                                 LocatorsPageUsers.INPUT_CHANGE_I,
-                                 LocatorsPageUsers.INPUT_CHANGE_MAIL,
-                                 LocatorsPageUsers.INPUT_CHANGE_PHONE]
-
-placeholders_required_fields_change_profile = [LocatorsPageUsers.PLACEHOLDER_CHANGE_F,
-                                               LocatorsPageUsers.PLACEHOLDER_CHANGE_I,
-                                               LocatorsPageUsers.PLACEHOLDER_CHANGE_MAIL,
-                                               LocatorsPageUsers.PLACEHOLDER_CHANGE_PHONE]
-
-lvl_orgs = [LocatorsPageUsers.ORG_LVL0,
-            LocatorsPageUsers.ORG_LVL1,
-            LocatorsPageUsers.ORG_LVL2,
-            LocatorsPageUsers.ORG_LVL3]
 
 def random_phone():
     """Создание нмоера-телефона из 10 рандомных цифр без +7 (пример - 9276013854)"""

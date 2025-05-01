@@ -21,7 +21,8 @@ class TestPageAuth:
                                           LocatorsGeneral.HELP_LINK,
                                           LocatorsGeneral.SUPPORTS_LINK])
     def test_visible_elements(self, page_auth, elements):
-        page_auth.expect_visible_elements(elements)
+        page_auth.wait_visible_elements(elements)
+
 
     @pytest.mark.parametrize("mail, password, expected_error", [
         # Валидная почта + неверный пароль
@@ -32,6 +33,7 @@ class TestPageAuth:
         "valid_email_wrong_password",
         "invalid_email_any_password"
     ])
+
     def test_invalid_auth(self, page_auth, mail, password, expected_error):
         page_auth.fill_text(LocatorsPageAuth.INPUT_MAIL, mail)
         page_auth.fill_text(LocatorsPageAuth.INPUT_PASSWORD, password)

@@ -62,7 +62,7 @@ class QueryDB:
             data_user = {
                 "id": user_id,
                 "mail": email,
-                "password": "12345678",  # Пароль для авторизации (не хэш)
+                "password": "12345678",
             }
             return data_user
 

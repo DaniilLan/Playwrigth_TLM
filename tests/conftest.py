@@ -11,13 +11,6 @@ def main_page():
         yield page
 
 @pytest.fixture()
-def page_general(main_page):
-    page = main_page
-    page.goto(url_auth_test)
-    yield MethodsPageUsers(page)
-
-
-@pytest.fixture()
 def page_auth(main_page):
     page = main_page
     page.goto(url_auth_test)
