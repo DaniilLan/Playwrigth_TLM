@@ -1,10 +1,8 @@
-from PageLocators.locators import *
-import re
-from config import *
-import pytest
-from Methods.db_method import QueryDB
+from locators.base_locators import *
 
-db = QueryDB()
+import re
+import pytest
+
 
 class TestPageUsers:
     @pytest.mark.parametrize('mail, name', [(mail, name) for mail, name in cred.items()])

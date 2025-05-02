@@ -1,6 +1,7 @@
+from locators.base_locators import LocatorsPageAuth
+
 import pytest
-from PageLocators.locators import LocatorsPageHelp, LocatorsPageAuth
-from tests.config import *
+
 
 class TestPageHelp:
     def test_bac_auth_from_help(self, page_help):

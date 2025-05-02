@@ -1,7 +1,6 @@
-from PageLocators.locators import LocatorsGeneral
-import pytest
-from tests.config import *
+from locators.base_locators import LocatorsGeneral
 
+import pytest
 
 
 @pytest.mark.parametrize('url', list_url_test)

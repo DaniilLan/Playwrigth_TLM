@@ -174,5 +174,5 @@ cython_debug/
 .pypirc
 
 # Custom ignor
-tests/config.py
+config/config.py
 .idea

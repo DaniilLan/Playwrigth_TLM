@@ -1,10 +1,4 @@
-from tests.config import *
-import time
-import pytest
-import json
-from playwright.sync_api import Route
-from PageLocators.locators import LocatorsPageSupport, LocatorsPageAuth
-import re
+from locators.base_locators import LocatorsPageSupport, LocatorsPageAuth
 
 
 class TestPageSupport:
