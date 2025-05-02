@@ -175,3 +175,4 @@ cython_debug/
 
 # Custom ignor
 tests/config.py
+.idea
