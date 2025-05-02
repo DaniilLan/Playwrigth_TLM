@@ -18,7 +18,7 @@ class TestPageSupport:
     def test_mail_link(page_support):
         mail_link = LocatorsPageSupport.LINK_PHONE
         mail = page_support.get_attribute_element(mail_link, 'href')
-        mail_text = page_support.get_texts(mail_link)
+        mail_text = page_support.get_text(mail_link)
         page_support.click(mail_link)
         assert mail_text in mail
 
@@ -26,6 +26,6 @@ class TestPageSupport:
     def test_phone_link(page_support):
         phone_link = LocatorsPageSupport.LINK_PHONE
         phone = page_support.get_attribute_element(phone_link, 'href')
-        phone_text = page_support.get_texts(phone_link)
+        phone_text = page_support.get_text(phone_link)
         page_support.click(phone_link)
         assert phone_text in phone

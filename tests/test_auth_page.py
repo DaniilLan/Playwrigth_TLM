@@ -39,7 +39,7 @@ class TestPageAuth:
         page_auth.fill_text(LocatorsPageAuth.INPUT_PASSWORD, password)
         page_auth.click(LocatorsPageAuth.BUTTON_LOG)
         page_auth.wait_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
-        actual_error = page_auth.get_texts(LocatorsGeneral.NOTIFICATION_ALL)
+        actual_error = page_auth.get_text(LocatorsGeneral.NOTIFICATION_ALL)
         assert actual_error == expected_error
 
     def test_focus_input_mail(self, page_auth):
@@ -101,7 +101,7 @@ class TestForgotPassword:
         page_auth.fill_text(LocatorsPageAuth.INPUT_MAIL, mail)
         page_auth.click(LocatorsPageAuth.BUTTON_FORGOT)
         page_auth.wait_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
-        text_notif = page_auth.get_texts(LocatorsGeneral.NOTIFICATION_ALL)
+        text_notif = page_auth.get_text(LocatorsGeneral.NOTIFICATION_ALL)
         if mail == '':
             assert text_notif == "Отсутствует обязательное поле email!"
             page_auth.wait_until_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)

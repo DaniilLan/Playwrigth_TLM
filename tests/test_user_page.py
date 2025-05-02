@@ -11,7 +11,7 @@ class TestPageUsers:
     @pytest.mark.parametrize('password', [password_all])
     def test_auth(self, page_users, mail, password, name):
         page_users.login_users(mail, password)
-        name_profile = page_users.get_texts(LocatorsPageUsers.NAME_PROFILE)
+        name_profile = page_users.get_text(LocatorsPageUsers.NAME_PROFILE)
         assert name_profile == name
         page_users.screenshot(dop=mail)
 
@@ -42,7 +42,7 @@ class TestPageUsers:
                                          LocatorsPageUsers.BUTTON_LOAD_PATIENT,
                                          LocatorsPageUsers.BUTTON_ADD_USERS]])
     def test_button_role_adm(self, page_users, locator):
-        page_users.login_users(page_users, mail_adm_tele, password_all)
+        page_users.login_users(mail_adm_tele, password_all)
         page_users.expect_visible_elements(locator)
 
     @pytest.mark.parametrize("mail, password", [
@@ -173,8 +173,8 @@ class TestPageUsers:
 
     class TestChangeProfile:
 
-        @pytest.mark.parametrize('required_field', [required_fields_change_profile])
-        @pytest.mark.parametrize('placeholder_input', [placeholders_required_fields_change_profile])
+        @pytest.mark.parametrize('required_field', [LocatorsPageUsers.required_fields_change_profile])
+        @pytest.mark.parametrize('placeholder_input', [LocatorsPageUsers.placeholders_required_fields_change_profile])
         def test_empty_required_field(self, page_users, required_field, placeholder_input):
             page_users.login_users(mail_doc_tele, password_all)
             page_users.click(LocatorsPageUsers.NAME_PROFILE)
@@ -185,8 +185,8 @@ class TestPageUsers:
             assert text_notif == "Ошибка при изменении пользователя"
             page_users.wait_until_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
 
-        @pytest.mark.parametrize('required_field', [required_fields_change_profile])
-        @pytest.mark.parametrize('placeholder_input', [placeholders_required_fields_change_profile])
+        @pytest.mark.parametrize('required_field', [LocatorsPageUsers.required_fields_change_profile])
+        @pytest.mark.parametrize('placeholder_input', [LocatorsPageUsers.placeholders_required_fields_change_profile])
         def test_color_required_field(self, page_users, required_field, placeholder_input):
             page_users.login_users(mail_doc_tele, password_all)
             page_users.click(LocatorsPageUsers.NAME_PROFILE)
@@ -264,23 +264,3 @@ class TestPageUsers:
             assert page_users.get_list_text(notification) == "Пользователь успешно добавленДиагнозы успешно изменены"
             page_users.expect_visible_elements(LocatorsPageUsers.DIV_SUCCESSFULLY_CREATED)
             page_users.wait_until_visible_elements(notification)
-
-        # @pytest.mark.parametrize('mail', [mail_doc_tele])
-        # @pytest.mark.parametrize('password', [password_all])
-        # @pytest.mark.parametrize('body_input', [[LocatorsPageUsers.INPUT_ADD_USER_F,
-        #                                         LocatorsPageUsers.INPUT_ADD_USER_I,
-        #                                         LocatorsPageUsers.INPUT_ADD_USER_DATA,
-        #                                         LocatorsPageUsers.INPUT_ADD_USER_ORG]])
-        # @pytest.mark.parametrize('placeholder_input', [[LocatorsPageUsers.PLACEHOLDER_ADD_USER_F,
-        #                                                 LocatorsPageUsers.PLACEHOLDER_ADD_USER_I,
-        #                                                 LocatorsPageUsers.PLACEHOLDER_ADD_USER_DATA,
-        #                                                 LocatorsPageUsers.PLACEHOLDER_ADD_USER_ORG]])
-        # def test_empty_input_field_add_user(self, page_users, mail, password, body_input, placeholder_input):
-        #     page_users.login_users(page_users, mail, password)
-        #     page_users.click(LocatorsPageUsers.BUTTON_ADD_USERS)
-        #     page_users.click(LocatorsPageUsers.BUTTON_ADD_USER_IN_WINDOW)
-        #     page_users.expect_invalid_input_color(placeholder_input, body_input)
-        #     notification = page_users.GeneralLocators.NOTIFICATION_ALL
-        #     text_notification = page_users.get_texts(notification)
-        #     assert text_notification == "Заполните все обязательные поля"
-        #     page_users.wait_until_visible_elements(notification)
