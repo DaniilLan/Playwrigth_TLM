@@ -10,6 +10,7 @@ class MethodsPageUsers:
 
     def __init__(self, page: Page):
         self.page = page
+        self.CLICK_DELAY_MS = 500
 
     def open(self, uri):
         """Открыть страницу"""
@@ -27,14 +28,14 @@ class MethodsPageUsers:
         """Кликнуть по элементам"""
         elements = self.page.locator(locator).all()
         for element in elements:
-            self.page.wait_for_timeout(500)
+            self.page.wait_for_timeout(self.CLICK_DELAY_MS)
             element.click()
 
     def focus_inputs(self, locator):
         """Кликнуть по элементам"""
         elements = self.page.locator(locator).all()
         for element in elements:
-            self.page.wait_for_timeout(500)
+            self.page.wait_for_timeout(self.CLICK_DELAY_MS)
             element.focus()
 
     def fill_text(self, locator, value):
@@ -65,7 +66,6 @@ class MethodsPageUsers:
                 text += locator.text_content()
             print(text)
             return text
-
 
     def wait_load_page(self):
         """Ожидать полной загрузки DOM"""

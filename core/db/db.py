@@ -4,11 +4,11 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from core.models.user import User
 from config.config import load_config
 from core.utils.data_generators import random_name, random_mail
-import logging
 from datetime import datetime
+import logging
+
 
 logger = logging.getLogger(__name__)
-
 
 class DBManager:
     def __init__(self, config_path: str = "config.ini"):

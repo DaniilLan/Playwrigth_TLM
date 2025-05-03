@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, Date, Numeric
-from sqlalchemy.ext.declarative import declarative_base
-import datetime
+from sqlalchemy.orm import declarative_base
+from datetime import datetime, timezone
 
 Base = declarative_base()
 
@@ -8,7 +8,7 @@ class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
-    created = Column(DateTime, nullable=False, default=datetime.datetime.utcnow)
+    created = Column(DateTime, nullable=False, default=datetime.now(timezone.utc))
     username = Column(String(50))
     org_id = Column(Integer)
     first_name = Column(String(50))
