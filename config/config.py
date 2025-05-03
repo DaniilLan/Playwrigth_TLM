@@ -1,7 +1,13 @@
 from dataclasses import dataclass
 from typing import Dict, List
 
+import json
 import configparser
+
+
+@dataclass
+class PageContext:
+    viewport_fhd: dict
 
 
 @dataclass
@@ -46,6 +52,7 @@ class Config:
     db: DbConfig
     api: ApiConfig
     urls: UrlConfig
+    context: PageContext
     creds: UserCredentials
 
     @property
@@ -80,9 +87,12 @@ def load_config(path: str = "config.ini") -> Config:
     config = configparser.ConfigParser()
     config.read(path)
 
+    viewport_data = json.loads(config["context_page"]["viewport_fhd"])
     return Config(
         db=DbConfig(**config["database"]),
         api=ApiConfig(**config["api"]),
-        urls=UrlConfig(**config["auth_urls"]),
-        creds=UserCredentials(**config["credentials"])
+        urls=UrlConfig(**config["urls_page"]),
+        creds=UserCredentials(**config["credentials"]),
+        context=PageContext(
+            viewport_fhd=viewport_data),
     )

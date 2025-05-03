@@ -1,4 +1,4 @@
-from locators.base_locators import LocatorsPageSupport, LocatorsPageAuth
+from locators.base_locators import LocatorsPageSupport, LocatorsAuth
 
 
 class TestPageSupport:
@@ -6,7 +6,7 @@ class TestPageSupport:
     @staticmethod
     def test_bac_auth_from_support(page_support):
         page_support.click(LocatorsPageSupport.BUTTON_BAC_AUTH)
-        page_support.expect_visible_elements(LocatorsPageAuth.BUTTON_LOG)
+        page_support.expect_visible_elements(LocatorsAuth.BUTTON_LOG)
 
     @staticmethod
     def test_mail_link(page_support):

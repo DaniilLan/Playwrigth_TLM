@@ -121,10 +121,10 @@ class TestPageUsers:
             page_users.click(LocatorsPageUsers.BUTTON_CHANGE_PASSWORD)
             page_users.change_password(test_user['password'], invalid_pass)
             page_users.click(LocatorsPageUsers.BUTTON_SAVE_NEW_PASS)
-            page_users.wait_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
-            notif_text = page_users.get_text(LocatorsGeneral.NOTIFICATION_ALL)
+            page_users.wait_visible_elements(LocatorsBase.NOTIFICATION_ALL)
+            notif_text = page_users.get_text(LocatorsBase.NOTIFICATION_ALL)
             assert notif_text == "Пароль успешно изменён"
-            page_users.wait_until_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
+            page_users.wait_until_visible_elements(LocatorsBase.NOTIFICATION_ALL)
 
         def test_current_password_invalid(self, page_users, test_user):
             page_users.login_users(test_user['mail'], test_user['password'])
@@ -132,10 +132,10 @@ class TestPageUsers:
             page_users.click(LocatorsPageUsers.BUTTON_CHANGE_PASSWORD)
             page_users.change_password("98763578", invalid_pass)
             page_users.click(LocatorsPageUsers.BUTTON_SAVE_NEW_PASS)
-            page_users.wait_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
-            notif_text = page_users.get_text(LocatorsGeneral.NOTIFICATION_ALL)
+            page_users.wait_visible_elements(LocatorsBase.NOTIFICATION_ALL)
+            notif_text = page_users.get_text(LocatorsBase.NOTIFICATION_ALL)
             assert notif_text == "Пароль не верный."
-            page_users.wait_until_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
+            page_users.wait_until_visible_elements(LocatorsBase.NOTIFICATION_ALL)
 
         def test_empty_new_password(self, page_users, test_user):
             page_users.login_users(test_user['mail'], test_user['password'])
@@ -145,10 +145,10 @@ class TestPageUsers:
             page_users.fill_text(LocatorsPageUsers.INPUT_NEW_PASS, "123")
             page_users.fill_text(LocatorsPageUsers.INPUT_NEW2_PASS, "")
             page_users.click(LocatorsPageUsers.BUTTON_SAVE_NEW_PASS)
-            page_users.wait_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
-            notif_text = page_users.get_text(LocatorsGeneral.NOTIFICATION_ALL)
+            page_users.wait_visible_elements(LocatorsBase.NOTIFICATION_ALL)
+            notif_text = page_users.get_text(LocatorsBase.NOTIFICATION_ALL)
             assert notif_text == "Пароль не может быть изменён"
-            page_users.wait_until_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
+            page_users.wait_until_visible_elements(LocatorsBase.NOTIFICATION_ALL)
 
 
         @pytest.mark.parametrize('body_input', [[LocatorsPageUsers.INPUT_CURRENT_PASS,
@@ -163,10 +163,10 @@ class TestPageUsers:
             page_users.click(LocatorsPageUsers.BUTTON_CHANGE_PASSWORD)
             page_users.click(LocatorsPageUsers.BUTTON_SAVE_NEW_PASS)
             page_users.expect_invalid_input_color(placeholder_input, body_input)
-            page_users.wait_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
-            notif_text = page_users.get_text(LocatorsGeneral.NOTIFICATION_ALL)
+            page_users.wait_visible_elements(LocatorsBase.NOTIFICATION_ALL)
+            notif_text = page_users.get_text(LocatorsBase.NOTIFICATION_ALL)
             assert notif_text == "Пароль не может быть изменён"
-            page_users.wait_until_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
+            page_users.wait_until_visible_elements(LocatorsBase.NOTIFICATION_ALL)
 
 
     class TestChangeProfile:
@@ -179,9 +179,9 @@ class TestPageUsers:
             page_users.click(LocatorsPageUsers.BUTTON_CHANGE_PROFILE)
             page_users.clear_inputs(required_field)
             page_users.click(LocatorsPageUsers.BUTTON_SAVE_PROFILE)
-            text_notif = page_users.get_text(LocatorsGeneral.NOTIFICATION_ALL)
+            text_notif = page_users.get_text(LocatorsBase.NOTIFICATION_ALL)
             assert text_notif == "Ошибка при изменении пользователя"
-            page_users.wait_until_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
+            page_users.wait_until_visible_elements(LocatorsBase.NOTIFICATION_ALL)
 
         @pytest.mark.parametrize('required_field', [LocatorsPageUsers.required_fields_change_profile])
         @pytest.mark.parametrize('placeholder_input', [LocatorsPageUsers.placeholders_required_fields_change_profile])
@@ -192,7 +192,7 @@ class TestPageUsers:
             page_users.clear_inputs(required_field)
             page_users.click(LocatorsPageUsers.BUTTON_SAVE_PROFILE)
             page_users.expect_invalid_input_color(placeholder_input, required_field)
-            page_users.wait_until_visible_elements(LocatorsGeneral.NOTIFICATION_ALL)
+            page_users.wait_until_visible_elements(LocatorsBase.NOTIFICATION_ALL)
 
         def test_close_window(self, page_users):
             page_users.login_users(mail_doc_tele, password_all)
@@ -214,7 +214,7 @@ class TestPageUsers:
             page_users.open_dropdown_organization()
             page_users.click(LocatorsPageUsers.ORG_LVL3)
             page_users.click(LocatorsPageUsers.BUTTON_ADD_USER_IN_WINDOW)
-            notification = LocatorsGeneral.NOTIFICATION_ALL
+            notification = LocatorsBase.NOTIFICATION_ALL
             page_users.wait_visible_elements(notification)
             assert page_users.get_list_text(notification) == "Пользователь успешно добавленДиагнозы успешно изменены"
             page_users.expect_visible_elements(LocatorsPageUsers.DIV_SUCCESSFULLY_CREATED)
@@ -242,7 +242,7 @@ class TestPageUsers:
                 page_users.open_dropdown_organization()
                 page_users.click(LocatorsPageUsers.ORG_LVL3)
             page_users.click(LocatorsPageUsers.BUTTON_ADD_USER_IN_WINDOW)
-            notification = LocatorsGeneral.NOTIFICATION_ALL
+            notification = LocatorsBase.NOTIFICATION_ALL
             page_users.wait_visible_elements(notification)
             assert page_users.get_list_text(notification) in "Заполните все обязательные поля"
             page_users.wait_until_visible_elements(notification)
@@ -257,7 +257,7 @@ class TestPageUsers:
             page_users.open_dropdown_organization()
             page_users.click(LocatorsPageUsers.ORG_LVL3)
             page_users.click(LocatorsPageUsers.BUTTON_ADD_USER_IN_WINDOW)
-            notification = LocatorsGeneral.NOTIFICATION_ALL
+            notification = LocatorsBase.NOTIFICATION_ALL
             page_users.wait_visible_elements(notification)
             assert page_users.get_list_text(notification) == "Пользователь успешно добавленДиагнозы успешно изменены"
             page_users.expect_visible_elements(LocatorsPageUsers.DIV_SUCCESSFULLY_CREATED)
