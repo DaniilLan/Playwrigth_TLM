@@ -1,5 +1,5 @@
 from playwright.sync_api import sync_playwright
-from page_objects.base_page import *
+from page_objects.base_page import BasePage
 from core.db.db import DBManager
 from config.config import load_config
 
@@ -19,8 +19,13 @@ def conf():
 @pytest.fixture()
 def main_page(conf):
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False, slow_mo=300)
-        context = browser.new_context(viewport=conf.context.viewport_fhd)
+        browser = p.chromium.launch(
+            headless=False,
+            slow_mo=300,
+        )
+        context = browser.new_context(
+            viewport=conf.context.viewport_fhd,
+        )
         page = context.new_page()
         yield page
 
@@ -31,7 +36,7 @@ def page(main_page, conf, request):
     url = conf.urls.base
     page.goto(url)
     request.cls.conf = conf
-    request.cls.page = MethodsPage(page)
+    request.cls.page = BasePage(page, conf)
     yield
 
 

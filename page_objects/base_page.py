@@ -1,40 +1,58 @@
 from functools import wraps
-from typing import Union, List, Optional
-from playwright.sync_api import expect, Page, Locator
-from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
+
+import pytest
+
 from locators.auth_locators import LocatorsAuth
 from locators.user_locators import LocatorsUsers
+from inspect import signature, Parameter
+from typing import Callable, Any, Union, List
+from playwright.sync_api import expect, Page, Locator
+from playwright.sync_api import (
+    TimeoutError as PlaywrightTimeoutError,
+    Error as PlaywrightError
+)
 
 import logging
-import inspect
 
 
-
-def handle_playwright_errors(func):
+def handle_playwright_errors(func: Callable) -> Callable:
+    """Декоратор для обработки ошибок Playwright"""
     @wraps(func)
-    def wrapper(self, *args, **kwargs):
+    def wrapper(self, *args, **kwargs) -> Any:
+        method_name = func.__name__
+        sig = signature(func)
+        bound_args = sig.bind(self, *args, **kwargs)
+
+        locator_param = next((param for param in sig.parameters.values()
+                              if param.name.lower() == 'locator'), None)
+        locator = bound_args.arguments.get(locator_param.name, "unknown") if locator_param else "unknown"
         try:
             return func(self, *args, **kwargs)
         except PlaywrightTimeoutError as e:
-            method_name = func.__name__
-            locator = args[0] if args else "unknown"
-            error_msg = f"Timeout in {method_name}(locator='{locator}'): {e}"
+            error_msg = f"TimeoutError in {method_name}(locator='{locator}'): {str(e)}"
             logging.error(error_msg)
-            self._take_screenshot(method_name, "timeout_error")
+            self._take_screenshot(method_name, "playwright_timeout")
             raise PlaywrightTimeoutError(error_msg) from e
-        except Exception as e:
-            method_name = func.__name__
-            error_msg = f"Error in {method_name}: {e}"
+        except PlaywrightError as e:
+            error_type = type(e).__name__
+            error_msg = f"{error_type} in {method_name}(locator='{locator}'): {str(e)}"
             logging.error(error_msg)
-            self._take_screenshot(method_name, "error")
+            self._take_screenshot(method_name, f"playwright_{error_type.lower()}")
+            raise type(e)(error_msg) from e
+        except AssertionError as e:
+            logging.error(f"Validation failed in {method_name}(locator='{locator}'): {str(e)}")
+            self._take_screenshot(method_name, "validation_error")
+            raise
+        except Exception as e:
+            logging.error(f"UNEXPECTED error in {method_name}: {type(e).__name__} - {str(e)}", exc_info=True)
             raise
     return wrapper
 
 
-class MethodsPage:
-    def __init__(self, page: Page):
+class BasePage:
+    def __init__(self, page: Page, conf):
         self.page = page
-        self.CLICK_DELAY_MS = 500
+        self.conf = conf
 
     def _take_screenshot(self, method_name: str, error_type: str):
         """Внутренний метод для создания скриншотов при ошибках"""
@@ -63,7 +81,7 @@ class MethodsPage:
         """Кликнуть по всем элементам, соответствующим локатору"""
         elements = self.page.locator(locator).all()
         for element in elements:
-            self.page.wait_for_timeout(self.CLICK_DELAY_MS)
+            expect(element).to_be_visible()
             element.click()
 
     @handle_playwright_errors
@@ -88,7 +106,10 @@ class MethodsPage:
     def get_list_text(self, locator: str):
         """Получить объединенный текст всех элементов"""
         elements = self.page.locator(locator).all()
-        return "".join(element.text_content() for element in elements)
+        text = "".join(element.text_content() for element in elements)
+        if text is None:
+            raise ValueError(f"У элемента с локатором = {locator}, отсутствует текст")
+        return text
 
     @handle_playwright_errors
     def wait_visible_elements(self, locators: Union[str, List[str]], timeout_sec: int = 30):
@@ -126,17 +147,17 @@ class MethodsPage:
     @handle_playwright_errors
     def dropdown_filter(self):
         """Опустить drop-down список 'Фильтры' - изменив параметр элемента в DOM"""
-        element = self.page.locator('//*[@id="rootTelemedHub"]/div[2]/main/div/div[2]/div/div')
+        element = self.page.locator(LocatorsUsers.FILTER_DROPDOWN_DIV)
         element.evaluate('(element) => { element.style.maxHeight = "none"; }')
 
     @handle_playwright_errors
     def open_dropdown_organization(self):
         """Раскрыть все видимые организации в поле 'Организации' при добавлении пользователя"""
         self.page.click(LocatorsUsers.FILTER_DROPDOWN_ORG)
-        elements = self.page.locator('//div[@class="arrowControl__e920 arrowControl"]').all()
+        elements = self.page.locator(LocatorsUsers.ORGS_IN_DROPDOWN_LIST).all()
         col = 0
         while col != len(elements):
-            self.click('//div[@class="arrowControl__e920 arrowControl"]')
+            self.click(LocatorsUsers.ORGS_IN_DROPDOWN_LIST)
             col += 1
 
     @handle_playwright_errors
@@ -146,7 +167,7 @@ class MethodsPage:
         return len(elements)
 
     @handle_playwright_errors
-    def get_attribute_element(self, locator, type_attribute: str):
+    def get_attribute_element(self, locator: str, type_attribute: str):
         """Получить атрибуты элемента"""
         element = self.page.locator(locator)
         return element.get_attribute(type_attribute)
@@ -160,27 +181,33 @@ class MethodsPage:
     @handle_playwright_errors
     def change_password(self, current_pass: str, new_pass: str):
         """Смена пароля на стр. /users в профиле пользователя"""
-        self.page.fill(LocatorsUsers.INPUT_CURRENT_PASS, current_pass)
-        self.page.fill(LocatorsUsers.INPUT_NEW_PASS, new_pass)
-        self.page.fill(LocatorsUsers.INPUT_NEW2_PASS, new_pass)
+        self.fill_text(LocatorsUsers.INPUT_CURRENT_PASS, current_pass)
+        self.fill_text(LocatorsUsers.INPUT_NEW_PASS, new_pass)
+        self.fill_text(LocatorsUsers.INPUT_NEW2_PASS, new_pass)
+
+    @handle_playwright_errors
+    def expect_style_element(self, locator: str, name_style: str, value_style: str):
+        """Проверка - 'имя' и 'значение' стиля элемента равны заданным параметрам"""
+        element = self.page.locator(locator) if not locator.startswith('/') else self.page.locator(f'xpath={locator}')
+        return expect(element).to_have_css(name_style, value_style)
 
     @handle_playwright_errors
     def expect_invalid_input_color(self, locator_placeholder: Union[str, List[str]],
                                          locator_body_input: Union[str, List[str]]):
-        """Проверка - что цвет плейсхолдера и тела поля(лей)
-        при вводе не валидных данных соответствует цвету при ошибке"""
-        if type(locator_placeholder) is not list:
-            self.expect_style_element(locator_placeholder, 'color', 'rgb(229, 74, 76)')
+        """Проверка цвета при ошибке валидации"""
+        if not isinstance(locator_placeholder, list):
+            self.expect_style_element(locator_placeholder, 'color', self.conf.css.error_border_color)
         else:
             for locator in locator_placeholder:
-                self.expect_style_element(locator, 'color', 'rgb(229, 74, 76)')
-        if type(locator_body_input) is not list:
-            self.expect_style_element(locator_body_input, 'background-color', 'rgb(255, 243, 242)')
-            self.expect_style_element(locator_body_input, 'border-color', 'rgb(229, 74, 76)')
+                self.expect_style_element(locator, 'color', self.conf.css.error_border_color)
+
+        if not isinstance(locator_body_input, list):
+            self.expect_style_element(locator_body_input, 'background-color', self.conf.css.error_background_color)
+            self.expect_style_element(locator_body_input, 'border-color', self.conf.css.error_border_color)
         else:
             for locator in locator_body_input:
-                self.expect_style_element(locator, 'background-color', 'rgb(255, 243, 242)')
-                self.expect_style_element(locator, 'border-color', 'rgb(229, 74, 76)')
+                self.expect_style_element(locator, 'background-color', self.conf.css.error_background_color)
+                self.expect_style_element(locator, 'border-color', self.conf.css.error_border_color)
 
     @handle_playwright_errors
     def clear_inputs(self, locators: Union[str, List[str]]):
@@ -188,3 +215,4 @@ class MethodsPage:
         locators_list = [locators] if isinstance(locators, str) else locators
         for locator in locators_list:
             self.page.locator(locator).clear()
+            expect(self.page.locator(locator)).to_be_empty()
