@@ -93,7 +93,7 @@ class Config(BaseModel):
             self.creds.admin_crb: "Админ Црб",
             self.creds.doctor_tele: "Доктор Телемедцентра",
             self.creds.doctor_amb: "Доктор Скорой",
-            self.creds.doctor_crb: "Доктор Црб"
+            self.creds.doctor_crb: "Доктор Црб",
         }
 
 

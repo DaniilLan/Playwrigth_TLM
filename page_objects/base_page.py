@@ -1,7 +1,4 @@
 from functools import wraps
-
-import pytest
-
 from locators.auth_locators import LocatorsAuth
 from locators.user_locators import LocatorsUsers
 from inspect import signature, Parameter
@@ -99,8 +96,8 @@ class BasePage:
     @handle_playwright_errors
     def expect_text(self, locator: str, text_element: str):
         """Проверка соответствия текста ОР"""
-        locator = self.page.locator(locator)
-        expect(locator).to_have_text(text_element)
+        element = self.page.locator(locator)
+        expect(element).to_have_text(text_element)
 
     @handle_playwright_errors
     def get_list_text(self, locator: str):

@@ -8,13 +8,13 @@ import pytest
 class TestPageAuth:
     page: BasePage
 
-    # @pytest.mark.parametrize('elements', LocatorsBase.base_elements)
-    # def test_visible_auth_elements(self, elements):
-    #     self.page.wait_visible_elements(elements)
+    @pytest.mark.parametrize('elements', LocatorsBase.base_elements)
+    def test_visible_auth_elements(self, elements):
+        self.page.wait_visible_elements(elements)
 
-    # @pytest.mark.parametrize('elements', LocatorsAuth.auth_elements)
-    # def test_visible_base_elements(self, elements):
-    #     self.page.wait_visible_elements(elements)
+    @pytest.mark.parametrize('elements', LocatorsAuth.auth_elements)
+    def test_visible_base_elements(self, elements):
+        self.page.wait_visible_elements(elements)
 
     # @pytest.mark.parametrize("mail, password, expected_error", [
     #     # Валидная почта + неверный пароль
@@ -38,15 +38,15 @@ class TestPageAuth:
 #     def test_focus_input_pass(self, page_auth):
 #         page_auth.focus_element(LocatorsAuth.INPUT_PASSWORD)
 #
-#     def test_placeholder_before_click(self, page_auth):
-#         page_auth.click(LocatorsAuth.INPUT_MAIL)
-#         page_auth.expect_visible_elements(LocatorsAuth.PLACEHOLDER_EMAIL)
-#         type_class_mail = page_auth.get_attribute_element(LocatorsAuth.DIV_INPUT_EMAIL, 'class')
-#         assert 'focused__e6b9' in type_class_mail
-#         page_auth.click(LocatorsAuth.INPUT_PASSWORD)
-#         page_auth.expect_visible_elements(LocatorsAuth.PLACEHOLDER_PASSWORD)
-#         type_class_pass = page_auth.get_attribute_element(LocatorsAuth.DIV_INPUT_PASS, 'class')
-#         assert 'focused__e6b9' in type_class_pass
+    # def test_placeholder_before_click(self, page_auth):
+    #     page_auth.click(LocatorsAuth.INPUT_MAIL)
+    #     page_auth.expect_visible_elements(LocatorsAuth.PLACEHOLDER_EMAIL)
+    #     type_class_mail = page_auth.get_attribute_element(LocatorsAuth.DIV_INPUT_EMAIL, 'class')
+    #     assert 'focused__e6b9' in type_class_mail
+    #     page_auth.click(LocatorsAuth.INPUT_PASSWORD)
+    #     page_auth.expect_visible_elements(LocatorsAuth.PLACEHOLDER_PASSWORD)
+    #     type_class_pass = page_auth.get_attribute_element(LocatorsAuth.DIV_INPUT_PASS, 'class')
+    #     assert 'focused__e6b9' in type_class_pass
 #
 #     def test_type_password(self, page_auth):
 #         page_auth.fill_text(LocatorsAuth.INPUT_PASSWORD, "12345678")
@@ -104,9 +104,9 @@ class TestPageAuth:
 #         page_auth.click(LocatorsAuth.BUTTON_CANCEL)
 #         page_auth.expect_visible_elements(LocatorsAuth.BUTTON_LOG)
 #
-    def test_color_input_mail_forgot(self):
-        self.page.click(LocatorsAuth.LINK_FORGOT_PASSWORD)
-        self.page.click(LocatorsAuth.BUTTON_LOG)
-        color_text = LocatorsAuth.PLACEHOLDER_EMAIL
-        border_background_color = LocatorsAuth.INPUT_MAIL
-        self.page.expect_invalid_input_color(color_text, border_background_color)
+    # def test_color_input_mail_forgot(self):
+    #     self.page.click(LocatorsAuth.LINK_FORGOT_PASSWORD)
+    #     self.page.click(LocatorsAuth.BUTTON_LOG)
+    #     color_text = LocatorsAuth.PLACEHOLDER_EMAIL
+    #     border_background_color = LocatorsAuth.INPUT_MAIL
+    #     self.page.expect_invalid_input_color(color_text, border_background_color)
