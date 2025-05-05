@@ -1,11 +1,12 @@
 from locators.base_locators import LocatorsBase
 from locators.auth_locators import LocatorsAuth
-
+from page_objects.base_page import BasePage
 import pytest
 
 
 @pytest.mark.usefixtures("page")
 class TestPageAuth:
+    page: BasePage
 
     # @pytest.mark.parametrize('elements', LocatorsBase.base_elements)
     # def test_visible_auth_elements(self, elements):

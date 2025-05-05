@@ -1,46 +1,55 @@
-from dataclasses import dataclass
+from os import environ
+from typing import Dict, List
+from pydantic import BaseModel, Field
 
-import json
 import configparser
+import json
 
-@dataclass
-class CSSParams:
+
+class CSSParams(BaseModel):
     error_background_color: str
     error_border_color: str
 
 
-@dataclass
-class PageContext:
-    viewport_fhd: dict
-    viewport_2k: dict
+class PageContext(BaseModel):
+    viewport_fhd: Dict[str, int]
+    viewport_2k: Dict[str, int]
 
 
-@dataclass
-class DbConfig:
+class DbConfig(BaseModel):
     host: str
     port: int
     name: str
     user: str
-    password: str
-    password_hash: str
+    password: str = Field(default_factory=lambda: environ.get("DB_PASSWORD"))
+    password_hash: str = Field(default_factory=lambda: environ.get("DB_PASSWORD_HASH"))
 
 
-@dataclass
-class ApiConfig:
+class ApiConfig(BaseModel):
     host_port: str
 
 
-@dataclass
-class UrlConfig:
+class UrlConfig(BaseModel):
     base: str
-    users: str
-    all_measurements: str
-    help: str
-    support: str
+
+    @property
+    def users(self) -> str:
+        return f"{self.base}/users"
+
+    @property
+    def all_measurements(self) -> str:
+        return f"{self.base}/all_measurements"
+
+    @property
+    def help(self) -> str:
+        return f"{self.base}/help"
+
+    @property
+    def support(self) -> str:
+        return f"{self.base}/support"
 
 
-@dataclass
-class UserCredentials:
+class UserCredentials(BaseModel):
     password_valid: str
     password_invalid: str
     admin_tele: str
@@ -52,8 +61,7 @@ class UserCredentials:
     invalid_mail: str
 
 
-@dataclass
-class Config:
+class Config(BaseModel):
     db: DbConfig
     api: ApiConfig
     css: CSSParams
@@ -62,7 +70,7 @@ class Config:
     creds: UserCredentials
 
     @property
-    def admin_emails(self) -> list[str]:
+    def admin_emails(self) -> List[str]:
         return [
             self.creds.admin_tele,
             self.creds.admin_amb,
@@ -70,7 +78,7 @@ class Config:
         ]
 
     @property
-    def doctor_emails(self) -> list[str]:
+    def doctor_emails(self) -> List[str]:
         return [
             self.creds.doctor_tele,
             self.creds.doctor_amb,
@@ -78,7 +86,7 @@ class Config:
         ]
 
     @property
-    def email_name_mapping(self) -> dict[str, str]:
+    def email_name_mapping(self) -> Dict[str, str]:
         return {
             self.creds.admin_tele: "Админ Телемедцентра",
             self.creds.admin_amb: "Админ Скорой",
