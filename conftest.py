@@ -1,23 +1,24 @@
 from playwright.sync_api import sync_playwright
-from page_objects.base_page import BasePage
 from core.db.db import DBManager
 from config.config import load_config
 
 import pytest
 
+from page_objects.page.auth import AuthPage
 
-@pytest.fixture(scope="session")
+
+@pytest.fixture(scope="class")
 def db():
     return DBManager()
 
 
-@pytest.fixture()
+@pytest.fixture(autouse=True)
 def conf():
     return load_config()
 
 
 @pytest.fixture()
-def main_page(conf):
+def settings_browser(conf):
     with sync_playwright() as p:
         browser = p.chromium.launch(
             headless=False,
@@ -26,19 +27,16 @@ def main_page(conf):
         context = browser.new_context(
             viewport=conf.context.viewport_fhd,
         )
-        page = context.new_page()
-        yield page
+        browser = context.new_page()
+        yield browser
 
 
 @pytest.fixture()
-def page(main_page, conf, request):
-    page = main_page
-    url = conf.urls.base
-    page.goto(url)
-    request.cls.conf = conf
-    request.cls.page = BasePage(page, conf)
-    yield
-
+def page_auth(settings_browser, conf, request):
+    page = settings_browser
+    page.goto(conf.urls.base)
+    page = AuthPage(page)
+    yield page
 
 
 @pytest.fixture

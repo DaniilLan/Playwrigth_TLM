@@ -25,4 +25,3 @@ class LocatorsHelp:
                    PANEL6_HELP: OPEN_PANEL6_HELP,
                    PANEL7_HELP: OPEN_PANEL7_HELP}
 
-

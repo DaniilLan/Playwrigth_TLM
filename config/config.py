@@ -6,6 +6,10 @@ import configparser
 import json
 
 
+class TextError(BaseModel):
+    invalid_mail: str
+    invalid_password: str
+
 class CSSParams(BaseModel):
     error_background_color: str
     error_border_color: str
@@ -66,6 +70,7 @@ class Config(BaseModel):
     api: ApiConfig
     css: CSSParams
     urls: UrlConfig
+    error: TextError
     context: PageContext
     creds: UserCredentials
 
@@ -99,7 +104,8 @@ class Config(BaseModel):
 
 def load_config(path: str = "config.ini") -> Config:
     config = configparser.ConfigParser()
-    config.read(path)
+    with open(path, 'r', encoding='utf-8') as f:
+        config.read_file(f)
 
     viewport_fhd = json.loads(config["context_page"]["viewport_fhd"])
     viewport_2k = json.loads(config["context_page"]["viewport_2k"])
@@ -110,6 +116,7 @@ def load_config(path: str = "config.ini") -> Config:
         css=CSSParams(**config["css_params"]),
         urls=UrlConfig(**config["urls_page"]),
         creds=UserCredentials(**config["credentials"]),
+        error=TextError(**config["text_error"]),
         context=PageContext(
             viewport_fhd=viewport_fhd,
             viewport_2k=viewport_2k,

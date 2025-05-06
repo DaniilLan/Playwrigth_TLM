@@ -1,9 +1,9 @@
 from contextlib import contextmanager
 from sqlalchemy import create_engine, URL
 from sqlalchemy.orm import sessionmaker, scoped_session
-from core.models.user import User
+from core.db.models.user import User
 from config.config import load_config
-from core.utils.data_generators import random_name, random_mail
+from core.utils.data_generators import random_name
 from datetime import datetime
 import logging
 

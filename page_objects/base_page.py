@@ -1,9 +1,9 @@
 from functools import wraps
-from locators.auth_locators import LocatorsAuth
-from locators.user_locators import LocatorsUsers
+from page_objects.page.user import LocatorsUsers
 from inspect import signature, Parameter
 from typing import Callable, Any, Union, List
-from playwright.sync_api import expect, Page, Locator
+from playwright.sync_api import expect, Page
+from config.config import load_config
 from playwright.sync_api import (
     TimeoutError as PlaywrightTimeoutError,
     Error as PlaywrightError
@@ -47,9 +47,9 @@ def handle_playwright_errors(func: Callable) -> Callable:
 
 
 class BasePage:
-    def __init__(self, page: Page, conf):
+    def __init__(self, page: Page):
         self.page = page
-        self.conf = conf
+        self.conf = load_config()
 
     def _take_screenshot(self, method_name: str, error_type: str):
         """Внутренний метод для создания скриншотов при ошибках"""
@@ -118,14 +118,6 @@ class BasePage:
                 state="visible",
                 timeout=timeout_sec * 1000
             )
-
-    @handle_playwright_errors
-    def login_users(self, mail: str, password: str):
-        """Авторизация пользователя"""
-        self.fill_text(LocatorsAuth.INPUT_MAIL, mail)
-        self.fill_text(LocatorsAuth.INPUT_PASSWORD, password)
-        self.click(LocatorsAuth.BUTTON_LOG)
-        self.wait_visible_elements(LocatorsUsers.NAME_PROFILE)
 
     @handle_playwright_errors
     def expect_not_visible_elements(self, locators: Union[str, List[str]]):
@@ -213,3 +205,9 @@ class BasePage:
         for locator in locators_list:
             self.page.locator(locator).clear()
             expect(self.page.locator(locator)).to_be_empty()
+
+    @handle_playwright_errors
+    def expect_css_style(self, locator: str, name_css: str, param_css: str):
+        """Проверка параметров стиля элемента"""
+        element = self.page.locator(locator)
+        expect(element).to_have_css(name_css, param_css)

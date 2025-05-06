@@ -1,9 +1,3 @@
-from locators.base_locators import *
-
-import re
-import pytest
-
-
 # class TestPageUsers:
 #     @pytest.mark.parametrize('mail, name', [(mail, name) for mail, name in cred.items()])
 #     @pytest.mark.parametrize('password', [password_all])
