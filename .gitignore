@@ -174,5 +174,5 @@ cython_debug/
 
 # Custom ignor
 .idea
-.env
-/config.ini
+#.env
+#/config.ini
