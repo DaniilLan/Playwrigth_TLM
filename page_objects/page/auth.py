@@ -140,6 +140,7 @@ class AuthPage(BasePage):
 
     def click_on_reset_password(self):
         self.click(LocatorsAuth.BUTTON_RESET)
+        self.expect_not_visible_elements(LocatorsAuth.BUTTON_RESET)
 
     def expect_notification_valid_reset(self, mail):
         notification = LocatorsBase.NOTIFICATION_ALL
