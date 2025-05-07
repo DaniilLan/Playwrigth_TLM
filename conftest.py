@@ -12,13 +12,13 @@ def db():
     return DBManager()
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture()
 def conf():
     return load_config()
 
 
 @pytest.fixture()
-def settings_browser(conf):
+def settings_page(conf):
     with sync_playwright() as p:
         browser = p.chromium.launch(
             headless=False,
@@ -27,15 +27,15 @@ def settings_browser(conf):
         context = browser.new_context(
             viewport=conf.context.viewport_fhd,
         )
-        browser = context.new_page()
-        yield browser
+        page = context.new_page()
+        yield page
 
 
 @pytest.fixture()
-def page_auth(settings_browser, conf, request):
-    page = settings_browser
+def auth_page(settings_page, conf, request):
+    page = settings_page
     page.goto(conf.urls.base)
-    page = AuthPage(page)
+    page = AuthPage
     yield page
 
 
@@ -44,3 +44,14 @@ def test_user(db):
     user = db.create_user()
     yield user
     db.delete_user(user["id"])
+
+
+@pytest.fixture
+def doctor_emails(conf):
+    return conf.doctor_emails
+
+
+@pytest.fixture
+def admin_emails(conf):
+    return conf.admin_emails
+

@@ -1,6 +1,6 @@
 from functools import wraps
 from page_objects.page.user import LocatorsUsers
-from inspect import signature, Parameter
+from inspect import signature
 from typing import Callable, Any, Union, List
 from playwright.sync_api import expect, Page
 from config.config import load_config
@@ -8,12 +8,14 @@ from playwright.sync_api import (
     TimeoutError as PlaywrightTimeoutError,
     Error as PlaywrightError
 )
+from abc import ABC
 
 import logging
 
 
 def handle_playwright_errors(func: Callable) -> Callable:
     """Декоратор для обработки ошибок Playwright"""
+
     @wraps(func)
     def wrapper(self, *args, **kwargs) -> Any:
         method_name = func.__name__
@@ -43,15 +45,16 @@ def handle_playwright_errors(func: Callable) -> Callable:
         except Exception as e:
             logging.error(f"UNEXPECTED error in {method_name}: {type(e).__name__} - {str(e)}", exc_info=True)
             raise
+
     return wrapper
 
 
-class BasePage:
+class BasePage(ABC):
     def __init__(self, page: Page):
         self.page = page
         self.conf = load_config()
 
-    def _take_screenshot(self, method_name: str, error_type: str):
+    def take_screenshot(self, method_name: str, error_type: str):
         """Внутренний метод для создания скриншотов при ошибках"""
         screenshot_path = (
             f"screenshot_tests/{method_name}/{method_name}_{error_type}.png"
@@ -182,7 +185,7 @@ class BasePage:
 
     @handle_playwright_errors
     def expect_invalid_input_color(self, locator_placeholder: Union[str, List[str]],
-                                         locator_body_input: Union[str, List[str]]):
+                                   locator_body_input: Union[str, List[str]]):
         """Проверка цвета при ошибке валидации"""
         if not isinstance(locator_placeholder, list):
             self.expect_style_element(locator_placeholder, 'color', self.conf.css.error_border_color)
