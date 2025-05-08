@@ -1,35 +1,30 @@
 ```
 │
 ├── config 
-│   └── config.py
+│   └── config.py ----------------- Валидация и передача данных
 │
 ├── core
 │   ├── db
-│   │   ├── db.py
+│   │   ├── db.py ----------------- Подкючения к БД
 │   │   └── models
-│   │       └── public.py
+│   │       └── public.py --------- Модели БД 
 │   │
 │   └── utils
-│       ├── api_client.py
-│       ├── data_generators.py
-│       └── file_helpers.py
+│       ├── api_client.py ---------- Запросы к API(не реализовано)
+│       ├── data_generators.py ----- Методы генерации тестовых данных
+│       └── file_helpers.py -------- Хранение статичных тестовых данных
 │
 ├── page_objects
-│   ├── base_page.py
+│   ├── base_page.py --------------- Класс основных методов
 │   ├── locators
-│   │   └── base_locators.py
+│   │   └── base_locators.py ------- Общие локаторы страниц
 │   │
 │   └── page
-│       └── auth.py
+│       └── auth.py ---------------- Класс с методами (из общих) для страницы авторизации
 │
 ├── screenshot_tests
-│   ├── expect_css_style
-│   │   └── expect_css_style_validation_error.png
-│   ├── expect_text
-│   │   └── expect_text_validation_error.png
-│   └── wait_visible_elements
-│       └── wait_visible_elements_playwright_timeout.png
+│      
 │
 └── tests
-    └── test_auth_page.py
+    └── test_auth_page.py ---------- 
 ```
