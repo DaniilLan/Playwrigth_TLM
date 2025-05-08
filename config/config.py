@@ -11,7 +11,7 @@ class TextError(BaseModel):
     invalid_password: str
 
 class CSSParams(BaseModel):
-    error_background_color: str
+    error_background_color:  str
     error_border_color: str
 
 

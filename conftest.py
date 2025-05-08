@@ -1,10 +1,9 @@
 from playwright.sync_api import sync_playwright
 from core.db.db import DBManager
 from config.config import load_config
+from page_objects.page.auth import AuthPage
 
 import pytest
-
-from page_objects.page.auth import AuthPage
 
 
 @pytest.fixture(scope="class")
@@ -18,7 +17,7 @@ def conf():
 
 
 @pytest.fixture()
-def settings_page(conf):
+def main_page(conf):
     with sync_playwright() as p:
         browser = p.chromium.launch(
             headless=False,
@@ -32,10 +31,9 @@ def settings_page(conf):
 
 
 @pytest.fixture()
-def auth_page(settings_page, conf, request):
-    page = settings_page
-    page.goto(conf.urls.base)
-    page = AuthPage
+def auth_page(main_page, conf, request):
+    page = main_page
+    page = AuthPage(page)
     yield page
 
 
@@ -44,14 +42,3 @@ def test_user(db):
     user = db.create_user()
     yield user
     db.delete_user(user["id"])
-
-
-@pytest.fixture
-def doctor_emails(conf):
-    return conf.doctor_emails
-
-
-@pytest.fixture
-def admin_emails(conf):
-    return conf.admin_emails
-

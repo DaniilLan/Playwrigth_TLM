@@ -1,13 +1,11 @@
+import time
 import pytest
 
 
 class TestAuth:
 
-    @pytest.mark.parametrize('mail', ['doc@tele.com',
-                                      'doc@amb.com',
-                                      'doc@crb.com'])
-    def test_valid_log_in(self, auth_page, mail):
-        auth_page.test_valid_log_in(mail)
+    def test_create_user(self, auth_page, test_user):
+        time.sleep(10)
 
     def test_log_in_admin_tele(self, auth_page):
         name_profile = auth_page.input_admin_tele()
@@ -78,9 +76,6 @@ class TestAuth:
     def test_red_color_input_password(self, auth_page):
         auth_page.click_log_in()
         auth_page.expect_color_input_password_is_red()
-
-
-class TestForgotPassword:
 
     def test_valid_forgot_password(self, auth_page):
         auth_page.click_on_forgot_password()

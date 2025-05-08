@@ -8,7 +8,6 @@ from playwright.sync_api import (
     TimeoutError as PlaywrightTimeoutError,
     Error as PlaywrightError
 )
-from abc import ABC
 
 import logging
 
@@ -49,7 +48,7 @@ def handle_playwright_errors(func: Callable) -> Callable:
     return wrapper
 
 
-class BasePage(ABC):
+class BasePage:
     def __init__(self, page: Page):
         self.page = page
         self.conf = load_config()
