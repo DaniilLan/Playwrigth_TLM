@@ -1,6 +1,6 @@
 ```
 │
-├── config
+├── config 
 │   └── config.py
 │
 ├── core
@@ -20,12 +20,7 @@
 │   │   └── base_locators.py
 │   │
 │   └── page
-│       ├── all_measurements.py
-│       ├── auth.py
-│       ├── help.py
-│       ├── meeting.py
-│       ├── support.py
-│       └── user.py
+│       └── auth.py
 │
 ├── screenshot_tests
 │   ├── expect_css_style
@@ -36,10 +31,5 @@
 │       └── wait_visible_elements_playwright_timeout.png
 │
 └── tests
-    ├── test_all_measurements_page.py
-    ├── test_auth_page.py
-    ├── test_help_page.py
-    ├── test_meeting_page.py
-    ├── test_support_page.py
-    └── test_user_page.py
+    └── test_auth_page.py
 ```
