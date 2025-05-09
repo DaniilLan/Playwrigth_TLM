@@ -53,7 +53,7 @@ class BasePage:
         self.page = page
         self.conf = load_config()
 
-    def take_screenshot(self, method_name: str, error_type: str):
+    def _take_screenshot(self, method_name: str, error_type: str):
         """Внутренний метод для создания скриншотов при ошибках"""
         screenshot_path = (
             f"screenshot_tests/{method_name}/{method_name}_{error_type}.png"
@@ -213,3 +213,11 @@ class BasePage:
         """Проверка параметров стиля элемента"""
         element = self.page.locator(locator)
         expect(element).to_have_css(name_css, param_css)
+
+    def hovering_on_element(self, locator: str):
+        self.wait_visible_elements(locator)
+        self.page.hover(locator)
+
+    def expect_url_now(self, url: str):
+        self.page.wait_for_url(url)
+        self.page.wait_for_load_state()

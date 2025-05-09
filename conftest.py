@@ -20,7 +20,7 @@ def conf():
 def main_page(conf):
     with sync_playwright() as p:
         browser = p.chromium.launch(
-            headless=False,
+            headless=True,
             slow_mo=300,
         )
         context = browser.new_context(
@@ -33,6 +33,7 @@ def main_page(conf):
 @pytest.fixture()
 def auth_page(main_page, conf, request):
     page = main_page
+    page.goto(conf.urls.base)
     page = AuthPage(page)
     yield page
 
