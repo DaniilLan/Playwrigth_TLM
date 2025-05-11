@@ -183,24 +183,21 @@ class AuthPage(BasePage):
         self.hovering_on_element(LocatorsAuth.INPUT_PASSWORD)
 
     def click_on_link_help(self):
-        self.wait_visible_elements(LocatorsBase.HELP_LINK)
         self.click(LocatorsBase.HELP_LINK)
 
     def click_on_link_support(self):
-        self.wait_visible_elements(LocatorsBase.SUPPORTS_LINK)
         self.click(LocatorsBase.SUPPORTS_LINK)
 
     def expect_valid_go_to_help_page(self):
-        self.expect_url_now(f"{self.conf.urls.base}help")
-        self.wait_visible_elements(LocatorsHelp.help_panels)
+        self.expect_url(f"{self.conf.urls.base}help")
+        self.wait_visible_elements(LocatorsHelp.BUTTON_BAC_AUTH)
 
     def expect_valid_go_to_support_page(self):
-        self.expect_url_now(f"{self.conf.urls.base}support")
+        self.expect_url(f"{self.conf.urls.base}support")
         self.wait_visible_elements(LocatorsSupport.MAIN_DIV_SUPPORT)
 
     def click_on_logo(self):
-        self.wait_visible_elements(LocatorsBase.LOGO_SAMGMU)
         self.click(LocatorsBase.LOGO_SAMGMU)
 
     def expect_url_is_auth(self):
-        self.expect_url_now(self.conf.urls.base)
+        self.expect_url(self.conf.urls.base)

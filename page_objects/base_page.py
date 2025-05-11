@@ -10,6 +10,8 @@ from playwright.sync_api import (
 )
 
 import logging
+import urllib.parse
+import re
 
 
 def handle_playwright_errors(func: Callable) -> Callable:
@@ -64,15 +66,17 @@ class BasePage:
     def open(self, uri: str):
         """Открыть страницу"""
         self.page.goto(uri)
+        self.page.wait_for_load_state()
 
     @handle_playwright_errors
-    def get_uri(self):
+    def get_url(self):
         """Получить URI"""
         return self.page.url
 
     @handle_playwright_errors
     def click(self, locator: str):
         """Кликнуть по элементу"""
+        self.wait_visible_elements(locator)
         self.page.click(locator)
 
     @handle_playwright_errors
@@ -214,10 +218,39 @@ class BasePage:
         element = self.page.locator(locator)
         expect(element).to_have_css(name_css, param_css)
 
+    @handle_playwright_errors
     def hovering_on_element(self, locator: str):
+        """Навестить курком на элемент."""
         self.wait_visible_elements(locator)
         self.page.hover(locator)
 
-    def expect_url_now(self, url: str):
+    @handle_playwright_errors
+    def expect_url(self, url: str):
+        """Ожидание конкретного URL на текущей странице"""
         self.page.wait_for_url(url)
         self.page.wait_for_load_state()
+
+    @handle_playwright_errors
+    def expect_url_pdf(self, url_pdf: str, locator: str):
+        """Ожидание открытого URL (PDF)"""
+        with self.page.context.expect_page() as new_page_info:
+            self.click(locator)
+        new_page = new_page_info.value
+        decoded_url = urllib.parse.unquote(new_page.url)
+        assert decoded_url == url_pdf, (f"Страница файла не соответствует ожиданию"
+                                        f"Текущая: {decoded_url}"
+                                        f"Ожидаемая: {url_pdf}")
+
+    @handle_playwright_errors
+    def element_has_class(self, locator: str, expected_class: str):
+        """Ожидание определенного класса у элемента - True/False"""
+        self.page.wait_for_selector(locator, state="visible")
+        class_attribute = self.page.get_attribute(locator, "class")
+        return class_attribute is not None and expected_class in class_attribute.split()
+
+    @handle_playwright_errors
+    def expect_open_element(self, locator):
+        """Проверка, что элемент открыт и имеет класс open__db7c"""
+        self.wait_visible_elements(locator)
+        expect_item = self.element_has_class(locator, 'open__db7c')
+        assert expect_item, f"Элемент не виден, либо отсутствует нужный класс элемента 'open__db7c'"

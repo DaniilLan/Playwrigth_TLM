@@ -5,6 +5,8 @@ from pydantic import BaseModel, Field
 import configparser
 import json
 
+class NamePDFDoc(BaseModel):
+    user_manual: str
 
 class TextError(BaseModel):
     invalid_mail: str
@@ -38,19 +40,19 @@ class UrlConfig(BaseModel):
 
     @property
     def users(self) -> str:
-        return f"{self.base}/users"
+        return f"{self.base}users"
 
     @property
     def all_measurements(self) -> str:
-        return f"{self.base}/all_measurements"
+        return f"{self.base}all_measurements"
 
     @property
     def help(self) -> str:
-        return f"{self.base}/help"
+        return f"{self.base}help"
 
     @property
     def support(self) -> str:
-        return f"{self.base}/support"
+        return f"{self.base}support"
 
 
 class UserCredentials(BaseModel):
@@ -69,6 +71,7 @@ class Config(BaseModel):
     db: DbConfig
     api: ApiConfig
     css: CSSParams
+    pdf: NamePDFDoc
     urls: UrlConfig
     error: TextError
     context: PageContext
@@ -114,6 +117,7 @@ def load_config(path: str = "config.ini") -> Config:
         db=DbConfig(**config["database"]),
         api=ApiConfig(**config["api"]),
         css=CSSParams(**config["css_params"]),
+        pdf=NamePDFDoc(**config["url_pdf_doc"]),
         urls=UrlConfig(**config["urls_page"]),
         creds=UserCredentials(**config["credentials"]),
         error=TextError(**config["text_error"]),

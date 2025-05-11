@@ -2,6 +2,7 @@ from playwright.sync_api import sync_playwright
 from core.db.db import DBManager
 from config.config import load_config
 from page_objects.page.auth import AuthPage
+from page_objects.page.help import HelpPage
 
 import pytest
 
@@ -20,7 +21,7 @@ def conf():
 def main_page(conf):
     with sync_playwright() as p:
         browser = p.chromium.launch(
-            headless=True,
+            headless=False,
             slow_mo=300,
         )
         context = browser.new_context(
@@ -37,6 +38,12 @@ def auth_page(main_page, conf, request):
     page = AuthPage(page)
     yield page
 
+@pytest.fixture()
+def help_page(main_page, conf, request):
+    page = main_page
+    page.goto(conf.urls.help)
+    page = HelpPage(page)
+    yield page
 
 @pytest.fixture
 def test_user(db):

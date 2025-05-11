@@ -1,54 +1,71 @@
 import time
+import allure
 import pytest
 
 
 class TestAuth:
 
-    def test_create_user(self, auth_page, test_user):
-        time.sleep(10)
+    # def test_create_user(self, auth_page, test_user):
+    #     time.sleep(10)
 
+    @allure.feature("Успешная авторизация админов")
+    @allure.story("Телемед")
     def test_log_in_admin_tele(self, auth_page):
         name_profile = auth_page.input_admin_tele()
         auth_page.input_valid_password()
         auth_page.click_log_in()
         auth_page.expect_valid_auth(name_profile)
 
+    @allure.feature("Успешная авторизация админов")
+    @allure.story("Скорая")
     def test_log_in_admin_amb(self, auth_page):
         name_profile = auth_page.input_admin_amb()
         auth_page.input_valid_password()
         auth_page.click_log_in()
         auth_page.expect_valid_auth(name_profile)
 
+    @allure.feature("Успешная авторизация админов")
+    @allure.story("ЦРБ")
     def test_log_in_admin_crb(self, auth_page):
         name_profile = auth_page.input_admin_crb()
         auth_page.input_valid_password()
         auth_page.click_log_in()
         auth_page.expect_valid_auth(name_profile)
 
+    @allure.feature("Успешная авторизация врачей")
+    @allure.story("Телемед")
     def test_log_in_doctor_tele(self, auth_page):
         name_profile = auth_page.input_doctor_tele()
         auth_page.input_valid_password()
         auth_page.click_log_in()
         auth_page.expect_valid_auth(name_profile)
 
+    @allure.feature("Успешная авторизация врачей")
+    @allure.story("Скорая")
     def test_log_in_doctor_amb(self, auth_page):
         name_profile = auth_page.input_doctor_amb()
         auth_page.input_valid_password()
         auth_page.click_log_in()
         auth_page.expect_valid_auth(name_profile)
 
+    @allure.feature("Успешная авторизация врачей")
+    @allure.story("ЦРБ")
     def test_log_in_doctor_crb(self, auth_page):
         name_profile = auth_page.input_doctor_crb()
         auth_page.input_valid_password()
         auth_page.click_log_in()
         auth_page.expect_valid_auth(name_profile)
 
+    @allure.feature("Не валидная авторизация")
+    @allure.story("Указан неверный пароль")
     def test_invalid_password(self, auth_page):
         auth_page.input_doctor_crb()
         auth_page.input_invalid_password()
         auth_page.click_log_in()
         auth_page.expect_error_invalid_password()
 
+    @allure.feature("Не валидная авторизация")
+    @allure.story("Указан неверная почта")
     def test_invalid_mail(self, auth_page):
         auth_page.input_invalid_mail()
         auth_page.input_invalid_password()
@@ -115,11 +132,11 @@ class TestAuth:
         auth_page.hovering_on_input_field_password()
         auth_page.expect_visible_pop_up_required_password()
 
-    def test_go_tu_page_halp(self, auth_page):
+    def test_go_to_page_halp(self, auth_page):
         auth_page.click_on_link_help()
         auth_page.expect_valid_go_to_help_page()
 
-    def test_go_tu_page_support(self, auth_page):
+    def test_go_to_page_support(self, auth_page):
         auth_page.click_on_link_support()
         auth_page.expect_valid_go_to_support_page()
 
