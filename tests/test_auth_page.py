@@ -105,7 +105,7 @@ class TestAuth:
         auth_page.expect_color_input_password_is_red()
 
     @allure.feature("Восстановление пароля")
-    @allure.title("Отправка ссылки по почте для восстановления")
+    @allure.title("Отправка ссылки по почте для восстановления пароля")
     def test_valid_forgot_password(self, auth_page):
         auth_page.click_on_link_forgot_password()
         mail = auth_page.input_mail_for_forgot_password()

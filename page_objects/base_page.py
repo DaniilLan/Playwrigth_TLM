@@ -14,6 +14,7 @@ import urllib.parse
 import re
 
 
+
 def handle_playwright_errors(func: Callable) -> Callable:
     """Декоратор для обработки ошибок Playwright"""
 
