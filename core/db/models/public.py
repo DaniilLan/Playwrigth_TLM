@@ -1,9 +1,10 @@
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship, declarative_base
 from datetime import datetime, timezone
 from typing import Optional
 from sqlalchemy import (
     Column, Integer, String, Boolean, DateTime, Date, Numeric,
-    ForeignKey, Index, CheckConstraint, UniqueConstraint, JSON
+    ForeignKey, Index, CheckConstraint, UniqueConstraint, JSON, Interval, func, Time, LargeBinary, ARRAY
 )
 
 
@@ -482,5 +483,566 @@ class MeasurementParam(Base):
     value = Column(String(255), nullable=False)
 
     measurement = relationship("Measurement")
+
+
+# Модели для схемы chronic_heart_failure
+class ClinicalSign(Base):
+    __tablename__ = 'clinical_signs'
+    __table_args__ = {'schema': 'chronic_heart_failure'}
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100))
+
+
+class ExaminationRecommendationsGroup(Base):
+    __tablename__ = 'examination_recommendations_groups'
+    __table_args__ = {'schema': 'chronic_heart_failure'}
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    display_name = Column(String(100), nullable=False)
+
+
+class HeartMurmur(Base):
+    __tablename__ = 'heart_murmurs'
+    __table_args__ = {'schema': 'chronic_heart_failure'}
+
+    id = Column(Integer, primary_key=True)
+    description = Column(String(200), nullable=False, unique=True)
+
+
+class LifestyleRecommendation(Base):
+    __tablename__ = 'lifestyle_recommendations'
+    __table_args__ = {'schema': 'chronic_heart_failure'}
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100))
+
+
+class Symptom(Base):
+    __tablename__ = 'symptoms'
+    __table_args__ = {'schema': 'chronic_heart_failure'}
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100))
+
+
+class ExaminationRecommendation(Base):
+    __tablename__ = 'examination_recommendations'
+    __table_args__ = {'schema': 'chronic_heart_failure'}
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    description = Column(String(200), nullable=False, server_default='')
+    group_id = Column(Integer, ForeignKey('chronic_heart_failure.examination_recommendations_groups.id'),
+                      nullable=False, server_default='0')
+
+    group = relationship("ExaminationRecommendationsGroup")
+
+
+class CCRSQuestionnaire(Base):
+    __tablename__ = 'ccrs_questionnaires'
+    __table_args__ = {'schema': 'chronic_heart_failure'}
+
+    id = Column(Integer, ForeignKey('public.users.id'), primary_key=True)
+    created = Column(DateTime(timezone=True), nullable=False)
+    functional_class = Column(String(4), nullable=False)
+    dyspnea = Column(String(20), nullable=False)
+    weight_change = Column(String(20), nullable=False)
+    heart_complaint = Column(String(20), nullable=False)
+    lying_position = Column(String(20), nullable=False)
+    swollen_neck_veins = Column(String(20), nullable=False)
+    wheezing = Column(String(20), nullable=False)
+    gallop_rhythm = Column(String(20), nullable=False)
+    liver = Column(String(20), nullable=False)
+    edema = Column(String(20), nullable=False)
+    systolic = Column(String(20), nullable=False)
+
+    user = relationship("User")
+
+
+class Conclusion(Base):
+    __tablename__ = 'conclusions'
+    __table_args__ = (
+        {'schema': 'chronic_heart_failure'},
+        Index('idx_conclusions_patient_id_created', 'patient_id', 'created')
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    patient_id = Column(Integer, ForeignKey('public.users.id'))
+    created = Column(DateTime, nullable=False)
+    data = Column(JSONB, nullable=False, server_default='{}')
+
+    patient = relationship("User")
+
+
+class NYHAFunctionalClass(Base):
+    __tablename__ = 'nyha_functional_class'
+    __table_args__ = {'schema': 'chronic_heart_failure'}
+
+    id = Column(Integer, ForeignKey('public.users.id'), primary_key=True)
+    functional_class = Column(String(4), nullable=False)
+
+    user = relationship("User")
+
+
+class PatientsClinicalSign(Base):
+    __tablename__ = 'patients_clinical_signs'
+    __table_args__ = {'schema': 'chronic_heart_failure'}
+
+    id = Column(Integer, ForeignKey('public.users.id'), primary_key=True)
+    questionnaire = Column(JSONB, server_default='{}')
+
+    user = relationship("User")
+
+
+class PatientsExaminationRecommendation(Base):
+    __tablename__ = 'patients_examination_recommendations'
+    __table_args__ = {'schema': 'chronic_heart_failure'}
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    recommendation_id = Column(Integer,
+                               ForeignKey('chronic_heart_failure.examination_recommendations.id'),
+                               nullable=False)
+    patient_id = Column(Integer, ForeignKey('public.users.id'), nullable=False)
+    created = Column(DateTime, nullable=False)
+
+    recommendation = relationship("ExaminationRecommendation")
+    patient = relationship("User")
+
+
+class PatientsHeartMurmur(Base):
+    __tablename__ = 'patients_heart_murmurs'
+    __table_args__ = (
+        {'schema': 'chronic_heart_failure'},
+        Index('idx_patients_heart_murmurs_patient_id', 'patient_id')
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    created = Column(DateTime, nullable=False)
+    patient_id = Column(Integer, ForeignKey('public.users.id'), nullable=False)
+    heart_murmur_id = Column(Integer, ForeignKey('chronic_heart_failure.heart_murmurs.id'))
+
+    patient = relationship("User")
+    heart_murmur = relationship("HeartMurmur")
+
+
+class PatientsLifestyleRecommendation(Base):
+    __tablename__ = 'patients_lifestyle_recommendations'
+    __table_args__ = {'schema': 'chronic_heart_failure'}
+
+    id = Column(Integer, ForeignKey('public.users.id'), primary_key=True)
+    questionnaire = Column(JSONB, server_default='{}')
+
+    user = relationship("User")
+
+
+class PatientsSymptom(Base):
+    __tablename__ = 'patients_symptoms'
+    __table_args__ = {'schema': 'chronic_heart_failure'}
+
+    id = Column(Integer, ForeignKey('public.users.id'), primary_key=True)
+    questionnaire = Column(JSONB, server_default='{}')
+
+    user = relationship("User")
+
+
+class WellBeingQuestionnaire(Base):
+    __tablename__ = 'well_being_questionnaire'
+    __table_args__ = (
+        {'schema': 'chronic_heart_failure'},
+        Index('idx_well_being_questionnaire_patientid', 'patient_id'),
+        Index('idx_well_being_questionnaire_patientid_created', 'patient_id', 'created')
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    created = Column(DateTime(timezone=True), nullable=False)
+    patient_id = Column(Integer, ForeignKey('public.users.id'))
+
+    patient = relationship("User")
+
+
+class WellBeingRecord(Base):
+    __tablename__ = 'well_being_records'
+    __table_args__ = (
+        {'schema': 'chronic_heart_failure'},
+        Index('idx_well_being_records_questionnaire_id', 'questionnaire_id')
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    questionnaire_id = Column(Integer, ForeignKey('chronic_heart_failure.well_being_questionnaire.id'))
+    type = Column(String(40))
+    value = Column(String(300))
+
+    questionnaire = relationship("WellBeingQuestionnaire")
+
+
+# Модели для схемы configuration
+class Configuration(Base):
+    __tablename__ = 'configurations'
+    __table_args__ = {'schema': 'configuration'}
+
+    key = Column(String(200), primary_key=True)
+    hash = Column(String(500), nullable=False)
+
+
+# Модели для схемы identity
+class PhoneCode(Base):
+    __tablename__ = 'phones_codes'
+    __table_args__ = (
+        {'schema': 'identity'},
+        Index('idx_phones_codes_phone', 'phone', postgresql_using='hash')
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    created = Column(DateTime(timezone=True), nullable=False)
+    phone = Column(String(10), nullable=False, unique=True)
+    code_hash = Column(String(40), nullable=False)
+
+
+class Source(Base):
+    __tablename__ = 'sources'
+    __table_args__ = {'schema': 'identity'}
+
+    created = Column(DateTime, nullable=False)
+    id = Column(String(255), primary_key=True)
+
+
+class FailedAttempt(Base):
+    __tablename__ = 'failed_attempts'
+    __table_args__ = (
+        {'schema': 'identity'},
+        Index('idx_failed_attempts_ip_created', 'ip', 'created'),
+        Index('idx_failed_attempts_user_id_created', 'user_id', 'created')
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    ip = Column(String(50), nullable=False)
+    user_id = Column(Integer, ForeignKey('public.users.id'))
+    created = Column(DateTime(timezone=True), nullable=False)
+
+    user = relationship("User")
+
+
+class PinHash(Base):
+    __tablename__ = 'pin_hashes'
+    __table_args__ = {'schema': 'identity'}
+
+    id = Column(Integer, ForeignKey('public.users.id'), primary_key=True)
+    created = Column(DateTime(timezone=True), nullable=False)
+    pin_hash = Column(String(200), nullable=False)
+    mobile_source_id = Column(String(200), nullable=False, server_default='')
+
+    user = relationship("User")
+
+
+# Модели для схемы measurements
+class AuscultationNosology(Base):
+    __tablename__ = 'auscultation_nosology'
+    __table_args__ = {'schema': 'measurements'}
+
+    measurement_id = Column(Integer, ForeignKey('public.measurements.id'), primary_key=True)
+    created = Column(DateTime, nullable=False)
+    type = Column(String(30))
+    value = Column(String(50))
+    annotation = Column(String(300))
+    status = Column(String(12), nullable=False)
+
+    measurement = relationship("Measurement")
+
+
+class ECGAutoConclusion(Base):
+    __tablename__ = 'ecg_auto_conclusion'
+    __table_args__ = {'schema': 'measurements'}
+
+    measurement_id = Column(Integer, ForeignKey('public.measurements.id'), primary_key=True)
+    created = Column(DateTime, nullable=False)
+    value = Column(String(1024))
+
+    measurement = relationship("Measurement")
+
+
+class ECGSegment(Base):
+    __tablename__ = 'ecg_segments'
+    __table_args__ = (
+        {'schema': 'measurements'},
+        Index('idx_ecg_segments_measurement_id', 'measurement_id', postgresql_using='hash')
+    )
+
+    measurement_id = Column(Integer, ForeignKey('public.measurements.id'), primary_key=True)
+    segments = Column(JSONB)
+
+    measurement = relationship("Measurement")
+
+
+class PatientMeasurementParameter(Base):
+    __tablename__ = 'patients_measurements_parameters'
+    __table_args__ = (
+        {'schema': 'measurements'},
+        Index('idx_patients_measurements_parameter_patient_id', 'patient_id', postgresql_using='hash')
+    )
+
+    patient_id = Column(Integer, ForeignKey('public.users.id'), primary_key=True)
+    last_measurement_id = Column(Integer, ForeignKey('public.measurements.id'))
+    measurement_types = Column(ARRAY(String))
+
+    patient = relationship("User")
+    last_measurement = relationship("Measurement")
+
+
+# Модели для схемы medical
+class MedicalTest(Base):
+    __tablename__ = 'medical_tests'
+    __table_args__ = {'schema': 'medical'}
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(50), nullable=False, unique=True)
+    display_name = Column(String(50), nullable=False, unique=True)
+    created = Column(DateTime, server_default=func.now())
+
+
+class MedicationsGroup(Base):
+    __tablename__ = 'medications_groups'
+    __table_args__ = {'schema': 'medical'}
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    display_name = Column(String(100), nullable=False, server_default='')
+
+
+class Medication(Base):
+    __tablename__ = 'medications'
+    __table_args__ = (
+        {'schema': 'medical'},
+        Index('idx_medications_display_name', 'display_name')
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    display_name = Column(String(60), nullable=False, unique=True)
+    recommended_dose = Column(Numeric(8, 4))
+    group_id = Column(Integer, ForeignKey('medical.medications_groups.id'))
+
+    group = relationship("MedicationsGroup")
+
+
+class EGFR(Base):
+    __tablename__ = 'egfr'
+    __table_args__ = (
+        {'schema': 'medical'},
+        Index('idx_egfr_patient_id', 'patient_id')
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    patient_id = Column(Integer, ForeignKey('public.users.id'), nullable=False, unique=True)
+    value = Column(Numeric(6, 2), nullable=False)
+    created = Column(DateTime, nullable=False, server_default=func.now())
+    method = Column(String(20), nullable=False, server_default='CkdEpi')
+
+    patient = relationship("User")
+
+
+class MedicationsTaking(Base):
+    __tablename__ = 'medications_taking'
+    __table_args__ = (
+        {'schema': 'medical'},
+        Index('idx_medications_taking_patients_medications_id', 'patients_medications_id')
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    created = Column(DateTime(timezone=True), nullable=False)
+    patients_medications_id = Column(Integer, ForeignKey('medical.patients_medications.id'), nullable=False)
+    datetime = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
+
+    patient_medication = relationship("PatientMedication")
+
+
+class PatientMedicalTest(Base):
+    __tablename__ = 'patients_medical_tests'
+    __table_args__ = (
+        {'schema': 'medical'},
+        Index('idx_medical_tests_patientid_created', 'patient_id', 'created'),
+        Index('idx_medical_tests_patientid_name', 'patient_id', 'name')
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    created = Column(DateTime, nullable=False)
+    patient_id = Column(Integer, ForeignKey('public.users.id'))
+    date = Column(DateTime, nullable=False)
+    name = Column(String(50), ForeignKey('medical.medical_tests.name'))
+    value = Column(String(100), nullable=False)
+
+    patient = relationship("User")
+    test = relationship("MedicalTest")
+
+
+class PatientMedicalTestFile(Base):
+    __tablename__ = 'patients_medical_tests_files'
+    __table_args__ = (
+        {'schema': 'medical'},
+        Index('idx_medical_test_files_patientid_created', 'patient_id', 'created')
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    created = Column(DateTime(timezone=True), nullable=False)
+    patient_id = Column(Integer, ForeignKey('public.users.id'))
+    name = Column(String(150), nullable=False)
+    file = Column(LargeBinary, nullable=False)
+
+    patient = relationship("User")
+
+
+class PatientMedication(Base):
+    __tablename__ = 'patients_medications'
+    __table_args__ = (
+        {'schema': 'medical'},
+        Index('idx_patients_medications_therapy_id_medication_id', 'therapy_id', 'medication_id')
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    created = Column(DateTime(timezone=True), nullable=False)
+    therapy_id = Column(Integer, ForeignKey('medical.therapies.id'), nullable=False)
+    medication_id = Column(Integer, ForeignKey('medical.medications.id'), nullable=False)
+    recommended_dose = Column(Numeric(8, 4))
+    doctors_comment = Column(String(300))
+    deleted = Column(Boolean, nullable=False, server_default='false')
+    patients_comment = Column(String(300))
+    condition = Column(String(20))
+
+    therapy = relationship("Therapy")
+    medication = relationship("Medication")
+
+
+class PatientRecommendation(Base):
+    __tablename__ = 'patients_recommendations'
+    __table_args__ = (
+        {'schema': 'medical'},
+        Index('idx_patients_recommendations_patient_id_type', 'patient_id', 'type')
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    created = Column(DateTime(timezone=True), nullable=False)
+    patient_id = Column(Integer, ForeignKey('public.users.id'))
+    type = Column(String(50), nullable=False)
+    value = Column(String(50), nullable=False)
+    deleted = Column(Boolean, nullable=False, server_default='false')
+
+    patient = relationship("User")
+
+
+class TakingTime(Base):
+    __tablename__ = 'taking_times'
+    __table_args__ = (
+        {'schema': 'medical'},
+        Index('idx_taking_times_id', 'id')
+    )
+
+    id = Column(Integer, ForeignKey('medical.patients_medications.id'), primary_key=True)
+    taking_time = Column(Time, primary_key=True)
+
+    patient_medication = relationship("PatientMedication")
+
+
+class Therapy(Base):
+    __tablename__ = 'therapies'
+    __table_args__ = (
+        {'schema': 'medical'},
+        Index('idx_therapies_patient_id', 'patient_id')
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    created = Column(DateTime(timezone=True), nullable=False)
+    updated = Column(DateTime(timezone=True))
+    patient_id = Column(Integer, ForeignKey('public.users.id'), nullable=False)
+    completed = Column(Boolean, nullable=False)
+    comment = Column(String(500))
+
+    patient = relationship("User")
+
+
+# # Модели для схемы organization
+# class Organization(Base):
+#     __tablename__ = 'organizations'
+#     __table_args__ = (
+#         {'schema': 'organization'},
+#         Index('idx_organization_organizations_id', 'id', postgresql_using='hash')
+#     )
+#
+#     id = Column(Integer, primary_key=True, autoincrement=True)
+#     created = Column(DateTime, nullable=False)
+#     name = Column(String(255))
+#     address = Column(String(255))
+#     email = Column(String(50), unique=True)
+#     phone = Column(String(10))
+#     level = Column(Integer, nullable=False)
+#     parent_id = Column(Integer, ForeignKey('organization.organizations.id'))
+#     status = Column(String(10))
+#
+#     parent = relationship("Organization", remote_side=[id])
+
+
+# Модели для схемы patients
+class PatientComment(Base):
+    __tablename__ = 'patients_comments'
+    __table_args__ = (
+        {'schema': 'patients'},
+        Index('idx_patients_comments_medworker_id', 'medworker_id'),
+        Index('idx_patients_comments_patient_id', 'patient_id')
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    created = Column(DateTime(timezone=True), nullable=False)
+    patient_id = Column(Integer, ForeignKey('public.users.id'))
+    medworker_id = Column(Integer, ForeignKey('public.users.id'))
+    value = Column(String(255), nullable=False)
+    updated = Column(DateTime(timezone=True))
+    deleted = Column(Boolean, server_default='false')
+
+    patient = relationship("User", foreign_keys=[patient_id])
+    medworker = relationship("User", foreign_keys=[medworker_id])
+
+
+# Модели для схемы tech
+class DBVersion(Base):
+    __tablename__ = 'dbversions'
+    __table_args__ = {'schema': 'tech'}
+
+    Scope = Column(String(128), primary_key=True)
+    Version = Column(Integer, nullable=False)
+
+
+# Модели для схемы vks
+class MeetingUser(Base):
+    __tablename__ = 'meeting_user'
+    __table_args__ = (
+        {'schema': 'vks'},
+        Index('idx_vks_meeting_user_meeting_id', 'meeting_id'),
+        Index('idx_vks_meeting_user_user_id', 'user_id')
+    )
+
+    meeting_id = Column(Integer, ForeignKey('vks.meetings.id'), primary_key=True)
+    user_id = Column(Integer, ForeignKey('public.users.id'), primary_key=True)
+
+    meeting = relationship("Meeting")
+    user = relationship("User")
+
+
+class Meeting(Base):
+    __tablename__ = 'meetings'
+    __table_args__ = (
+        {'schema': 'vks'},
+        Index('idx_vks_meetings_initiator_id', 'initiator_id')
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    created = Column(DateTime(timezone=True), server_default=func.now())
+    updated = Column(DateTime(timezone=True), server_default=func.now())
+    room_id = Column(String(50), nullable=False, unique=True)
+    initiator_id = Column(Integer, ForeignKey('public.users.id'))
+    name = Column(String(50))
+    description = Column(String(255))
+    start_date = Column(DateTime(timezone=True))
+    end_date = Column(DateTime(timezone=True))
+    deleted = Column(Boolean)
+    dates_offset = Column(Interval)
+
+    initiator = relationship("User")
+    participants = relationship("User", secondary="vks.meeting_user")
 
 

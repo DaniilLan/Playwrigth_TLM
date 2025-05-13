@@ -2,7 +2,7 @@ import allure
 import pytest
 
 
-class TestPageHelp:
+class TestHelp:
 
     def test_open_panel_terms(self, help_page):
         help_page.click_on_topic_terms()

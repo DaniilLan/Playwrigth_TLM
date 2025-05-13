@@ -12,8 +12,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 class DBManager:
-    def __init__(self, config_path: str = "config.ini"):
-        self.config = load_config(config_path)
+    def __init__(self):
+        self.config = load_config()
 
         db_url = URL.create(
             drivername="postgresql",
@@ -76,3 +76,4 @@ class DBManager:
                 s.delete(user)
             else:
                 logger.warning(f"User {user_id} not found")
+
