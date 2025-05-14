@@ -1,3 +1,5 @@
+import time
+
 from page_objects.base_page import BasePage
 from page_objects.page.auth import LocatorsAuth
 
@@ -80,6 +82,26 @@ class LocatorsUsers:
     ORG_LVL2 = '//html/body/div[3]/div/div/div[2]/div/div/div[2]/div/div/div[1]/div[2]'
     ORG_LVL3 = '//html/body/div[3]/div/div/div[2]/div/div/div[2]/div/div/div[2]/div/div'
     INPUT_FILTER_F = "//label[contains(text(),'Фамилия')]/following-sibling::div//input"
+    KEBAB_MENU_USER_AVTOTEST = '//div[div/div/div[text()="АвтоТестов АвтоТест "]]//div[@class="controlViewBtn__UeJ4"]'
+    BUTTON_PARAMS_USER_AVTOTEST = '//div[div/div/div[text()="АвтоТестов АвтоТест "]]//div[@class="containerSlide__AhIP"]//div/button[span[text()="Показатели пациента"]]'
+    XCH_BUTTON_MODUL = '//button[span[text()="Модуль ХСН"]]'
+    XCH_TRIANGLE_MAIN_DIAGNOSIS = '//div[label[text()="Основной диагноз"]]/div[@data-locator="SelectAfter"]'
+    XCH_TRIANGLE_CLARIFYING_DIAGNOSIS = '//div[label[text()="Уточняющий диагноз"]]/div[@data-locator="SelectAfter"]'
+    XCH_TRIANGLE_STAGE = '//div[label[text()="Стадия ХСН"]]/div[@data-locator="SelectAfter"]'
+    XCH_MAIN_DIAGNOSIS_150 = '//li[@data-locator="optionI50"]'
+    XCH_CLARIFYING_DIAGNOSIS_150_0 = '//li[@data-locator="optionI50.0"]'
+    XCH_STAGE_I = '//li[@data-locator="optionstageI"]'
+    XCH_BUTTON_NEXT = '//button[span[text()="Далее"]]'
+    XCH_ALL_CHECK_BOXS = '//label[@data-locator="checkBoxLabel"]'
+    XCH_ALL_TRIANGLES_SECOND_COLLECTION = '//div[@class="CcrsQuestionnaireForm__gyFw"]//div[@data-locator="SelectAfter"]'
+    XCH_ANSWERS_0 = '//li[@data-locator="optionno"]'
+    XCH_ANSWER_BODY_POSITION_0 = '//li[@data-locator="optionhorizontal"]'
+    XCH_ANSWER_LIVER_0 = '//li[@data-locator="optionnotEnlarged"]'
+    XCH_ANSWER_LVL_SAD_0 = '//li[@data-locator="optionhigher"]'
+    XCH_INPUT_METERS = '//div[label[text()="Метры"]]/div/input[@data-locator="input"]'
+    XCH_BUTTON_CALCULATE = '//button[span[text()="Рассчитать"]]'
+
+
 
     required_fields_change_profile = [INPUT_CHANGE_F,
                                       INPUT_CHANGE_I,
@@ -126,3 +148,49 @@ class UsersPage(BasePage):
     def search_user_filter(self):
         self.fill_text(LocatorsUsers.INPUT_FILTER_F, 'АвтоТест')
         self.click(LocatorsUsers.BUTTON_APPLY_FILTER)
+
+    def select_user_for_XCH(self):
+        self.click(LocatorsUsers.KEBAB_MENU_USER_AVTOTEST)
+        self.click(LocatorsUsers.BUTTON_PARAMS_USER_AVTOTEST)
+
+    def open_user_modul_XCH(self):
+        self.click(LocatorsUsers.XCH_BUTTON_MODUL)
+
+    def select_main_diagnosis_XCH(self):
+        self.click(LocatorsUsers.XCH_TRIANGLE_MAIN_DIAGNOSIS)
+        self.click(LocatorsUsers.XCH_MAIN_DIAGNOSIS_150)
+
+    def select_clarifying_diagnosis_XCH(self):
+        self.click(LocatorsUsers.XCH_TRIANGLE_CLARIFYING_DIAGNOSIS)
+        self.click(LocatorsUsers.XCH_CLARIFYING_DIAGNOSIS_150_0)
+
+    def select_stage_XCH(self):
+        self.click(LocatorsUsers.XCH_TRIANGLE_STAGE)
+        self.click(LocatorsUsers.XCH_STAGE_I)
+
+    def save_first_collecting_history(self):
+        self.click(LocatorsUsers.XCH_BUTTON_NEXT)
+
+    def click_all_check_box_collection_history(self):
+        self.click_on_elements(LocatorsUsers.XCH_ALL_CHECK_BOXS)
+
+    def select_options_for_FK_SHOKS(self):
+        triangles = self.page.locator(LocatorsUsers.XCH_ALL_TRIANGLES_SECOND_COLLECTION).all()
+        for triangle in triangles:
+            triangle.click()
+            if self.expect_visible_elements(LocatorsUsers.XCH_ANSWERS_0):
+                self.click(LocatorsUsers.XCH_ANSWERS_0)
+            if self.expect_visible_elements(LocatorsUsers.XCH_ANSWER_BODY_POSITION_0):
+                self.click(LocatorsUsers.XCH_ANSWER_BODY_POSITION_0)
+            if self.expect_visible_elements(LocatorsUsers.XCH_ANSWER_LIVER_0):
+                self.click(LocatorsUsers.XCH_ANSWER_LIVER_0)
+            if self.expect_visible_elements(LocatorsUsers.XCH_ANSWER_LVL_SAD_0):
+                self.click(LocatorsUsers.XCH_ANSWER_LVL_SAD_0)
+
+    def calculate_FK_NYHA(self):
+        self.fill_text(LocatorsUsers.XCH_INPUT_METERS, '20')
+        self.click(LocatorsUsers.XCH_BUTTON_CALCULATE)
+
+    def save_second_collecting_history(self):
+        self.click(LocatorsUsers.XCH_BUTTON_NEXT)
+

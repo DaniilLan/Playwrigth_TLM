@@ -67,6 +67,6 @@ def users_page(main_page, conf, request):
 
 @pytest.fixture
 def test_user(db):
-    user = db.create_user()
+    user = db.create_user('patient')
     yield user
     db.delete_user(user["id"])

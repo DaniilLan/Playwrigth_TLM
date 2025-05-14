@@ -105,7 +105,7 @@ class Config(BaseModel):
         }
 
 
-def load_config(path: str = "C:/Users/dlancov/PycharmProjects/Playwrigth_TLM/config.ini") -> Config:
+def load_config(path: str = "C:/Users/landa/PycharmProjects/Playwrigth_TLM/config.ini") -> Config:
     config = configparser.ConfigParser()
     with open(path, 'r', encoding='utf-8') as f:
         config.read_file(f)

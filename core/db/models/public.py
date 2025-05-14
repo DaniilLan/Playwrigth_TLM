@@ -64,7 +64,7 @@ class CCRSQuestionnaire(Base):
     __tablename__ = 'ccrs_questionnaires'
     __table_args__ = {'schema': 'chronic_heart_failure'}
 
-    id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    id = Column(Integer, ForeignKey('users.id', ondelete="CASCADE"), primary_key=True)
     created = Column(DateTime(timezone=True), nullable=False)
     functional_class = Column(String(4), nullable=False)
     dyspnea = Column(String(20), nullable=False)
@@ -588,7 +588,42 @@ class User(Base):
 
     organization = relationship('Organization', foreign_keys=[org_id])
     role = relationship('Role', foreign_keys=[role_name])
+    # Добавляем связь с каскадным удалением
+    user_diagnoses = relationship(
+        "DiagnosisUser",
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
 
+    ccrs_questionnaire = relationship(
+        "CCRSQuestionnaire",
+        cascade="all, delete-orphan",
+        single_parent=True
+    )
+
+    patient_clinical_signs = relationship(
+        "PatientClinicalSign",
+        cascade="all, delete-orphan",
+        single_parent=True
+    )
+
+    patients_symptoms = relationship(
+        "PatientSymptom",
+        cascade="all, delete-orphan",
+        single_parent=True
+    )
+
+    nyha_functional_class = relationship(
+        "NYHAFunctionalClass",
+        cascade="all, delete-orphan",
+        single_parent=True
+    )
+
+    patients_heart_murmurs = relationship(
+        "PatientHeartMurmur",
+        back_populates="patient",
+        cascade="all, delete-orphan"
+    )
 
 class UserParam(Base):
     __tablename__ = 'users_params'
@@ -613,7 +648,12 @@ class DiagnosisUser(Base):
     created = Column(DateTime(timezone=True), server_default='now()')
 
     diagnosis = relationship('Diagnosis')
-    user = relationship('User', foreign_keys=[user_id])
+    # Синхронизируем back_populates с User моделью
+    user = relationship(
+        "User",
+        foreign_keys=[user_id],
+        back_populates="user_diagnoses"
+    )
 
 
 class Form(Base):

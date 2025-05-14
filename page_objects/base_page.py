@@ -109,7 +109,7 @@ class BasePage:
     def expect_text(self, locator: str, text_element: str):
         """Проверка соответствия текста ОР"""
         element = self.page.locator(locator)
-        expect(element).to_have_text(text_element)
+        return expect(element).to_have_text(text_element)
 
     @handle_playwright_errors
     def get_list_text(self, locator: str):
@@ -136,14 +136,15 @@ class BasePage:
         """Проверка - элемент не виден"""
         locators_list = [locators] if isinstance(locators, str) else locators
         for locator in locators_list:
-            expect(self.page.locator(locator)).not_to_be_visible()
+            return expect(self.page.locator(locator)).not_to_be_visible()
 
     @handle_playwright_errors
     def expect_visible_elements(self, locators: Union[str, List[str]]):
-        """Проверка - элемент виден"""
+        """Проверка - элементы видны"""
         locators_list = [locators] if isinstance(locators, str) else locators
         for locator in locators_list:
-            expect(self.page.locator(locator)).to_be_visible()
+            return self.page.is_visible(locator)
+
 
     @handle_playwright_errors
     def get_quantity_elements(self, locator: str):
@@ -194,13 +195,13 @@ class BasePage:
         locators_list = [locators] if isinstance(locators, str) else locators
         for locator in locators_list:
             self.page.locator(locator).clear()
-            expect(self.page.locator(locator)).to_be_empty()
+            return expect(self.page.locator(locator)).to_be_empty()
 
     @handle_playwright_errors
     def expect_css_style(self, locator: str, name_css: str, param_css: str):
         """Проверка параметров стиля элемента"""
         element = self.page.locator(locator)
-        expect(element).to_have_css(name_css, param_css)
+        return expect(element).to_have_css(name_css, param_css)
 
     @handle_playwright_errors
     def hovering_on_element(self, locator: str):

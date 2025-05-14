@@ -3,10 +3,27 @@ import time
 
 class TestUsers:
 
-    def test_open_filter(self, users_page):
+    def test_open_filter(self, users_page, test_user):
         users_page.log_in_doctor_tele()
+
         users_page.dropdown_filter()
         users_page.search_user_filter()
+
+        users_page.select_user_for_XCH()
+        users_page.open_user_modul_XCH()
+
+        users_page.select_main_diagnosis_XCH()
+        users_page.select_clarifying_diagnosis_XCH()
+        users_page.select_stage_XCH()
+        users_page.save_first_collecting_history()
+
+        users_page.click_all_check_box_collection_history()
+        users_page.select_options_for_FK_SHOKS()
+        users_page.calculate_FK_NYHA()
+
+        users_page.save_second_collecting_history()
+
+
 
 
 
