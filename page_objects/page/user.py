@@ -1,3 +1,7 @@
+from page_objects.base_page import BasePage
+from page_objects.page.auth import LocatorsAuth
+
+
 class LocatorsUsers:
     BUTTON_ADD_USER_IN_WINDOW = '//html/body/div[2]/div/div[2]/form/div[2]/button'
     POPUP_PROFILE = '//html/body/div[2]/div'
@@ -75,6 +79,7 @@ class LocatorsUsers:
     ORG_LVL1 = '//html/body/div[3]/div/div/div[2]/div/div/div[1]/div[2]'
     ORG_LVL2 = '//html/body/div[3]/div/div/div[2]/div/div/div[2]/div/div/div[1]/div[2]'
     ORG_LVL3 = '//html/body/div[3]/div/div/div[2]/div/div/div[2]/div/div/div[2]/div/div'
+    INPUT_FILTER_F = "//label[contains(text(),'Фамилия')]/following-sibling::div//input"
 
     required_fields_change_profile = [INPUT_CHANGE_F,
                                       INPUT_CHANGE_I,
@@ -88,3 +93,36 @@ class LocatorsUsers:
                 ORG_LVL1,
                 ORG_LVL2,
                 ORG_LVL3]
+
+
+class UsersPage(BasePage):
+
+    def log_in_doctor_tele(self):
+        self.log_in(self.conf.creds.doctor_tele,
+                    LocatorsAuth.INPUT_MAIL,
+                    LocatorsAuth.INPUT_PASSWORD,
+                    LocatorsAuth.BUTTON_LOGIN)
+
+    def dropdown_filter(self):
+        """Опустить drop-down список 'Фильтры' - изменив параметр элемента в DOM"""
+        element = self.page.locator(LocatorsUsers.FILTER_DROPDOWN_DIV)
+        element.evaluate('(element) => { element.style.maxHeight = "none"; }')
+
+    def open_all_dropdown_organization(self):
+        """Раскрыть все видимые организации в поле 'Организации' при добавлении пользователя"""
+        self.page.click(LocatorsUsers.FILTER_DROPDOWN_ORG)
+        elements = self.page.locator(LocatorsUsers.ORGS_IN_DROPDOWN_LIST).all()
+        col = 0
+        while col != len(elements):
+            self.click(LocatorsUsers.ORGS_IN_DROPDOWN_LIST)
+            col += 1
+
+    def change_password(self, current_pass: str, new_pass: str):
+        """Смена пароля на стр. /users в профиле пользователя"""
+        self.fill_text(LocatorsUsers.INPUT_CURRENT_PASS, current_pass)
+        self.fill_text(LocatorsUsers.INPUT_NEW_PASS, new_pass)
+        self.fill_text(LocatorsUsers.INPUT_NEW2_PASS, new_pass)
+
+    def search_user_filter(self):
+        self.fill_text(LocatorsUsers.INPUT_FILTER_F, 'АвтоТест')
+        self.click(LocatorsUsers.BUTTON_APPLY_FILTER)

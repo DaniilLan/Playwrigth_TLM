@@ -11,6 +11,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class DBManager:
     def __init__(self):
         self.config = load_config()
@@ -42,10 +43,11 @@ class DBManager:
     def create_user(self, role_name: str = "doctor", org_id: int = 1, **kwargs) -> dict:
         """Создает пользователя с валидными значениями по умолчанию."""
         user_data = {
+            "created": datetime.now(),
             "username": random_name(),
             "org_id": org_id,  # Или явно создайте организацию
-            "first_name": "Тест",
-            "last_name": "Тестов",
+            "first_name": "АвтоТест",
+            "last_name": "АвтоТестов",
             "sex": "male",
             "birthdate": datetime.now(),  # DateTime вместо date
             "height": 180,

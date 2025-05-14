@@ -4,6 +4,7 @@ class LocatorsBase:
     HELP_LINK = '//a[text()="Помощь"]'
     SUPPORTS_LINK = '//a[text()="Поддержка"]'
     NOTIFICATION_ALL = '//*[@id="rootTelemedHub"]/div[1]/div'
+    BUTTON_UPDATE = '//button[//text()="Обновить"]'
 
     base_elements = [LOGO_SAMGMU,
                      YEAR_BOT,

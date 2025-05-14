@@ -5,7 +5,6 @@ from page_objects.base_page import BasePage
 from page_objects.locators.base_locators import LocatorsBase
 from page_objects.page.help import LocatorsHelp
 from page_objects.page.support import LocatorsSupport
-from page_objects.page.user import LocatorsUsers
 
 import re
 
@@ -24,7 +23,7 @@ class LocatorsAuth:
     DIV_INPUT_PASS = '//*[@id="rootTelemedHub"]/div[2]/main/div/form/div[1]/div[2]'
     POP_UP_REQUIRED_INPUT_PASSWORD = "//div[contains(@class, 'InputBody')][.//input[@type='password']]//div[text()='Обязательное поле']"
     POP_UP_REQUIRED_INPUT_MAIL = "//div[contains(@class, 'InputBody')][.//input[@class='Input']]//div[text()='Обязательное поле']"
-
+    NAME_PROFILE = '//*[@id="rootTelemedHub"]//div/div/div[2]/strong'
 
     auth_elements = [INPUT_MAIL,
                      INPUT_PASSWORD,
@@ -91,8 +90,8 @@ class AuthPage(BasePage):
         self.click(LocatorsAuth.BUTTON_LOGIN)
 
     def expect_valid_auth(self, name_profile):
-        self.wait_visible_elements(LocatorsUsers.NAME_PROFILE)
-        self.expect_text(LocatorsUsers.NAME_PROFILE, name_profile)
+        self.wait_visible_elements(LocatorsAuth.NAME_PROFILE)
+        self.expect_text(LocatorsAuth.NAME_PROFILE, name_profile)
 
     def expect_error_invalid_password(self):
         self.wait_visible_elements(LocatorsBase.NOTIFICATION_ALL)

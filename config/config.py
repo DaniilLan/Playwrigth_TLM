@@ -96,16 +96,16 @@ class Config(BaseModel):
     @property
     def email_name_mapping(self) -> Dict[str, str]:
         return {
-            self.creds.admin_tele: "Админ Телемедцентра",
+            self.creds.admin_tele: "Докторов Админ Телемедцентра",
             self.creds.admin_amb: "Админ Скорой",
             self.creds.admin_crb: "Админ Црб",
-            self.creds.doctor_tele: "Доктор Телемедцентра",
+            self.creds.doctor_tele: "Тестовый Доктор Телемедцентра",
             self.creds.doctor_amb: "Доктор Скорой",
             self.creds.doctor_crb: "Доктор Црб",
         }
 
 
-def load_config(path: str = "C:/Users/landa/PycharmProjects/Playwrigth_TLM/config.ini") -> Config:
+def load_config(path: str = "C:/Users/dlancov/PycharmProjects/Playwrigth_TLM/config.ini") -> Config:
     config = configparser.ConfigParser()
     with open(path, 'r', encoding='utf-8') as f:
         config.read_file(f)

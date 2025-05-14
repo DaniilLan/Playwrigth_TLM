@@ -3,6 +3,7 @@ from core.db.db import DBManager
 from config.config import load_config
 from page_objects.page.auth import AuthPage
 from page_objects.page.help import HelpPage
+from page_objects.page.user import UsersPage
 
 import pytest
 
@@ -35,15 +36,34 @@ def main_page(conf):
 def auth_page(main_page, conf, request):
     page = main_page
     page.goto(conf.urls.base)
+    modal = page.locator('//div[@data-locator="WrapModal"]')
+    if modal.is_visible():
+        page.locator('//button[//text()="Обновить"]').click()
     page = AuthPage(page)
     yield page
+
 
 @pytest.fixture()
 def help_page(main_page, conf, request):
     page = main_page
     page.goto(conf.urls.help)
+    modal = page.locator('//div[@data-locator="WrapModal"]')
+    if modal.is_visible():
+        page.locator('//button[//text()="Обновить"]').click()
     page = HelpPage(page)
     yield page
+
+
+@pytest.fixture()
+def users_page(main_page, conf, request):
+    page = main_page
+    page.goto(conf.urls.users)
+    modal = page.locator('//div[@data-locator="WrapModal"]')
+    if modal.is_visible():
+        page.locator('//button[//text()="Обновить"]').click()
+    page = UsersPage(page)
+    yield page
+
 
 @pytest.fixture
 def test_user(db):

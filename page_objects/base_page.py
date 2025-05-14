@@ -1,5 +1,4 @@
 from functools import wraps
-from page_objects.page.user import LocatorsUsers
 from inspect import signature
 from typing import Callable, Any, Union, List
 from playwright.sync_api import expect, Page
@@ -12,7 +11,6 @@ from playwright.sync_api import (
 import logging
 import urllib.parse
 import re
-
 
 
 def handle_playwright_errors(func: Callable) -> Callable:
@@ -62,6 +60,13 @@ class BasePage:
             f"screenshot_tests/{method_name}/{method_name}_{error_type}.png"
         )
         self.page.screenshot(path=screenshot_path, full_page=True)
+
+    @handle_playwright_errors
+    def log_in(self, mail, locator_mail, locator_password, locator_button):
+        """Авторизация"""
+        self.fill_text(locator_mail, mail)
+        self.fill_text(locator_password, self.conf.creds.password_valid)
+        self.click(locator_button)
 
     @handle_playwright_errors
     def open(self, uri: str):
@@ -141,22 +146,6 @@ class BasePage:
             expect(self.page.locator(locator)).to_be_visible()
 
     @handle_playwright_errors
-    def dropdown_filter(self):
-        """Опустить drop-down список 'Фильтры' - изменив параметр элемента в DOM"""
-        element = self.page.locator(LocatorsUsers.FILTER_DROPDOWN_DIV)
-        element.evaluate('(element) => { element.style.maxHeight = "none"; }')
-
-    @handle_playwright_errors
-    def open_dropdown_organization(self):
-        """Раскрыть все видимые организации в поле 'Организации' при добавлении пользователя"""
-        self.page.click(LocatorsUsers.FILTER_DROPDOWN_ORG)
-        elements = self.page.locator(LocatorsUsers.ORGS_IN_DROPDOWN_LIST).all()
-        col = 0
-        while col != len(elements):
-            self.click(LocatorsUsers.ORGS_IN_DROPDOWN_LIST)
-            col += 1
-
-    @handle_playwright_errors
     def get_quantity_elements(self, locator: str):
         """Получить количество элементов"""
         elements = self.page.locator(locator).all()
@@ -174,12 +163,6 @@ class BasePage:
         element = self.page.locator(locator)
         return expect(element).to_have_css(name_style, value_style)
 
-    @handle_playwright_errors
-    def change_password(self, current_pass: str, new_pass: str):
-        """Смена пароля на стр. /users в профиле пользователя"""
-        self.fill_text(LocatorsUsers.INPUT_CURRENT_PASS, current_pass)
-        self.fill_text(LocatorsUsers.INPUT_NEW_PASS, new_pass)
-        self.fill_text(LocatorsUsers.INPUT_NEW2_PASS, new_pass)
 
     @handle_playwright_errors
     def expect_style_element(self, locator: str, name_style: str, value_style: str):

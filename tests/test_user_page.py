@@ -1,3 +1,26 @@
+import time
+
+
+class TestUsers:
+
+    def test_open_filter(self, users_page):
+        users_page.log_in_doctor_tele()
+        users_page.dropdown_filter()
+        users_page.search_user_filter()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # class TestPageUsers:
 #     @pytest.mark.parametrize('mail, name', [(mail, name) for mail, name in cred.items()])
 #     @pytest.mark.parametrize('password', [password_all])
