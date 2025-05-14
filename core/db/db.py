@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from sqlalchemy import create_engine, URL
+from sqlalchemy import create_engine, URL, inspect, text
 from sqlalchemy.orm import sessionmaker, scoped_session
 from core.db.models.public import User
 from config.config import load_config
@@ -72,10 +72,45 @@ class DBManager:
                 "role_name": user.role_name
             }
 
+    from sqlalchemy import text  # Добавьте этот импорт
+
     def delete_user(self, user_id):
         with self.session() as s:
-            if user := s.get(User, user_id):
-                s.delete(user)
-            else:
-                logger.warning(f"User {user_id} not found")
+            try:
+                # 1. Проверяем существование пользователя
+                if not (user := s.get(User, user_id)):
+                    logger.warning(f"User {user_id} not found")
+                    return False
 
+                # 2. Получаем метаданные БД для автоматического определения связей
+                inspector = inspect(s.bind)
+
+                # 3. Находим все таблицы, ссылающиеся на users.id
+                related_tables = set()
+                for table_name in inspector.get_table_names():
+                    for fk in inspector.get_foreign_keys(table_name):
+                        if fk['referred_table'] == 'users' and 'id' in fk['referred_columns']:
+                            related_tables.add((table_name, fk['constrained_columns'][0]))
+
+                # 4. Удаляем записи из связанных таблиц
+                for table, column in related_tables:
+                    try:
+                        # Оберните SQL-запрос в text()
+                        stmt = text(f"DELETE FROM {table} WHERE {column} = :user_id")
+                        s.execute(stmt, {'user_id': user_id})
+                        logger.debug(f"Deleted from {table} for user {user_id}")
+                    except Exception as e:
+                        logger.error(f"Error deleting from {table}: {str(e)}")
+                        s.rollback()
+                        return False
+
+                # 5. Удаляем самого пользователя
+                s.delete(user)
+                s.commit()
+                logger.info(f"Successfully deleted user {user_id}")
+                return True
+
+            except Exception as e:
+                s.rollback()
+                logger.error(f"Error deleting user {user_id}: {str(e)}")
+                return False
