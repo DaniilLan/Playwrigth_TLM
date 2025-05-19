@@ -1,5 +1,7 @@
 import time
 from typing import Union, List
+
+from core.utils.file_helpers import *
 from page_objects.base_page import BasePage
 
 import re
@@ -46,8 +48,8 @@ class MMILPage(BasePage):
         locator = f'//div[@class="{class_name}"]//div[span[text()="{text}"]]'
         self.click(locator)
 
-    def wait_visible_notification(self):
-        self.wait_visible_elements(LocatorsMMIL.NOTIFICATION)
+    def expect_notification_completed_test(self):
+        self.expect_text(LocatorsMMIL.NOTIFICATION, 'Тест пройден. За результатами обратитесь к врачу.')
 
     def log_in_and_create_test_go_to_test_CAH(self):
         self.fill_text('//*[@id="root"]/div/div[1]/div/div[2]/div[1]/div/input', 'testdoctor@mail.ru')
@@ -64,3 +66,38 @@ class MMILPage(BasePage):
         time.sleep(1)
         self.page.reload()
 
+    def go_to_page_doctor(self):
+        self.open(self.conf.urls.mmil)
+
+    def check_interpretation_for_test(self, interpretation):
+        self.click('//*[@id="root"]/div/div[1]/main/ul/li')
+        self.click('//*[@id="root"]/div/div[1]/main/div[2]/table/tbody/tr[1]/td[5]/div/button[2]')
+        self.click('//html/body/div[2]/div/ul/div[2]')
+        time.sleep(1)
+        self.click('//html/body/div[2]/div/div[4]/div/div[2]/div/span')
+        time.sleep(1)
+        text_inter = ''
+        if interpretation == interpretation_2_31:
+            text_inter = text_interpretation_2
+        elif interpretation == interpretation_2_35:
+            text_inter = text_interpretation_2
+        elif interpretation == interpretation_2_45:
+            text_inter = text_interpretation_2
+        elif interpretation == interpretation_3_46:
+            text_inter = text_interpretation_3
+        elif interpretation == interpretation_3_50:
+            text_inter = text_interpretation_3
+        elif interpretation == interpretation_3_70:
+            text_inter = text_interpretation_3
+        elif interpretation == interpretation_3_71:
+            text_inter = text_interpretation_3
+        elif interpretation == interpretation_2_example:
+            text_inter = text_interpretation_2
+        elif interpretation == interpretation_2_120:
+            text_inter = text_interpretation_2
+        elif interpretation == interpretation_3_max_210:
+            text_inter = text_interpretation_3
+        elif interpretation == interpretation_1_min_30:
+            text_inter = text_interpretation_1
+        fact_text = self.get_text('//html/body/div[2]/div/div[3]/div/div[3]/div/div[2]/span')
+        assert fact_text == text_inter, f'{fact_text} != {text_inter}'
