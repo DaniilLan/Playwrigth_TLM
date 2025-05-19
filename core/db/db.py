@@ -114,3 +114,4 @@ class DBManager:
                 s.rollback()
                 logger.error(f"Error deleting user {user_id}: {str(e)}")
                 return False
+

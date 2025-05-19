@@ -143,8 +143,9 @@ class BasePage:
         """Проверка - элементы видны"""
         locators_list = [locators] if isinstance(locators, str) else locators
         for locator in locators_list:
-            return self.page.is_visible(locator)
-
+            if self.page.is_visible(locator):
+                return True
+        return False
 
     @handle_playwright_errors
     def get_quantity_elements(self, locator: str):

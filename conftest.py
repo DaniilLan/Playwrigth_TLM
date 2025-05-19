@@ -3,6 +3,7 @@ from core.db.db import DBManager
 from config.config import load_config
 from page_objects.page.auth import AuthPage
 from page_objects.page.help import HelpPage
+from page_objects.page.mill_tests import MMILPage
 from page_objects.page.user import UsersPage
 
 import pytest
@@ -23,7 +24,7 @@ def main_page(conf):
     with sync_playwright() as p:
         browser = p.chromium.launch(
             headless=False,
-            slow_mo=300,
+            slow_mo=100,
         )
         context = browser.new_context(
             viewport=conf.context.viewport_fhd,
@@ -62,6 +63,14 @@ def users_page(main_page, conf, request):
     if modal.is_visible():
         page.locator('//button[//text()="Обновить"]').click()
     page = UsersPage(page)
+    yield page
+
+
+@pytest.fixture()
+def page_t(main_page, conf, request):
+    page = main_page
+    page.goto(conf.urls.mmil)
+    page = MMILPage(page)
     yield page
 
 

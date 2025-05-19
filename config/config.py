@@ -5,15 +5,18 @@ from pydantic import BaseModel, Field
 import configparser
 import json
 
+
 class NamePDFDoc(BaseModel):
     user_manual: str
+
 
 class TextError(BaseModel):
     invalid_mail: str
     invalid_password: str
 
+
 class CSSParams(BaseModel):
-    error_background_color:  str
+    error_background_color: str
     error_border_color: str
 
 
@@ -37,6 +40,7 @@ class ApiConfig(BaseModel):
 
 class UrlConfig(BaseModel):
     base: str
+    mmil: str
 
     @property
     def users(self) -> str:
@@ -105,7 +109,7 @@ class Config(BaseModel):
         }
 
 
-def load_config(path: str = "C:/Users/landa/PycharmProjects/Playwrigth_TLM/config.ini") -> Config:
+def load_config(path: str = "config.ini") -> Config:
     config = configparser.ConfigParser()
     with open(path, 'r', encoding='utf-8') as f:
         config.read_file(f)
