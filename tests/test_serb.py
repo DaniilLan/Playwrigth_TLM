@@ -1,0 +1,65 @@
+import pytest
+from core.utils.files_helpers.CAH_data import CAH
+from core.utils.files_helpers.MMIL_data import MMIL
+
+
+class TestSerb:
+
+    # @pytest.mark.parametrize('interpretation', [
+    #                                             CAH.answers_1_34,
+    #                                             CAH.answers_1_60,
+    #                                             CAH.answers_1_90,
+    #                                             CAH.answers_1_96,
+    #                                             CAH.answers_2_102,
+    #                                             CAH.answers_2_105,
+    #                                             CAH.answers_2_120,
+    #                                             CAH.answers_2_135,
+    #                                             CAH.answers_2_138,
+    #                                             CAH.answers_3_144,
+    #                                             CAH.answers_3_150,
+    #                                             CAH.answers_2_example,
+    #                                             CAH.answers_3_max_210,
+    #                                             CAH.answers_1_min_30,
+    #                                             ],
+    #                          ids=[
+    #                              "answers_1_34",
+    #                              "answers_1_60",
+    #                              "answers_1_90",
+    #                              "CAH.answers_2_102",
+    #                              "answers_2_105",
+    #                              "answers_2_120",
+    #                              "answers_2_135",
+    #                              "answers_2_138",
+    #                              "answers_3_144",
+    #                              "answers_3_150",
+    #                              "answers_2_example",
+    #                              "answers_2_120",
+    #                              "answers_3_max_210",
+    #                              "answers_1_min_30",
+    #                          ]
+    #                          )
+    # def test_CAH(self, auth_serb, interpretation):
+    #     auth_serb.log_in_and_create_test_go_to_test_CAH()
+    #     auth_serb.select_test_CAH()
+    #     auth_serb.skip_manual()
+    #     for answer_key in interpretation:
+    #         class_name, text = CAH.transcript[answer_key]
+    #         auth_serb.click_by_answer(class_name, text)
+    #         auth_serb.save_answer_in_test()
+    #     auth_serb.expect_notification_completed_test()
+    #     auth_serb.go_to_page_doctor()
+    #     auth_serb.check_interpretation_for_test(interpretation)
+
+    @pytest.mark.parametrize('answers', [MMIL.answer_test_less_1])
+    def test_MMIL(self, auth_serb, answers):
+        auth_serb.create_test_go_to_test_MMIL()
+        auth_serb.select_test_MMIL()
+        auth_serb.skip_manual()
+        for answer_key in answers:
+            class_name, text = MMIL.transcript[answer_key]
+            auth_serb.click_by_answer(class_name, text)
+            auth_serb.save_answer_in_test()
+        auth_serb.expect_notification_completed_test()
+        auth_serb.go_to_page_doctor()
+
+

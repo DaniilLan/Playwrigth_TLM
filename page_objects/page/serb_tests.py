@@ -16,9 +16,9 @@ class LocatorsMMIL:
     NOTIFICATION = '//div[text()="Тест пройден. За результатами обратитесь к врачу."]'
 
 
-class MMILPage(BasePage):
+class SerbPage(BasePage):
 
-    def select_test_mmil(self):
+    def select_test_MMIL(self):
         self.click(LocatorsMMIL.LINK_TEST_MMIL)
 
     def select_test_CAH(self):
@@ -42,21 +42,30 @@ class MMILPage(BasePage):
             self.save_answer_in_test()
 
     def click_by_answer(self, class_name: str, text: str):
-        locator = f'//div[@class="{class_name}"]//div[span[text()="{text}"]]'
+        locator = f'//div[@class="{class_name}"]//span[text()="{text}"]'
         self.click(locator)
 
     def expect_notification_completed_test(self):
         self.expect_text(LocatorsMMIL.NOTIFICATION, 'Тест пройден. За результатами обратитесь к врачу.')
 
-    def log_in_and_create_test_go_to_test_CAH(self):
-        self.fill_text('//*[@id="root"]/div/div[1]/div/div[2]/div[1]/div/input', 'testdoctor@mail.ru')
-        self.fill_text('//*[@id="root"]/div/div[1]/div/div[2]/div[2]/div/input', 'Testdoctor1!')
-        self.click('//*[@id="root"]/div/div[1]/div/div[2]/button')
+    def create_test_go_to_test_CAH(self):
         self.click('//*[@id="root"]/div/div[1]/main/ul/li')
         self.click('//*[@id="root"]/div/div[1]/main/div[2]/div/button')
         self.click('//html/body/div[2]/div/div[3]/ul/div[2]')
         self.click('//html/body/div[2]/div/div[3]/div[2]/button')
         self.click('//html/body/div[2]/div/div[3]/div[2]/div/div[2]/ul[3]/div[2]/div/div')
+        self.click('//html/body/div[2]/div/div[3]/div[2]/button')
+        url_test = self.page.get_attribute('//html/body/div[2]/div/div[2]/div[2]/div/input', 'value')
+        self.open(url_test)
+        time.sleep(1)
+        self.page.reload()
+
+    def create_test_go_to_test_MMIL(self):
+        self.click('//*[@id="root"]/div/div[1]/main/ul/li')
+        self.click('//*[@id="root"]/div/div[1]/main/div[2]/div/button')
+        self.click('//html/body/div[2]/div/div[3]/ul/div[2]')
+        self.click('//html/body/div[2]/div/div[3]/div[2]/button')
+        self.click('//html/body/div[2]/div/div[3]/div[2]/div/div[2]/ul[1]/div[1]/div/div')
         self.click('//html/body/div[2]/div/div[3]/div[2]/button')
         url_test = self.page.get_attribute('//html/body/div[2]/div/div[2]/div[2]/div/input', 'value')
         self.open(url_test)
@@ -74,38 +83,38 @@ class MMILPage(BasePage):
         self.click('//html/body/div[2]/div/div[4]/div/div[2]/div/span')
         time.sleep(1)
         text_inter = ''
-        if interpretation == interpretation_1_34:
-            text_inter = text_interpretation_1
-        elif interpretation == interpretation_1_60:
-            text_inter = text_interpretation_1
-        elif interpretation == interpretation_1_90:
-            text_inter = text_interpretation_1
-        elif interpretation == interpretation_2_99:
-            text_inter = text_interpretation_2
-        elif interpretation == interpretation_1_96:
-            text_inter = text_interpretation_1
-        elif interpretation == interpretation_2_102:
-            text_inter = text_interpretation_2
-        elif interpretation == interpretation_2_105:
-            text_inter = text_interpretation_2
-        elif interpretation == interpretation_2_120:
-            text_inter = text_interpretation_2
-        elif interpretation == interpretation_2_135:
-            text_inter = text_interpretation_2
-        elif interpretation == interpretation_2_138:
-            text_inter = text_interpretation_2
-        elif interpretation == interpretation_3_144:
-            text_inter = text_interpretation_3
-        elif interpretation == interpretation_3_150:
-            text_inter = text_interpretation_3
-        elif interpretation == interpretation_2_example:
-            text_inter = text_interpretation_2
-        elif interpretation == interpretation_2_120:
-            text_inter = text_interpretation_2
-        elif interpretation == interpretation_3_max_210:
-            text_inter = text_interpretation_3
-        elif interpretation == interpretation_1_min_30:
-            text_inter = text_interpretation_1
+        if interpretation == CAH.answers_1_34:
+            text_inter = CAH.text_interpretation_1
+        elif interpretation == CAH.answers_1_60:
+            text_inter = CAH.text_interpretation_1
+        elif interpretation == CAH.answers_1_90:
+            text_inter = CAH.text_interpretation_1
+        elif interpretation == CAH.answers_2_99:
+            text_inter = CAH.text_interpretation_2
+        elif interpretation == CAH.answers_1_96:
+            text_inter = CAH.text_interpretation_1
+        elif interpretation == CAH.answers_2_102:
+            text_inter = CAH.text_interpretation_2
+        elif interpretation == CAH.answers_2_105:
+            text_inter = CAH.text_interpretation_2
+        elif interpretation == CAH.answers_2_120:
+            text_inter = CAH.text_interpretation_2
+        elif interpretation == CAH.answers_2_135:
+            text_inter = CAH.text_interpretation_2
+        elif interpretation == CAH.answers_2_138:
+            text_inter = CAH.text_interpretation_2
+        elif interpretation == CAH.answers_3_144:
+            text_inter = CAH.text_interpretation_3
+        elif interpretation == CAH.answers_3_150:
+            text_inter = CAH.text_interpretation_3
+        elif interpretation == CAH.answers_2_example:
+            text_inter = CAH.text_interpretation_2
+        elif interpretation == CAH.answers_2_120:
+            text_inter = CAH.text_interpretation_2
+        elif interpretation == CAH.answers_3_max_210:
+            text_inter = CAH.text_interpretation_3
+        elif interpretation == CAH.answers_1_min_30:
+            text_inter = CAH.text_interpretation_1
         fact_text = self.get_text('//html/body/div[2]/div/div[3]/div/div[3]/div/div[2]/span')
         assert fact_text == text_inter, (f'{fact_text} \n'
                                          f'!= {text_inter}\n'

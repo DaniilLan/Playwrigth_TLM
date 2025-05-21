@@ -1,9 +1,10 @@
 from playwright.sync_api import sync_playwright
 from core.db.db import DBManager
 from config.config import load_config
+from core.utils.api_client import get_token
 from page_objects.page.auth import AuthPage
 from page_objects.page.help import HelpPage
-from page_objects.page.mill_tests import MMILPage
+from page_objects.page.serb_tests import SerbPage
 from page_objects.page.user import UsersPage
 
 import pytest
@@ -24,7 +25,7 @@ def main_page(conf):
     with sync_playwright() as p:
         browser = p.chromium.launch(
             headless=False,
-            slow_mo=200,
+            slow_mo=100,
         )
         context = browser.new_context(
             viewport=conf.context.viewport_fhd,
@@ -34,7 +35,7 @@ def main_page(conf):
 
 
 @pytest.fixture()
-def auth_page(main_page, conf, request):
+def auth_page(main_page, conf):
     page = main_page
     page.goto(conf.urls.base)
     modal = page.locator('//div[@data-locator="WrapModal"]')
@@ -45,7 +46,7 @@ def auth_page(main_page, conf, request):
 
 
 @pytest.fixture()
-def help_page(main_page, conf, request):
+def help_page(main_page, conf):
     page = main_page
     page.goto(conf.urls.help)
     modal = page.locator('//div[@data-locator="WrapModal"]')
@@ -56,7 +57,7 @@ def help_page(main_page, conf, request):
 
 
 @pytest.fixture()
-def users_page(main_page, conf, request):
+def users_page(main_page, conf):
     page = main_page
     page.goto(conf.urls.users)
     modal = page.locator('//div[@data-locator="WrapModal"]')
@@ -67,11 +68,17 @@ def users_page(main_page, conf, request):
 
 
 @pytest.fixture()
-def page_t(main_page, conf, request):
-    page = main_page
-    page.goto(conf.urls.mmil)
-    page = MMILPage(page)
-    yield page
+def auth_serb(main_page, conf):
+    main_page.goto(conf.urls.mmil)
+    token = get_token()
+    main_page.evaluate(
+        """([token_key, token_value]) => {
+            localStorage.setItem(token_key, token_value);
+        }""",
+        ["access", token]
+    )
+    main_page.reload()
+    yield SerbPage(main_page)
 
 
 @pytest.fixture
