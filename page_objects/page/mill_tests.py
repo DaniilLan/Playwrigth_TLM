@@ -1,10 +1,7 @@
 import time
-from typing import Union, List
 
-from core.utils.file_helpers import *
+from core.utils.files_helpers.CAH_data import *
 from page_objects.base_page import BasePage
-
-import re
 
 
 class LocatorsMMIL:
@@ -77,19 +74,29 @@ class MMILPage(BasePage):
         self.click('//html/body/div[2]/div/div[4]/div/div[2]/div/span')
         time.sleep(1)
         text_inter = ''
-        if interpretation == interpretation_2_31:
+        if interpretation == interpretation_1_34:
+            text_inter = text_interpretation_1
+        elif interpretation == interpretation_1_60:
+            text_inter = text_interpretation_1
+        elif interpretation == interpretation_1_90:
+            text_inter = text_interpretation_1
+        elif interpretation == interpretation_2_99:
             text_inter = text_interpretation_2
-        elif interpretation == interpretation_2_35:
+        elif interpretation == interpretation_1_96:
+            text_inter = text_interpretation_1
+        elif interpretation == interpretation_2_102:
             text_inter = text_interpretation_2
-        elif interpretation == interpretation_2_45:
+        elif interpretation == interpretation_2_105:
             text_inter = text_interpretation_2
-        elif interpretation == interpretation_3_46:
+        elif interpretation == interpretation_2_120:
+            text_inter = text_interpretation_2
+        elif interpretation == interpretation_2_135:
+            text_inter = text_interpretation_2
+        elif interpretation == interpretation_2_138:
+            text_inter = text_interpretation_2
+        elif interpretation == interpretation_3_144:
             text_inter = text_interpretation_3
-        elif interpretation == interpretation_3_50:
-            text_inter = text_interpretation_3
-        elif interpretation == interpretation_3_70:
-            text_inter = text_interpretation_3
-        elif interpretation == interpretation_3_71:
+        elif interpretation == interpretation_3_150:
             text_inter = text_interpretation_3
         elif interpretation == interpretation_2_example:
             text_inter = text_interpretation_2
@@ -100,4 +107,7 @@ class MMILPage(BasePage):
         elif interpretation == interpretation_1_min_30:
             text_inter = text_interpretation_1
         fact_text = self.get_text('//html/body/div[2]/div/div[3]/div/div[3]/div/div[2]/span')
-        assert fact_text == text_inter, f'{fact_text} != {text_inter}'
+        assert fact_text == text_inter, (f'{fact_text} \n'
+                                         f'!= {text_inter}\n'
+                                         f'protokolId: \n'
+                                         f'testId: \n')

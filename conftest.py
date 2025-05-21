@@ -24,7 +24,7 @@ def main_page(conf):
     with sync_playwright() as p:
         browser = p.chromium.launch(
             headless=False,
-            slow_mo=300,
+            slow_mo=200,
         )
         context = browser.new_context(
             viewport=conf.context.viewport_fhd,
