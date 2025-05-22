@@ -120,3 +120,11 @@ class SerbPage(BasePage):
                                          f'!= {text_inter}\n'
                                          f'protokolId: \n'
                                          f'testId: \n')
+
+    def delete_all_obs(self, FIO):
+        self.click(f'//span[text()="{FIO}"]')
+        button_delete = '//div[@class="passedTests-delete"]'
+        while self.wait_visible_elements(button_delete):
+            self.click(button_delete)
+            self.click('//button[@class="button warning fullwidth"]')
+

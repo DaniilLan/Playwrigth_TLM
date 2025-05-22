@@ -1,3 +1,5 @@
+import time
+
 import pytest
 from core.utils.files_helpers.CAH_data import CAH
 from core.utils.files_helpers.MMIL_data import MMIL
@@ -50,7 +52,7 @@ class TestSerb:
     #     auth_serb.go_to_page_doctor()
     #     auth_serb.check_interpretation_for_test(interpretation)
 
-    @pytest.mark.parametrize('answers', [MMIL.answer_test_less_1])
+    @pytest.mark.parametrize('answers', [MMIL.answer_test_less])
     def test_MMIL(self, auth_serb, answers):
         auth_serb.create_test_go_to_test_MMIL()
         auth_serb.select_test_MMIL()
@@ -61,5 +63,9 @@ class TestSerb:
             auth_serb.save_answer_in_test()
         auth_serb.expect_notification_completed_test()
         auth_serb.go_to_page_doctor()
+
+    #
+    # def test_delete(self, auth_serb):
+    #     auth_serb.delete_all_obs('Ланцов Даниил Андреевич')
 
 
