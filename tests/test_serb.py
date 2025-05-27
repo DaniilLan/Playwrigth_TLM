@@ -52,7 +52,7 @@ class TestSerb:
     #     auth_serb.go_to_page_doctor()
     #     auth_serb.check_interpretation_for_test(interpretation)
 
-    @pytest.mark.parametrize('answers', [MMIL.answer_exampl_yes])
+    @pytest.mark.parametrize('answers', [MMIL.answer_exampl_no])
     def test_MMIL(self, auth_serb, answers):
         auth_serb.create_test_go_to_test_MMIL()
         auth_serb.select_test_MMIL()
@@ -62,8 +62,16 @@ class TestSerb:
             auth_serb.click_by_answer(class_name, text)
             auth_serb.save_answer_in_test()
         auth_serb.expect_notification_completed_test()
-        time.sleep(100)
         auth_serb.go_to_page_doctor()
+
+    # @pytest.mark.parametrize('answers', [MMIL.answer_exampl_yes])
+    # def test_IIG(self, auth_serb, answers):
+    #     auth_serb.create_test_go_to_test_IIG()
+    #     auth_serb.select_test_IIG()
+    #     auth_serb.skip_manual()
+    #
+    #
+    #     time.sleep(3)
 
     # def test_delete(self, auth_serb):
     #     auth_serb.delete_all_obs('Ланцов Даниил Андреевич')

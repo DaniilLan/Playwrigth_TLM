@@ -7,6 +7,9 @@ from page_objects.base_page import BasePage
 class LocatorsMMIL:
     LINK_TEST_MMIL = '//span[text()="Методика многостороннего исследования личности (ММИЛ)"]'
     LINK_TEST_CAH = '//span[text()="Опросник «Самочувствие, Активность, Настроение» (САН)"]'
+    LINK_TEST_IIG = '//span[text()="ЭЭГ-показатели для скрининга аффективной патологии"]'
+    LINK_TEST_ITRAC = '//span[text()="ОСНОВНЫЕ ПАРАМЕТРЫ, АНАЛИЗИРУЕМЫЕ В ХОДЕ ОКУЛОГРАФИЧЕСКОГО ИССЛЕДОВАНИЯ (В СИСТЕМЕ Tobii Pro Lab)"]'
+    LINK_TEST_BPC = '//span[text()="Показатели вариабельности ритма сердца (ВРС)"]'
     BUTTON_NEXT_MANUAL = '//button[text()="Далее"]'
     ANSWER_YES = '//div[span[text()="Да"]]'
     ANSWER_NO = '//div[span[text()="Нет"]]'
@@ -20,6 +23,15 @@ class SerbPage(BasePage):
 
     def select_test_MMIL(self):
         self.click(LocatorsMMIL.LINK_TEST_MMIL)
+
+    def select_test_IIG(self):
+        self.click(LocatorsMMIL.LINK_TEST_IIG)
+
+    def select_test_ITRAC(self):
+        self.click(LocatorsMMIL.LINK_TEST_ITRAC)
+
+    def select_test_BPC(self):
+        self.click(LocatorsMMIL.LINK_TEST_BPC)
 
     def select_test_CAH(self):
         self.click(LocatorsMMIL.LINK_TEST_CAH)
@@ -66,6 +78,39 @@ class SerbPage(BasePage):
         self.click('//html/body/div[2]/div/div[3]/ul/div[2]')
         self.click('//html/body/div[2]/div/div[3]/div[2]/button')
         self.click('//html/body/div[2]/div/div[3]/div[2]/div/div[2]/ul[1]/div[1]/div/div')
+        self.click('//html/body/div[2]/div/div[3]/div[2]/button')
+        url_test = self.page.get_attribute('//html/body/div[2]/div/div[2]/div[2]/div/input', 'value')
+        self.open(url_test)
+        time.sleep(1)
+        self.page.reload()
+
+    def create_test_go_to_test_BPC(self):
+        self.click('//*[@id="root"]/div/div[1]/main/ul/li')
+        self.click('//*[@id="root"]/div/div[1]/main/div[2]/div/button')
+        self.click('//html/body/div[2]/div/div[3]/ul/div[3]')
+        self.click('//html/body/div[2]/div/div[3]/div[2]/div/div[2]/ul/div[2]/div/div')
+        self.click('//html/body/div[2]/div/div[3]/div[2]/button')
+        url_test = self.page.get_attribute('//html/body/div[2]/div/div[2]/div[2]/div/input', 'value')
+        self.open(url_test)
+        time.sleep(1)
+        self.page.reload()
+
+    def create_test_go_to_test_IIG(self):
+        self.click('//*[@id="root"]/div/div[1]/main/ul/li')
+        self.click('//*[@id="root"]/div/div[1]/main/div[2]/div/button')
+        self.click('//html/body/div[2]/div/div[3]/ul/div[3]')
+        self.click('//html/body/div[2]/div/div[3]/div[2]/div/div[2]/ul/div[3]/div/div')
+        self.click('//html/body/div[2]/div/div[3]/div[2]/button')
+        url_test = self.page.get_attribute('//html/body/div[2]/div/div[2]/div[2]/div/input', 'value')
+        self.open(url_test)
+        time.sleep(1)
+        self.page.reload()
+
+    def create_test_go_to_test_ITREC(self):
+        self.click('//*[@id="root"]/div/div[1]/main/ul/li')
+        self.click('//*[@id="root"]/div/div[1]/main/div[2]/div/button')
+        self.click('//html/body/div[2]/div/div[3]/ul/div[3]')
+        self.click('//html/body/div[2]/div/div[3]/div[2]/div/div[2]/ul/div[1]/div/div')
         self.click('//html/body/div[2]/div/div[3]/div[2]/button')
         url_test = self.page.get_attribute('//html/body/div[2]/div/div[2]/div[2]/div/input', 'value')
         self.open(url_test)
