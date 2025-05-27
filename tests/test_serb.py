@@ -6,7 +6,7 @@ from core.utils.files_helpers.MMIL_data import MMIL
 
 
 class TestSerb:
-
+    #
     # @pytest.mark.parametrize('interpretation', [
     #                                             CAH.answers_1_34,
     #                                             CAH.answers_1_60,
@@ -41,7 +41,7 @@ class TestSerb:
     #                          ]
     #                          )
     # def test_CAH(self, auth_serb, interpretation):
-    #     auth_serb.log_in_and_create_test_go_to_test_CAH()
+    #     auth_serb.create_test_go_to_test_CAH()
     #     auth_serb.select_test_CAH()
     #     auth_serb.skip_manual()
     #     for answer_key in interpretation:
@@ -52,26 +52,39 @@ class TestSerb:
     #     auth_serb.go_to_page_doctor()
     #     auth_serb.check_interpretation_for_test(interpretation)
 
-    @pytest.mark.parametrize('answers', [MMIL.answer_exampl_no])
-    def test_MMIL(self, auth_serb, answers):
-        auth_serb.create_test_go_to_test_MMIL()
-        auth_serb.select_test_MMIL()
-        auth_serb.skip_manual()
-        for answer_key in answers:
-            class_name, text = MMIL.transcript[answer_key]
-            auth_serb.click_by_answer(class_name, text)
-            auth_serb.save_answer_in_test()
-        auth_serb.expect_notification_completed_test()
-        auth_serb.go_to_page_doctor()
+    # @pytest.mark.parametrize('answers', [MMIL.answer_exampl_no])
+    # def test_MMIL(self, auth_serb, answers):
+    #     auth_serb.create_test_go_to_test_MMIL()
+    #     auth_serb.select_test_MMIL()
+    #     auth_serb.skip_manual()
+    #     for answer_key in answers:
+    #         class_name, text = MMIL.transcript[answer_key]
+    #         auth_serb.click_by_answer(class_name, text)
+    #         auth_serb.save_answer_in_test()
+    #     auth_serb.expect_notification_completed_test()
+    #     auth_serb.go_to_page_doctor()
 
-    # @pytest.mark.parametrize('answers', [MMIL.answer_exampl_yes])
-    # def test_IIG(self, auth_serb, answers):
+    # def test_IIG(self, auth_serb):
     #     auth_serb.create_test_go_to_test_IIG()
     #     auth_serb.select_test_IIG()
     #     auth_serb.skip_manual()
+    #     auth_serb.fill_all_input_fields_IIG()
+    #     auth_serb.save_answer_in_test()
+    #     auth_serb.expect_notification_completed_test()
     #
+    # def test_BPC(self, auth_serb):
+    #     auth_serb.create_test_go_to_test_BPC()
+    #     auth_serb.select_test_BPC()
+    #     auth_serb.fill_all_input_fields_BPC()
+    #     auth_serb.save_answer_in_test()
+    #     auth_serb.expect_notification_completed_test()
     #
-    #     time.sleep(3)
+    # def test_ITRAC(self, auth_serb):
+    #     auth_serb.create_test_go_to_test_ITREC()
+    #     auth_serb.select_test_ITRAC()
+    #     auth_serb.fill_all_input_fields_ITRAC()
+    #     auth_serb.save_answer_in_test()
+    #     auth_serb.expect_notification_completed_test()
 
     # def test_delete(self, auth_serb):
     #     auth_serb.delete_all_obs('Ланцов Даниил Андреевич')

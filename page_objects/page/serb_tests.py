@@ -4,7 +4,7 @@ from core.utils.files_helpers.CAH_data import *
 from page_objects.base_page import BasePage
 
 
-class LocatorsMMIL:
+class LocatorsSERB:
     LINK_TEST_MMIL = '//span[text()="Методика многостороннего исследования личности (ММИЛ)"]'
     LINK_TEST_CAH = '//span[text()="Опросник «Самочувствие, Активность, Настроение» (САН)"]'
     LINK_TEST_IIG = '//span[text()="ЭЭГ-показатели для скрининга аффективной патологии"]'
@@ -22,34 +22,34 @@ class LocatorsMMIL:
 class SerbPage(BasePage):
 
     def select_test_MMIL(self):
-        self.click(LocatorsMMIL.LINK_TEST_MMIL)
+        self.click(LocatorsSERB.LINK_TEST_MMIL)
 
     def select_test_IIG(self):
-        self.click(LocatorsMMIL.LINK_TEST_IIG)
+        self.click(LocatorsSERB.LINK_TEST_IIG)
 
     def select_test_ITRAC(self):
-        self.click(LocatorsMMIL.LINK_TEST_ITRAC)
+        self.click(LocatorsSERB.LINK_TEST_ITRAC)
 
     def select_test_BPC(self):
-        self.click(LocatorsMMIL.LINK_TEST_BPC)
+        self.click(LocatorsSERB.LINK_TEST_BPC)
 
     def select_test_CAH(self):
-        self.click(LocatorsMMIL.LINK_TEST_CAH)
+        self.click(LocatorsSERB.LINK_TEST_CAH)
 
     def skip_manual(self):
-        self.click(LocatorsMMIL.BUTTON_NEXT_MANUAL)
+        self.click(LocatorsSERB.BUTTON_NEXT_MANUAL)
 
     def click_answer_yes(self):
-        self.click(LocatorsMMIL.ANSWER_YES)
+        self.click(LocatorsSERB.ANSWER_YES)
 
     def click_answer_no(self):
-        self.click(LocatorsMMIL.ANSWER_NO)
+        self.click(LocatorsSERB.ANSWER_NO)
 
     def save_answer_in_test(self):
-        self.click(LocatorsMMIL.BUTTON_SAVE_ANSWER)
+        self.click(LocatorsSERB.BUTTON_SAVE_ANSWER)
 
     def answer_oly_yes_until_last_question(self):
-        while not self.expect_visible_elements(LocatorsMMIL.LAST_PAGE_TEST):
+        while not self.expect_visible_elements(LocatorsSERB.LAST_PAGE_TEST):
             self.click_answer_yes()
             self.save_answer_in_test()
 
@@ -58,7 +58,8 @@ class SerbPage(BasePage):
         self.click(locator)
 
     def expect_notification_completed_test(self):
-        self.expect_text(LocatorsMMIL.NOTIFICATION, 'Тест пройден. За результатами обратитесь к врачу.')
+        self.wait_visible_elements(LocatorsSERB.NOTIFICATION)
+        self.expect_text(LocatorsSERB.NOTIFICATION, 'Тест пройден. За результатами обратитесь к врачу.')
 
     def create_test_go_to_test_CAH(self):
         self.click('//*[@id="root"]/div/div[1]/main/ul/li')
@@ -173,3 +174,27 @@ class SerbPage(BasePage):
             self.click(button_delete)
             self.click('//button[@class="button warning fullwidth"]')
 
+    def fill_all_input_fields_IIG(self):
+        text = '11111111'
+        for i in range(4):
+            self.fill_text(f'//*[@id="popap_window"]/div/div/div/div[2]/div[3]/div/div/div[2]/div[{i+5}]/input', text)
+        for k in range(20):
+            self.fill_text(f'//*[@id="popap_window"]/div/div/div/div[2]/div[3]/div/div/div[2]/div[{k+11}]/input', text)
+
+    def fill_all_input_fields_ITRAC(self):
+        text = '11111111'
+        for i in range(4):
+            self.fill_text(f'//*[@id="popap_window"]/div/div/div/div[2]/div[3]/div/div/div[2]/div[{i+5}]/input', text)
+        for k in range(8):
+            self.fill_text(f'//*[@id="popap_window"]/div/div/div/div[2]/div[3]/div/div/div[2]/div[{k+11}]/input', text)
+
+    def fill_all_input_fields_BPC(self):
+        text = '11111111'
+        for i in range(4):
+            self.fill_text(f'//*[@id="popap_window"]/div/div/div/div[2]/div[3]/div/div/div[2]/div[{i+5}]/input', text)
+        for k in range(20):
+            self.fill_text(f'//*[@id="popap_window"]/div/div/div/div[2]/div[3]/div/div/div[2]/div[11]/div[2]/div[{k+1}]/input', text)
+        for j in range(20):
+            self.fill_text(f'//*[@id="popap_window"]/div/div/div/div[2]/div[3]/div/div/div[2]/div[12]/div[2]/div[{j+1}]/input', text)
+        for e in range(3):
+            self.fill_text(f'//*[@id="popap_window"]/div/div/div/div[2]/div[3]/div/div/div[2]/div[13]/div[2]/div[{e+1}]/input', text)
