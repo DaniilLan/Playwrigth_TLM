@@ -5,8 +5,7 @@ from core.utils.files_helpers.CAH_data import CAH
 from core.utils.files_helpers.MMIL_data import MMIL
 
 
-class TestSerb:
-    #
+# class TestSerb:
     # @pytest.mark.parametrize('interpretation', [
     #                                             CAH.answers_1_34,
     #                                             CAH.answers_1_60,
@@ -52,12 +51,24 @@ class TestSerb:
     #     auth_serb.go_to_page_doctor()
     #     auth_serb.check_interpretation_for_test(interpretation)
 
-    # @pytest.mark.parametrize('answers', [MMIL.answer_exampl_no])
-    # def test_MMIL(self, auth_serb, answers):
+    # @pytest.mark.parametrize('answer', [
+    #                                             MMIL.answer_test_yes,
+    #                                             MMIL.answer_test_no,
+    #                                             MMIL.answer_test_less,
+    #                                             MMIL.answer_exampl,
+    #                                             ],
+    #                          ids=[
+    #                              "answer_test_yes",
+    #                              "answer_test_no",
+    #                              "answer_test_less",
+    #                              "answer_exampl",
+    #                          ]
+    #                          )
+    # def test_MMIL(self, auth_serb, answer):
     #     auth_serb.create_test_go_to_test_MMIL()
     #     auth_serb.select_test_MMIL()
     #     auth_serb.skip_manual()
-    #     for answer_key in answers:
+    #     for answer_key in answer:
     #         class_name, text = MMIL.transcript[answer_key]
     #         auth_serb.click_by_answer(class_name, text)
     #         auth_serb.save_answer_in_test()
