@@ -1,6 +1,7 @@
 import time
 
 from core.utils.files_helpers.CAH_data import *
+from core.utils.files_helpers.OKO_data import OKO
 from page_objects.base_page import BasePage
 
 
@@ -9,6 +10,7 @@ class LocatorsSERB:
     LINK_TEST_CAH = '//span[text()="Опросник «Самочувствие, Активность, Настроение» (САН)"]'
     LINK_TEST_IIG = '//span[text()="ЭЭГ-показатели для скрининга аффективной патологии"]'
     LINK_TEST_ITRAC = '//span[text()="ОСНОВНЫЕ ПАРАМЕТРЫ, АНАЛИЗИРУЕМЫЕ В ХОДЕ ОКУЛОГРАФИЧЕСКОГО ИССЛЕДОВАНИЯ (В СИСТЕМЕ Tobii Pro Lab)"]'
+    LINK_TEST_OKO = '//span[text()="Опросник когнитивных ошибок (ОКО)"]'
     LINK_TEST_BPC = '//span[text()="Показатели вариабельности ритма сердца (ВРС)"]'
     BUTTON_NEXT_MANUAL = '//button[text()="Далее"]'
     ANSWER_YES = '//div[span[text()="Да"]]'
@@ -29,6 +31,9 @@ class SerbPage(BasePage):
 
     def select_test_ITRAC(self):
         self.click(LocatorsSERB.LINK_TEST_ITRAC)
+
+    def select_test_OKO(self):
+        self.click(LocatorsSERB.LINK_TEST_OKO)
 
     def select_test_BPC(self):
         self.click(LocatorsSERB.LINK_TEST_BPC)
@@ -118,10 +123,22 @@ class SerbPage(BasePage):
         time.sleep(1)
         self.page.reload()
 
+    def create_test_go_to_test_OKO(self):
+        self.click('//li[.//span[text()="Тест ОКО "]]')
+        self.click('//*[@id="root"]/div/div[1]/main/div[2]/div/button')
+        self.click('//html/body/div[2]/div/div[3]/ul/div[2]')
+        self.click('//html/body/div[2]/div/div[3]/div[2]/button')
+        self.click('//html/body/div[2]/div/div[3]/div[2]/div/div[2]/ul[1]/div[3]/div/div')
+        self.click('//html/body/div[2]/div/div[3]/div[2]/button')
+        url_test = self.page.get_attribute('//html/body/div[2]/div/div[2]/div[2]/div/input', 'value')
+        self.open(url_test)
+        time.sleep(1)
+        self.page.reload()
+
     def go_to_page_doctor(self):
         self.open(self.conf.urls.mmil)
 
-    def check_interpretation_for_test(self, interpretation):
+    def check_interpretation_for_test_CAN(self, answer):
         self.click('//*[@id="root"]/div/div[1]/main/ul/li')
         self.click('//*[@id="root"]/div/div[1]/main/div[2]/table/tbody/tr[1]/td[5]/div/button[2]')
         self.click('//html/body/div[2]/div/ul/div[2]')
@@ -129,38 +146,38 @@ class SerbPage(BasePage):
         self.click('//html/body/div[2]/div/div[4]/div/div[2]/div/span')
         time.sleep(1)
         text_inter = ''
-        if interpretation == CAH.answers_1_34:
+        if answer is CAH.answers_1_34:
             text_inter = CAH.text_interpretation_1
-        elif interpretation == CAH.answers_1_60:
+        elif answer == CAH.answers_1_60:
             text_inter = CAH.text_interpretation_1
-        elif interpretation == CAH.answers_1_90:
+        elif answer == CAH.answers_1_90:
             text_inter = CAH.text_interpretation_1
-        elif interpretation == CAH.answers_2_99:
-            text_inter = CAH.text_interpretation_2
-        elif interpretation == CAH.answers_1_96:
+        elif answer == CAH.answers_2_99:
             text_inter = CAH.text_interpretation_1
-        elif interpretation == CAH.answers_2_102:
-            text_inter = CAH.text_interpretation_2
-        elif interpretation == CAH.answers_2_105:
-            text_inter = CAH.text_interpretation_2
-        elif interpretation == CAH.answers_2_120:
-            text_inter = CAH.text_interpretation_2
-        elif interpretation == CAH.answers_2_135:
-            text_inter = CAH.text_interpretation_2
-        elif interpretation == CAH.answers_2_138:
-            text_inter = CAH.text_interpretation_2
-        elif interpretation == CAH.answers_3_144:
-            text_inter = CAH.text_interpretation_3
-        elif interpretation == CAH.answers_3_150:
-            text_inter = CAH.text_interpretation_3
-        elif interpretation == CAH.answers_2_example:
-            text_inter = CAH.text_interpretation_2
-        elif interpretation == CAH.answers_2_120:
-            text_inter = CAH.text_interpretation_2
-        elif interpretation == CAH.answers_3_max_210:
-            text_inter = CAH.text_interpretation_3
-        elif interpretation == CAH.answers_1_min_30:
-            text_inter = CAH.text_interpretation_1
+        elif answer == CAH.answers_1_96:
+            text_inter = CAH.text_answer_1
+        elif answer == CAH.answers_2_102:
+            text_inter = CAH.text_answer_2
+        elif answer == CAH.answers_2_105:
+            text_inter = CAH.text_answer_2
+        elif answer == CAH.answers_2_120:
+            text_inter = CAH.text_answer_2
+        elif answer == CAH.answers_2_135:
+            text_inter = CAH.text_answer_2
+        elif answer == CAH.answers_2_138:
+            text_inter = CAH.text_answer_2
+        elif answer == CAH.answers_3_144:
+            text_inter = CAH.text_answer_3
+        elif answer == CAH.answers_3_150:
+            text_inter = CAH.text_answer_3
+        elif answer == CAH.answers_2_example:
+            text_inter = CAH.text_answer_2
+        elif answer == CAH.answers_2_120:
+            text_inter = CAH.text_answer_2
+        elif answer == CAH.answers_3_max_210:
+            text_inter = CAH.text_answer_3
+        elif answer == CAH.answers_1_min_30:
+            text_inter = CAH.text_answer_1
         fact_text = self.get_text('//html/body/div[2]/div/div[3]/div/div[3]/div/div[2]/span')
         assert fact_text == text_inter, (f'{fact_text} \n'
                                          f'!= {text_inter}\n'
@@ -198,3 +215,18 @@ class SerbPage(BasePage):
             self.fill_text(f'//*[@id="popap_window"]/div/div/div/div[2]/div[3]/div/div/div[2]/div[12]/div[2]/div[{j+1}]/input', text)
         for e in range(3):
             self.fill_text(f'//*[@id="popap_window"]/div/div/div/div[2]/div[3]/div/div/div[2]/div[13]/div[2]/div[{e+1}]/input', text)
+
+    def check_interpretation_for_test_OKO(self, answer):
+        self.click('//li[.//span[text()="Тест ОКО "]]')
+        self.click('//*[@id="root"]/div/div[1]/main/div[2]/table/tbody/tr[1]/td[5]/div/button[2]')
+        self.click('//html/body/div[2]/div/ul/div[2]')
+        time.sleep(1)
+        self.click('//html/body/div[2]/div/div[4]/div/div[2]/div/span')
+        time.sleep(1)
+        if answer is OKO.answer_all_max:
+            text_true = OKO.text_interpretation_4
+            text_inter = self.get_text('//div[@class="testConclusion-container"][.//span[text()="Ранимость"]]')
+            assert text_inter == text_true, (f"Ошибка текст "
+                                             f"\nФР-{text_inter} "
+                                             f"\n!= "
+                                             f"\nОР-{text_true}")

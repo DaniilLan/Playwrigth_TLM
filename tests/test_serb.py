@@ -3,10 +3,11 @@ import time
 import pytest
 from core.utils.files_helpers.CAH_data import CAH
 from core.utils.files_helpers.MMIL_data import MMIL
+from core.utils.files_helpers.OKO_data import OKO
 
 
-# class TestSerb:
-    # @pytest.mark.parametrize('interpretation', [
+class TestSerb:
+    # @pytest.mark.parametrize('answer', [
     #                                             CAH.answers_1_34,
     #                                             CAH.answers_1_60,
     #                                             CAH.answers_1_90,
@@ -39,17 +40,17 @@ from core.utils.files_helpers.MMIL_data import MMIL
     #                              "answers_1_min_30",
     #                          ]
     #                          )
-    # def test_CAH(self, auth_serb, interpretation):
+    # def test_CAH(self, auth_serb, answer):
     #     auth_serb.create_test_go_to_test_CAH()
     #     auth_serb.select_test_CAH()
     #     auth_serb.skip_manual()
-    #     for answer_key in interpretation:
+    #     for answer_key in answer:
     #         class_name, text = CAH.transcript[answer_key]
     #         auth_serb.click_by_answer(class_name, text)
     #         auth_serb.save_answer_in_test()
     #     auth_serb.expect_notification_completed_test()
     #     auth_serb.go_to_page_doctor()
-    #     auth_serb.check_interpretation_for_test(interpretation)
+    #     auth_serb.check_interpretation_for_test(answer)
 
     # @pytest.mark.parametrize('answer', [
     #                                             MMIL.answer_test_yes,
@@ -100,4 +101,29 @@ from core.utils.files_helpers.MMIL_data import MMIL
     # def test_delete(self, auth_serb):
     #     auth_serb.delete_all_obs('Ланцов Даниил Андреевич')
 
+    @pytest.mark.parametrize('answer', [
+                                                # OKO.answer_min,
+                                                OKO.answer_all_max,
+                                                # OKO.answer_1,
+                                                # OKO.answer_2,
+
+                                        ],
+                             ids=[
+                                 # "answer_min",
+                                 "answer_all_max",
+                                 # "answer_1",
+                                 # "answer_2",
+                             ]
+                             )
+    def test_OKO(self, auth_serb, answer):
+        auth_serb.create_test_go_to_test_OKO()
+        auth_serb.select_test_OKO()
+        auth_serb.skip_manual()
+        for answer_key in answer:
+            class_name, text = OKO.transcript[answer_key]
+            auth_serb.click_by_answer(class_name, text)
+            auth_serb.save_answer_in_test()
+        auth_serb.expect_notification_completed_test()
+        auth_serb.go_to_page_doctor()
+        auth_serb.check_interpretation_for_test_OKO(answer)
 
