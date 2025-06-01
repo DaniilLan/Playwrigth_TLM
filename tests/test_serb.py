@@ -102,17 +102,16 @@ class TestSerb:
     #     auth_serb.delete_all_obs('Ланцов Даниил Андреевич')
 
     @pytest.mark.parametrize('answer', [
-                                                # OKO.answer_min,
-                                                OKO.answer_all_max,
-                                                # OKO.answer_1,
-                                                # OKO.answer_2,
-
+                                        # OKO.answer_min,
+                                        # OKO.answer_all_max,
+                                        # OKO.answer_0_less_limit,
+                                        OKO.answer_all_limit,
                                         ],
                              ids=[
                                  # "answer_min",
-                                 "answer_all_max",
-                                 # "answer_1",
-                                 # "answer_2",
+                                 # "answer_all_max",
+                                 # "answer_0_less_limit",
+                                 "answer_all_limit",
                              ]
                              )
     def test_OKO(self, auth_serb, answer):
@@ -126,4 +125,3 @@ class TestSerb:
         auth_serb.expect_notification_completed_test()
         auth_serb.go_to_page_doctor()
         auth_serb.check_interpretation_for_test_OKO(answer)
-

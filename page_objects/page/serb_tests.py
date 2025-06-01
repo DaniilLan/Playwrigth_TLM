@@ -19,7 +19,14 @@ class LocatorsSERB:
     LAST_PAGE_TEST = '//span[text()="377 из 377"]'
     CAH_ANSWER_1 = '//div[@class="CPYE"]//div[span[text()="3"]]'
     NOTIFICATION = '//div[text()="Тест пройден. За результатами обратитесь к врачу."]'
-
+    PATIENT_OKO = '//li[.//span[text()="Тест ОКО "]]'
+    ADD_OBSLED = '//*[@id="root"]/div/div[1]/main/div[2]/div/button'
+    KLASTER_2 = '//div[span[text()="Психодиагностическое обследование"]]'
+    SHARE_TEST = '//html/body/div[2]/div/div[3]/div[2]/button'
+    CHAK_BOX_OKO = '//html/body/div[2]/div/div[3]/div[2]/div/div[2]/ul[1]/div[3]/div/div'
+    SHARE_LINK_TEST = '//html/body/div[2]/div/div[2]/div[2]/div/input'
+    BUTTON_RESULT_TEST = '//*[@id="root"]/div/div[1]/main/div[2]/table/tbody/tr[1]/td[5]/div/button[2]'
+    RESULT_TEST_OKO = "//span[text()='Опросник когнитивных ошибок (ОКО)']"
 
 class SerbPage(BasePage):
 
@@ -124,13 +131,13 @@ class SerbPage(BasePage):
         self.page.reload()
 
     def create_test_go_to_test_OKO(self):
-        self.click('//li[.//span[text()="Тест ОКО "]]')
-        self.click('//*[@id="root"]/div/div[1]/main/div[2]/div/button')
-        self.click('//html/body/div[2]/div/div[3]/ul/div[2]')
-        self.click('//html/body/div[2]/div/div[3]/div[2]/button')
-        self.click('//html/body/div[2]/div/div[3]/div[2]/div/div[2]/ul[1]/div[3]/div/div')
-        self.click('//html/body/div[2]/div/div[3]/div[2]/button')
-        url_test = self.page.get_attribute('//html/body/div[2]/div/div[2]/div[2]/div/input', 'value')
+        self.click(LocatorsSERB.PATIENT_OKO)
+        self.click(LocatorsSERB.ADD_OBSLED)
+        self.click(LocatorsSERB.KLASTER_2)
+        self.click(LocatorsSERB.SHARE_TEST)
+        self.click(LocatorsSERB.CHAK_BOX_OKO)
+        self.click(LocatorsSERB.SHARE_TEST)
+        url_test = self.page.get_attribute(LocatorsSERB.SHARE_LINK_TEST, 'value')
         self.open(url_test)
         time.sleep(1)
         self.page.reload()
@@ -148,11 +155,11 @@ class SerbPage(BasePage):
         text_inter = ''
         if answer is CAH.answers_1_34:
             text_inter = CAH.text_interpretation_1
-        elif answer == CAH.answers_1_60:
+        elif answer is CAH.answers_1_60:
             text_inter = CAH.text_interpretation_1
-        elif answer == CAH.answers_1_90:
+        elif answer is CAH.answers_1_90:
             text_inter = CAH.text_interpretation_1
-        elif answer == CAH.answers_2_99:
+        elif answer is CAH.answers_2_99:
             text_inter = CAH.text_interpretation_1
         elif answer == CAH.answers_1_96:
             text_inter = CAH.text_answer_1
@@ -217,16 +224,18 @@ class SerbPage(BasePage):
             self.fill_text(f'//*[@id="popap_window"]/div/div/div/div[2]/div[3]/div/div/div[2]/div[13]/div[2]/div[{e+1}]/input', text)
 
     def check_interpretation_for_test_OKO(self, answer):
-        self.click('//li[.//span[text()="Тест ОКО "]]')
-        self.click('//*[@id="root"]/div/div[1]/main/div[2]/table/tbody/tr[1]/td[5]/div/button[2]')
-        self.click('//html/body/div[2]/div/ul/div[2]')
+        self.click(LocatorsSERB.PATIENT_OKO)
+        self.click(LocatorsSERB.BUTTON_RESULT_TEST)
+        self.click(LocatorsSERB.KLASTER_2)
         time.sleep(1)
-        self.click('//html/body/div[2]/div/div[4]/div/div[2]/div/span')
+        self.click(LocatorsSERB.RESULT_TEST_OKO)
         time.sleep(1)
-        if answer is OKO.answer_all_max:
-            text_true = OKO.text_interpretation_4
-            text_inter = self.get_text('//div[@class="testConclusion-container"][.//span[text()="Ранимость"]]')
-            assert text_inter == text_true, (f"Ошибка текст "
-                                             f"\nФР-{text_inter} "
-                                             f"\n!= "
-                                             f"\nОР-{text_true}")
+        if answer is OKO.answer_all_limit or OKO.answer_all_max:
+            for kay, true_interpretations in OKO.interpretations.items():
+                scale, true_interpretations = OKO.interpretations[kay]
+                text_inter = self.get_text(f'//div[@class="testConclusion-container"][.//span[text()="{scale}"]]')
+                assert text_inter == true_interpretations, (f"Ошибка текст "
+                                                            f"\nФР: {text_inter} "
+                                                            f"\n!= "
+                                                            f"\nОР: {true_interpretations}")
+
