@@ -231,7 +231,7 @@ class SerbPage(BasePage):
         self.click(LocatorsSERB.RESULT_TEST_OKO)
         time.sleep(1)
         if answer is OKO.answer_all_limit or OKO.answer_all_max:
-            for kay, true_interpretations in OKO.interpretations.items():
+            for kay in OKO.interpretations: # Я убрал тут items() так как мне нужно доставить только ключи "kay" из словаря интерпретаций
                 scale, true_interpretations = OKO.interpretations[kay]
                 text_inter = self.get_text(f'//div[@class="testConclusion-container"][.//span[text()="{scale}"]]')
                 assert text_inter == true_interpretations, (f"Ошибка текст "
