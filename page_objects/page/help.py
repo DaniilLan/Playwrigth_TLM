@@ -10,7 +10,7 @@ class LocatorsHelp:
     TOPIC_HELP_REGISTRATION = '//div[div[strong[text()="Регистрация"]]]'
     TOPIC_HELP_AUTHORIZATION = '//div[div[strong[text()="Авторизация"]]]'
     TOPIC_HELP_PASSWORD_RECOVER = '//div[div[strong[text()="Восстановление пароля"]]]'
-    TOPIC_HELP_PROFILE_SETUP = '//div[div[strong[text()="Настройка профиля"]]][1]' #------------------------------------- На странице баг - два раздела "Настройка профиля"
+    TOPIC_HELP_PROFILE_SETUP = '//div[div[strong[text()="Настройка профиля"]]][1]'
     TOPIC_HELP_ADMIN_APP = '//div[div[strong[text()="Порядок работы администратора в веб-приложении"]]]'
     TOPIC_HELP_DOCTOR_APP = '//div[div[strong[text()="Порядок работы врача в веб-приложении"]]]'
 
@@ -22,7 +22,7 @@ class LocatorsHelp:
     PANEL_HELP_ADMIN_APP = "//strong[text()='Порядок работы администратора в веб-приложении']/ancestor::div[contains(@class, 'AccordionHelp__RXGy')]//div[contains(@class, 'accordionItem__e235')]"
     PANEL_HELP_DOCTOR_APP = "//strong[text()='Порядок работы врача в веб-приложении']/ancestor::div[contains(@class, 'AccordionHelp__RXGy')]//div[contains(@class, 'accordionItem__e235')]"
 
-    BUTTON_USER_MANUAL = '//button[//span[text()="Руководство пользователя"]]' #----------------------------------------- На странице баг - див кнопки растянут на ширину всей страницы
+    BUTTON_USER_MANUAL = '//button[//span[text()="Руководство пользователя"]]'
 
     LINK_HELP = '//a[text()="Помощь"]'
     LINK_SUPPORTS = '//a[text()="Поддержка"]'

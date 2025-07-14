@@ -4,7 +4,6 @@ from config.config import load_config
 from core.utils.api_client import get_token
 from page_objects.page.auth import AuthPage
 from page_objects.page.help import HelpPage
-from page_objects.page.serb_tests import SerbPage
 from page_objects.page.user import UsersPage
 
 import pytest
@@ -65,20 +64,6 @@ def users_page(main_page, conf):
         page.locator('//button[//text()="Обновить"]').click()
     page = UsersPage(page)
     yield page
-
-
-@pytest.fixture()
-def auth_serb(main_page, conf):
-    main_page.goto(conf.urls.mmil)
-    token = get_token()
-    main_page.evaluate(
-        """([token_key, token_value]) => {
-            localStorage.setItem(token_key, token_value);
-        }""",
-        ["access", token]
-    )
-    main_page.reload()
-    yield SerbPage(main_page)
 
 
 @pytest.fixture

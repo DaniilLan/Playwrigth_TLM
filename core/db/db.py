@@ -45,11 +45,11 @@ class DBManager:
         user_data = {
             "created": datetime.now(),
             "username": random_name(),
-            "org_id": org_id,  # Или явно создайте организацию
+            "org_id": org_id,
             "first_name": "АвтоТест",
             "last_name": "АвтоТестов",
             "sex": "male",
-            "birthdate": datetime.now(),  # DateTime вместо date
+            "birthdate": datetime.now(),
             "height": 180,
             "status": "active",
             "password_hash": self.config.db.password_hash,
@@ -68,34 +68,28 @@ class DBManager:
             return {
                 "id": user.id,
                 "username": user.username,
-                "password": "12345678",  # Пароль должен совпадать с password_hash
+                "password": "12345678",
                 "role_name": user.role_name
             }
 
-    from sqlalchemy import text  # Добавьте этот импорт
-
     def delete_user(self, user_id):
+        """Удаление пользователя по id"""
         with self.session() as s:
             try:
-                # 1. Проверяем существование пользователя
                 if not (user := s.get(User, user_id)):
                     logger.warning(f"User {user_id} not found")
                     return False
 
-                # 2. Получаем метаданные БД для автоматического определения связей
                 inspector = inspect(s.bind)
 
-                # 3. Находим все таблицы, ссылающиеся на users.id
                 related_tables = set()
                 for table_name in inspector.get_table_names():
                     for fk in inspector.get_foreign_keys(table_name):
                         if fk['referred_table'] == 'users' and 'id' in fk['referred_columns']:
                             related_tables.add((table_name, fk['constrained_columns'][0]))
 
-                # 4. Удаляем записи из связанных таблиц
                 for table, column in related_tables:
                     try:
-                        # Оберните SQL-запрос в text()
                         stmt = text(f"DELETE FROM {table} WHERE {column} = :user_id")
                         s.execute(stmt, {'user_id': user_id})
                         logger.debug(f"Deleted from {table} for user {user_id}")
@@ -104,7 +98,6 @@ class DBManager:
                         s.rollback()
                         return False
 
-                # 5. Удаляем самого пользователя
                 s.delete(user)
                 s.commit()
                 logger.info(f"Successfully deleted user {user_id}")

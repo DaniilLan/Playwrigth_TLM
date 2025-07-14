@@ -1,5 +1,3 @@
-from typing import Union, List
-
 from playwright.async_api import Page
 from page_objects.base_page import BasePage
 from page_objects.locators.base_locators import LocatorsBase

@@ -7,7 +7,6 @@ import datetime
 Base = declarative_base()
 
 
-# chronic_heart_failure schema models
 class ClinicalSign(Base):
     __tablename__ = 'clinical_signs'
     __table_args__ = {'schema': 'chronic_heart_failure'}
@@ -172,7 +171,6 @@ class WellBeingRecord(Base):
     questionnaire = relationship('WellBeingQuestionnaire', back_populates='records')
 
 
-# configuration schema models
 class Configuration(Base):
     __tablename__ = 'configurations'
     __table_args__ = {'schema': 'configuration'}
@@ -181,7 +179,6 @@ class Configuration(Base):
     hash = Column(String(500), nullable=False)
 
 
-# identity schema models
 class PhoneCode(Base):
     __tablename__ = 'phones_codes'
     __table_args__ = {'schema': 'identity'}
@@ -222,7 +219,6 @@ class PinHash(Base):
     mobile_source_id = Column(String(200), nullable=False, server_default='')
 
 
-# measurements schema models
 class AuscultationNosology(Base):
     __tablename__ = 'auscultation_nosology'
     __table_args__ = {'schema': 'measurements'}
@@ -264,7 +260,6 @@ class PatientMeasurementParameter(Base):
     last_measurement = relationship('Measurement', foreign_keys=[last_measurement_id])
 
 
-# medical schema models
 class MedicalTest(Base):
     __tablename__ = 'medical_tests'
     __table_args__ = {'schema': 'medical'}
@@ -406,25 +401,6 @@ class Therapy(Base):
     medications = relationship('PatientMedication', back_populates='therapy')
 
 
-# organization schema models
-# class Organization(Base):
-#     __tablename__ = 'organizations'
-#     __table_args__ = {'schema': 'organization'}
-#
-#     id = Column(Integer, Sequence('organizations_id_seq'), primary_key=True)
-#     created = Column(DateTime, nullable=False)
-#     name = Column(String(255))
-#     address = Column(String(255))
-#     email = Column(String(50))
-#     phone = Column(String(10))
-#     level = Column(Integer, nullable=False)
-#     parent_id = Column(Integer, ForeignKey('organization.organizations.id'))
-#     status = Column(String(10))
-#
-#     parent = relationship('Organization', remote_side=[id])
-
-
-# patients schema models
 class PatientComment(Base):
     __tablename__ = 'patients_comments'
     __table_args__ = {'schema': 'patients'}
@@ -441,7 +417,6 @@ class PatientComment(Base):
     medworker = relationship('User', foreign_keys=[medworker_id])
 
 
-# public schema models
 class AuditEvent(Base):
     __tablename__ = 'audit_events'
 
@@ -839,7 +814,6 @@ class MeasurementParam(Base):
     measurement = relationship('Measurement', foreign_keys=[measurement_id])
 
 
-# tech schema models
 class DBVersion(Base):
     __tablename__ = 'dbversions'
     __table_args__ = {'schema': 'tech'}
@@ -848,7 +822,6 @@ class DBVersion(Base):
     Version = Column(Integer, nullable=False)
 
 
-# vks schema models
 class MeetingUser(Base):
     __tablename__ = 'meeting_user'
     __table_args__ = {'schema': 'vks'}

@@ -101,8 +101,6 @@ class LocatorsUsers:
     XCH_INPUT_METERS = '//div[label[text()="Метры"]]/div/input[@data-locator="input"]'
     XCH_BUTTON_CALCULATE = '//button[span[text()="Рассчитать"]]'
 
-
-
     required_fields_change_profile = [INPUT_CHANGE_F,
                                       INPUT_CHANGE_I,
                                       INPUT_CHANGE_MAIL,
